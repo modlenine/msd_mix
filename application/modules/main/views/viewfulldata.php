@@ -594,6 +594,20 @@
                                 <input type="text" name="ehmd_batchsize" id="ehmd_batchsize" class="form-control">
                             </div>
                             <div class="col-lg-6 form-group">
+                                <label for=""><b>Work Type</b></label>
+                                <!-- <input type="text" name="ehmd_worktype" id="ehmd_worktype" class="form-control"> -->
+                                <select name="ehmd_worktype" id="ehmd_worktype" class="form-control">
+                                    <option value="">กรุณาเลือกประเภทงาน</option>
+                                    <option value="Normal">Normal</option>
+                                    <option value="Remix">Remix</option>
+                                    <option value="Adjust">Adjust</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label for=""><b>Work Type No. </b></label>
+                                <div id="showWorkTypeNoList_edit"></div>
+                            </div>
+                            <div class="col-lg-6 form-group">
                                 <label for=""><b>Run</b></label>
                                 <select name="ehmd_run" id="ehmd_run" class="form-control">
                                     <option value="1">1</option>
@@ -606,6 +620,11 @@
                                     <option value="8">8</option>
                                     <option value="9">9</option>
                                     <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
                                 </select>
                             </div>
                         </div>
@@ -848,9 +867,13 @@
                         <a href="javascript:void(0)" class="editHeadDataA"
                             data_m_code="<?=getMaincode($mainformno)?>"
                             data_m_formno="<?=$mainformno?>"
-                            data_m_order="<?=getviewfulldata(getMaincode($mainformno))->m_order?>"
-                            data_m_batchsize="<?=getviewfulldata(getMaincode($mainformno))->m_batchsize?>"
+                            data_m_order="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_order , 3)?>"
+                            data_m_batchsize="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_batchsize , 3)?>"
                             data_m_run="<?=getviewfulldata(getMaincode($mainformno))->m_run?>"
+                            data_m_worktype="<?=getviewfulldata(getMaincode($mainformno))->m_worktype?>"
+                            data_m_worktype_no="<?=getviewfulldata(getMaincode($mainformno))->m_worktype_no?>"
+                            data_m_pd="<?=getviewfulldata(getMaincode($mainformno))->m_product_number?>"
+                            data_m_areaid="<?=getviewfulldata(getMaincode($mainformno))->m_areaid?>"
                         >
                             <i class="fa fa-edit mr-2 editHeadData" aria-hidden="true"></i>
                         </a>
@@ -860,7 +883,7 @@
                                 <input type="text" name="m_template_name_v" id="m_template_name_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_template_name?>">
                             </div>
                             <div class="col-md-4 form-group">
-                                <label for=""><b>Product Number</b></label>
+                                <label for=""><b>Production Number</b></label>
                                 <input type="text" name="m_product_number_v" id="m_product_number_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_product_number?>">
                             </div>
                             <div class="col-md-4 form-group">
@@ -873,7 +896,7 @@
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Order (kg.)</b></label>
-                                <input type="text" name="m_order_v" id="m_order_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_order?>">
+                                <input type="text" name="m_order_v" id="m_order_v" class="form-control" readonly value="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_order , 3)?>">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Type of bag</b></label>
@@ -885,11 +908,15 @@
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Batch Size</b></label>
-                                <input type="text" name="m_batchsize_v" id="m_batchsize_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_batchsize?>">
+                                <input type="text" name="m_batchsize_v" id="m_batchsize_v" class="form-control" readonly value="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_batchsize , 3)?>">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Max. Temperature (°C)</b></label>
                                 <input type="text" name="m_temperature_v" id="m_temperature_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_temperature?>">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for=""><b>Work Type</b></label>
+                                <input type="text" name="m_worktype_v" id="m_worktype_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_worktype." ".getviewfulldata(getMaincode($mainformno))->m_worktype_no?>">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Run</b></label>
@@ -1102,7 +1129,6 @@ $(document).ready(function(){
 
     let m_code = $('#getMaincode').val();
     loadRefActual_edit(m_code);
-
 
 
     checkFormStatus();
@@ -1589,7 +1615,9 @@ $(document).ready(function(){
                     m_order:$('#ehmd_order').val(),
                     m_code:$('#ehmd_mcode').val(),
                     m_run:$('#ehmd_run').val(),
-                    m_batchsize:$('#ehmd_batchsize').val()
+                    m_batchsize:$('#ehmd_batchsize').val(),
+                    m_worktype:$('#ehmd_worktype').val(),
+                    m_worktype_no:$('#ehmd_worktype_no').val(),
                 }).then(res=>{
                     console.log(res.data);
                     if(res.data.status == "Update Data Success"){
@@ -2318,6 +2346,12 @@ $(document).ready(function(){
         const data_m_order = $(this).attr("data_m_order");
         const data_m_batchsize = $(this).attr("data_m_batchsize");
         const data_m_run = $(this).attr("data_m_run");
+        const data_m_worktype = $(this).attr("data_m_worktype");
+        const data_m_worktype_no = $(this).attr("data_m_worktype_no");
+
+        const data_m_pd = $(this).attr("data_m_pd");
+        const data_m_areaid = $(this).attr("data_m_areaid");
+        loadWorkTypeNoList_edit();
 
         $('#editHead_modal').modal('show');
 
@@ -2326,7 +2360,47 @@ $(document).ready(function(){
         $('#ehmd_order').val(data_m_order);
         $('#ehmd_batchsize').val(data_m_batchsize);
         $('#ehmd_run').val(data_m_run);
+        $('#ehmd_worktype').val(data_m_worktype);
+        $('#ehmd_worktype_no').val(data_m_worktype_no);
+
+        if(data_m_worktype == "Normal"){
+            $('#ehmd_worktype_no').attr({
+                "style": "pointer-events: none;",
+            });
+        }else{
+            $('#ehmd_worktype_no').removeAttr("style");
+        }
+
+        $('#ehmd_worktype').attr({
+            "data_m_pd":data_m_pd,
+            "data_m_areaid":data_m_areaid,
+            "data_m_worktype":data_m_worktype,
+            "data_m_code":data_m_code,
+            "data_m_formno":data_m_formno
+        });
+
     });
+
+    //Condition for edit head
+    $(document).on('change' , '#ehmd_worktype' , function(){
+        const data_m_pd = $(this).attr("data_m_pd");
+        const data_m_areaid = $(this).attr("data_m_areaid");
+        const data_m_worktype = $(this).attr("data_m_worktype");
+        const data_m_code = $(this).attr("data_m_code");
+        const data_m_formno = $(this).attr("data_m_formno");
+
+        if($(this).val() == "Normal"){
+            $('#ehmd_worktype_no').val('');
+            $('#ehmd_worktype_no').attr({
+                "style": "pointer-events: none;",
+            });
+        }else if($(this).val() == "Adjust"){
+            checkpdforvalidatework_edit(data_m_pd , data_m_areaid , data_m_worktype , data_m_code , data_m_formno);
+        }else{
+            $('#ehmd_worktype_no').removeAttr("style");
+        }
+    });
+
 
 
     $(document).on('click' , '.export-detail' , function(){
@@ -3514,14 +3588,20 @@ $(document).ready(function(){
                                     data_imageType="start image"
                                 ></i>`;
 
+                               
+                            }else{
+                                startImageI ='';
+                                
+                            }
+
+                            if(runData[i].ItemcheckImage != ""){
                                 itemcheckImage = `
                                 <i class="fa fa-file-text itemcheckI" aria-hidden="true" 
-                                    data_maincode="`+runData[i].startImage+`" 
+                                    data_maincode="`+runData[i].ItemcheckImage+`" 
                                     data_detailcode="`+runData[i].detailcode+`"
                                 ></i>
                                 `;
                             }else{
-                                startImageI ='';
                                 itemcheckImage = '';
                             }
 
@@ -5638,8 +5718,6 @@ $(document).ready(function(){
     }
 
 
-
-
     function getSpeacialData(get_templatecode)
     {
         if(get_templatecode != ""){
@@ -5725,6 +5803,74 @@ $(document).ready(function(){
             console.log(dataareaid);
             console.log(status);
             console.log(formno);
+        }
+    }
+
+    function loadWorkTypeNoList_edit()
+    {
+        let maxrun = 15;
+        let output = '';
+        output +=`
+        <select id="ehmd_worktype_no" name="ehmd_worktype_no" class="form-control">
+            <option value="">กรุณาเลือกรายการ</option>
+        `;
+        for(let i = 1; i <= maxrun ; i ++){
+            output +=`
+            <option value="`+i+`">`+i+`</option>
+            `;
+        }
+        output +=`
+        </select>
+        `;
+        $('#showWorkTypeNoList_edit').html(output);
+        
+    }
+
+
+    function checkpdforvalidatework_edit(productionNumber , dataareaid , data_m_worktype , data_m_code , data_m_formno)
+    {
+        if(productionNumber != "" && dataareaid != ""){
+            axios.post(url+'main/checkpdforvalidatework_edit' , {
+                action:"checkpdforvalidatework_edit",
+                productionNumber:productionNumber,
+                dataareaid:dataareaid,
+                data_m_code:data_m_code,
+                data_m_formno:data_m_formno
+            }).then(res=>{
+                console.log(res.data);
+                if(res.data.status == "Select Data Success"){
+
+                    if(res.data.pdtype == "Normal"){
+                        swal({
+                            title: 'PD เลขที่ '+productionNumber+' ยังไม่เคยมิกซ์งาน ไม่สามารถ Adjust ได้',
+                            type: 'error',
+                            showConfirmButton: true,
+                        }).then(function(){
+                            $('#ehmd_worktype').val(res.data.pdtype);
+                        });
+                    }else if(res.data.pdtype == "Adjust"){
+                        if(res.data.pdstatus == 1){
+                            $('#ehmd_worktype').val(res.data.pdtype);
+                            $('#ehmd_worktype_no').removeAttr("style");
+                        }else if(res.data.pdstatus == 0){
+                            swal({
+                                title: 'กรุณารันงานของ PD เลขที่ '+productionNumber+' ให้จบก่อน',
+                                type: 'error',
+                                showConfirmButton: true,
+                            }).then(function(){
+                                $('#ehmd_worktype').val(data_m_worktype);
+                                if(data_m_worktype == "Normal"){
+                                    $('#ehmd_worktype_no').attr({
+                                        "style": "pointer-events: none;",
+                                    });
+                                }else{
+                                    $('#ehmd_worktype_no').removeAttr("style");
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         }
     }
 

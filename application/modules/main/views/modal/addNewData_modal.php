@@ -73,6 +73,10 @@
                             </select>
                         </div>
                         <div class="col-lg-6 form-group">
+                            <label for=""><b>Work Type No. </b></label>
+                            <div id="showWorkTypeNoList"></div>
+                        </div>
+                        <div class="col-lg-6 form-group">
                             <label for=""><b>Run </b><span class="textRequest">*</span></label>
                             <div id="showRunList"></div>
                         </div>
@@ -110,6 +114,7 @@
         $(document).ready(function(){
             let url = "<?php echo base_url(); ?>";
             loadRunList();
+            loadWorkTypeNoList();
 
             // Vue Zone
             let addnewdata_vue = new Vue({
@@ -345,6 +350,13 @@
                 if($('#m_product_number').val() != ""){
                     if($('#m_worktype').val() == "Adjust"){
                         checkpdforvalidatework(data_prodid , data_dataareaid);
+                    }else if($('#m_worktype').val() == "Remix"){
+                        $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
+                    }else{
+                        $('#m_worktypeNo').attr({
+                            "style": "pointer-events: none;",
+                            "readonly":"readonly"
+                        });
                     }
                 }else{
                     swal({
@@ -381,6 +393,7 @@
                             }else if(res.data.pdtype == "Adjust"){
                                 if(res.data.pdstatus == 1){
                                     $('#m_worktype').val(res.data.pdtype);
+                                    $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
                                 }else if(res.data.pdstatus == 0){
                                     swal({
                                         title: 'กรุณารันงานของ PD เลขที่ '+productionNumber+' ให้จบก่อน',
@@ -399,7 +412,7 @@
 
             function loadRunList()
             {
-                let maxrun = 10;
+                let maxrun = 15;
                 let output = '';
                 output +=`
                 <select id="m_run" name="m_run" class="form-control" required>
@@ -414,6 +427,30 @@
                 </select>
                 `;
                 $('#showRunList').html(output);
+                $('#showWorkTypeNoList').html(output);
+            }
+
+            function loadWorkTypeNoList()
+            {
+                let maxrun = 15;
+                let output = '';
+                output +=`
+                <select id="m_worktypeNo" name="m_worktypeNo" class="form-control" required>
+                    <option value="">กรุณาเลือกรายการ</option>
+                `;
+                for(let i = 1; i <= maxrun ; i ++){
+                    output +=`
+                    <option value="`+i+`">`+i+`</option>
+                    `;
+                }
+                output +=`
+                </select>
+                `;
+                $('#showWorkTypeNoList').html(output);
+                $('#m_worktypeNo').attr({
+                    "style": "pointer-events: none;",
+                    "readonly":"readonly"
+                });
             }
 
 

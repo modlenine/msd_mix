@@ -46,7 +46,7 @@ class Main_model extends CI_Model {
                     return valueFormat3($d);
                 }
             ),
-            array('db' => 'm_worktype', 'dt' => 6),
+            array('db' => 'm_worktype_new', 'dt' => 6),
             array('db' => 'm_run', 'dt' => 7),
             array(
                 'db' => 'm_datetime', 'dt' => 8,
@@ -504,6 +504,7 @@ class Main_model extends CI_Model {
                 "m_batch_number" => $this->input->post("m_batch_number"),
                 "m_batchsize" => $this->input->post("m_batchsize"),
                 "m_worktype" => $this->input->post("m_worktype"),
+                "m_worktype_no" => $this->input->post("m_worktypeNo"),
                 "m_run" => $this->input->post("m_run"),
                 "m_template_code" => $this->input->post("m_template_code"),
                 "m_typeofbag" => $this->input->post("m_typeofbag"),
@@ -1052,6 +1053,14 @@ class Main_model extends CI_Model {
                         $finishImage = "";
                     }
 
+                    $itemcheckImage = "";
+                    $getImageItemcheck = $this->loadItemCheckImage($received_data->m_code , $rs->d_detailcode);
+                    if($getImageItemcheck->num_rows() != 0){
+                        $itemcheckImage = $received_data->m_code;
+                    }else{
+                        $itemcheckImage = "";
+                    }
+
                     $leadtime = getLeadtime($rs->d_worktime , $rs->d_finishtime);
                     $leadtimeCom = conTimeToComTime($leadtime);
                     if($sqlRun->num_rows() != 0){
@@ -1061,6 +1070,7 @@ class Main_model extends CI_Model {
                             "detailcode" => $rs->d_detailcode,
                             "startImage" => $startImage,
                             "finishImage" => $finishImage,
+                            "ItemcheckImage" => $itemcheckImage,
                             "memo" => $this->loadMemoRunDetail($received_data->m_code , $rs->d_detailcode),
                             "runByGroup" => $sqlRun->row(),
                             "d_finishtime" => conOnlyTimeFromDb($rs->d_finishtime),
@@ -1131,6 +1141,13 @@ class Main_model extends CI_Model {
             WHERE f_maincode = '$maincode' AND f_detailcode = '$detailcode' AND f_type = '$imageType'
             ");
 
+            return $sql;
+        }
+    }
+    private function loadItemCheckImage($maincode , $detailcode)
+    {
+        if($maincode != "" && $detailcode != ""){
+            $sql = $this->db->query("SELECT * FROM item_checklist WHERE i_m_code = '$maincode' AND i_d_code = '$detailcode' ");
             return $sql;
         }
     }
@@ -2667,9 +2684,11 @@ class Main_model extends CI_Model {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "saveEditHead"){
             $arUpdateHead = array(
-                "m_order" => $received_data->m_order,
+                "m_order" => conPrice($received_data->m_order),
                 "m_run" => $received_data->m_run,
-                "m_batchsize" => $received_data->m_batchsize
+                "m_batchsize" => $received_data->m_batchsize,
+                "m_worktype" => $received_data->m_worktype,
+                "m_worktype_no" => $received_data->m_worktype_no,
             );
             $this->db->where("m_code" , $received_data->m_code);
             $this->db->update("main" , $arUpdateHead);
@@ -3738,6 +3757,85 @@ class Main_model extends CI_Model {
                     }else{
                         $numCheckStatus = $numCheckStatus * 0;
                     }
+                }
+            }else{
+                $pdworktype = "Normal";
+                $numCheckStatus = 2;
+            }
+            
+            $output = array(
+                "msg" => "เช็ค pd เรียบร้อย",
+                "status" => "Select Data Success",
+                "pdstatus" => $numCheckStatus,
+                "pdtype" => $pdworktype
+            );
+        }else{
+            $output = array(
+                "msg" => "เช็ค pd เรียบร้อย",
+                "status" => "Select Data Success",
+                "pdstatus" => null,
+                "pdtype" => null
+            );
+        }
+
+        echo json_encode($output);
+    }
+
+    public function checkpdforvalidatework_edit()
+    {
+        $received_data = json_decode(file_get_contents("php://input"));
+        if($received_data->action == "checkpdforvalidatework_edit"){
+            $productionNumber = $received_data->productionNumber;
+            $dataareaid = $received_data->dataareaid;
+            $m_code = $received_data->data_m_code;
+            $m_formno = $received_data->data_m_formno;
+
+            $sql = $this->db->query("SELECT
+            main.m_autoid,
+            main.m_formno,
+            main.m_code,
+            main.m_product_number,
+            main.m_status,
+            main.m_dataareaid
+            
+            FROM
+            main
+            WHERE
+            main.m_dataareaid = '$dataareaid' AND m_product_number = '$productionNumber'
+            
+            ");
+
+            // 1 คือสามารถเดินงาน Adjust ได้  , 0 คือตรวจพบว่า pd ดังกล่าวมีการเดินงานค้างไว้อยู่
+            $numCheckStatus = 1;
+            $pdworktype = '';
+            if($sql->num_rows() != 0){
+                $pdworktype = "Adjust";
+                foreach($sql->result() as $rs){
+
+                    if($rs->m_code == $m_code && $rs->m_formno == $m_formno){
+                        if($rs->m_status == "Stop"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else if($rs->m_status == "Cancel"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else if($rs->m_status == "Open"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else if($rs->m_status == "Wait Start"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else if($rs->m_status == "Start"){
+    
+                        }else{
+                            $numCheckStatus = $numCheckStatus * 0;
+                        }
+                    }else{
+                        if($rs->m_status == "Stop"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else if($rs->m_status == "Cancel"){
+                            $numCheckStatus = $numCheckStatus * 1;
+                        }else{
+                            $numCheckStatus = $numCheckStatus * 0;
+                        }
+                    }
+
                 }
             }else{
                 $pdworktype = "Normal";

@@ -344,6 +344,11 @@ class Main extends MX_Controller {
         $this->main->checkpdforvalidatework();
     }
 
+    public function checkpdforvalidatework_edit()
+    {
+        $this->main->checkpdforvalidatework_edit();
+    }
+
     public function loadmemoforshow()
     {
         $this->main->loadmemoforshow();

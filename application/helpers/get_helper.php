@@ -85,6 +85,7 @@ function getviewfulldata($maincode)
         main.m_batch_number,
         main.m_batchsize,
         main.m_worktype,
+        main.m_worktype_no,
         main.m_run,
         main.m_order,
         main.m_temperature,
