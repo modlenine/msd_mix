@@ -421,7 +421,7 @@ class machine_model extends CI_Model {
             FROM
             template_master
             WHERE master_name LIKE '%$received_data->searchTemplate%'
-            ORDER BY template_master.master_autoid DESC");
+            ORDER BY template_master.master_autoid DESC LIMIT 50");
 
             foreach($sql->result() as $rs){
                 $result = array(
