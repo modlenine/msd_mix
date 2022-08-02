@@ -505,6 +505,20 @@
            
                         <section id="editRunDetail_section" style="display:none;">
 
+                            <div id="mdrd_div_batchlist_remix" class="row" style="display:none;">
+                                <div class="col-md-12 form-group">
+                                    <label for=""><b>แก้ไข Bacth ที่ต้องการ Remix</b></label>
+                                    <div id="showListBatch_edit_remix"></div>
+                                </div>
+                            </div>
+
+                            <div id="mdrd_div_batchlist_remix_count" class="row" style="display:none;">
+                                <div class="col-md-12 form-group">
+                                    <label for=""><b>แก้ไขจำนวนครั้งของการ Remix</b></label>
+                                    <div id="showListBatch_edit_remix_count"></div>
+                                </div>
+                            </div>
+
                             <div class="row form-group">
                                 <div class="col-lg-12">
                                     <label for=""><b>แก้ไขเวลาเดินงาน (Start)</b></label>
@@ -3093,6 +3107,15 @@ $(document).ready(function(){
                     let memo = res.data.memo;
                     let starttime = res.data.detailTime.d_worktime;
                     let finishtime = res.data.detailTime.d_finishtime;
+                    let detail_action = res.data.detailTime.d_action;
+
+                    if(detail_action == "Remix"){
+                        $('#mdrd_div_batchlist_remix').css("display" , "");
+                        $('#mdrd_div_batchlist_remix_count').css('display' , '');
+
+                        loadBatchList_remix_edit(m_code);
+                        loadbatch_count_edit();
+                    }
 
                     $('#mdrd_chooseTime_edit').val(starttime);
                     $('#mdrd_chooseTimeFinish_edit').val(finishtime);
@@ -5464,6 +5487,42 @@ $(document).ready(function(){
         });
     }
 
+    function loadBatchList_remix_edit(m_code='')
+    {
+        axios.post(url+'main/loadBatchList_remix' , {
+            action:"loadBatchList_remix",
+            m_code:m_code
+        }).then(res=>{
+            console.log(res.data);
+
+            if(res.data.status == "Select Data Success"){
+                let batchList = res.data.batchList;
+                let output =`
+                <select id="batchlist_remix" name="batchlist_remix" class="form-control">`
+                if(res.data.batchList != null){
+                    output +=`
+                    <option value="">กรุณาเลือก Batch ที่ต้องการ Remix</option>
+                    `;
+                    for(let i = 0; i < batchList.length; i ++){
+                        output +=`
+                        <option value="`+batchList[i].d_detailcode+`">Batch `+batchList[i].d_batchcount+`</option>
+                        `;
+                    }
+                }else{
+                    output +=`
+                    <option value="">ยังไม่พบข้อมูลการ มิกซ์</option>
+                    `;
+                }
+                output +=`
+                </select>
+                `;
+
+                $('#showListBatch_edit_remix').html(output);
+            }
+
+        });
+    }
+
 
     $(document).on('change' , '#batchlist_remix' , function(){
         if($(this).val() != ""){
@@ -5715,6 +5774,25 @@ $(document).ready(function(){
         </select>
         `;
         $('#showListBatch_remix_count').html(output);
+    }
+
+    function loadbatch_count_edit()
+    {
+        let batch_count = 10;
+        let output = '';
+        output +=`
+        <select id="d_batchcount_remix" name="d_batchcount_remix" class="form-control">
+            <option value="">กรุณาเลือกรายการ</option>
+        `;
+        for(let i = 1; i <= batch_count ; i ++){
+            output +=`
+            <option value="`+i+`">`+i+`</option>
+            `;
+        }
+        output +=`
+        </select>
+        `;
+        $('#showListBatch_edit_remix_count').html(output);
     }
 
 

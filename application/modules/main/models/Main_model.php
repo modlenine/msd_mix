@@ -330,7 +330,7 @@ class Main_model extends CI_Model {
 
             $output = '';
 
-            $sql = $this->db3->query("SELECT TOP 50
+            $sql = $this->db3->query("SELECT TOP 20
                 prodtable.itemid,
                 prodtable.dataareaid,
                 prodtable.prodid,
@@ -351,10 +351,13 @@ class Main_model extends CI_Model {
             $output = '<ul class="list-group lgprodid">';
             foreach ($sql->result() as $rs) {
 
-                if(substr($rs->slc_orgreference , 0 , 2) == "PD"){
-                    $wipProdid = $this->checkPDWip($searchProdid , $dataareaid);
+                $itemid = $rs->itemid;
+                $prodid = $rs->prodid;
 
-                    $sql2 = $this->db3->query("SELECT TOP 50
+                if(substr($rs->slc_orgreference , 0 , 2) == "PD"){
+                    $wipProdid = $this->checkPDWip($prodid , $dataareaid , $itemid);
+
+                    $sql2 = $this->db3->query("SELECT TOP 20
                         prodtable.itemid,
                         prodtable.dataareaid,
                         prodtable.prodid,
@@ -451,10 +454,10 @@ class Main_model extends CI_Model {
     }
 
     //Recursive Function loop
-    public function checkPDWip($prodid , $dataareaid)
+    public function checkPDWip($prodid , $dataareaid , $itemid)
     {
         $checkWip = "";
-        $sql = $this->db4->query("SELECT
+        $sql = $this->db3->query("SELECT TOP 20
                 prodtable.itemid,
                 prodtable.dataareaid,
                 prodtable.prodid,
@@ -462,12 +465,18 @@ class Main_model extends CI_Model {
                 prodtable.slc_orgreference
                 FROM
                 prodtable
-                WHERE prodtable.dataareaid = '$dataareaid' AND prodtable.prodid like '%$prodid%'
+                WHERE prodtable.dataareaid = '$dataareaid' AND prodtable.itemid = '$itemid' AND prodtable.prodid like '%$prodid%'
                 ");
         if($sql->num_rows() != 0){
             $checkWip = $sql->row()->slc_orgreference;
+            $itemidWip = $sql->row()->itemid;
+            $dataareaidWup = $sql->row()->dataareaid;
+            
             if(substr($checkWip , 0 , 2) == "PD"){
-                return $this->checkPDWip($checkWip , $dataareaid);
+                if($itemid == $itemidWip){
+                    return $this->checkPDWip($checkWip , $dataareaidWup , $itemidWip);
+                }
+                
             }else{
                 return $sql->row()->prodid;
             }
@@ -2124,7 +2133,8 @@ class Main_model extends CI_Model {
             $sql = $this->db->query("SELECT
                 details.d_worktime,
                 details.d_finishtime,
-                details.d_leadtime
+                details.d_leadtime,
+                details.d_action
                 FROM details WHERE d_maincode = '$m_code' AND d_detailcode = '$d_code'
             ");
             return $sql;
@@ -3221,6 +3231,7 @@ class Main_model extends CI_Model {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "loadBatchList_remix"){
             $m_code = $received_data->m_code;
+            $output = "";
 
             if($m_code != ""){
                 $sqlGet = $this->db->query("SELECT
