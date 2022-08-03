@@ -309,12 +309,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for=""><b>Batch</b></label>
-                                <input type="text" name="batchCount" id="batchCount" class="form-control" readonly>
-                            </div>
-                        </div> -->
 
                         <div class="row form-group imageZone" style="display:none;">
 
@@ -510,7 +504,10 @@
                                     <label for=""><b>แก้ไข Bacth ที่ต้องการ Remix</b></label>
                                     <div id="showListBatch_edit_remix"></div>
                                 </div>
+                                
                             </div>
+
+                            <input type="text" name="d_batchcount_edit" id="d_batchcount_edit">
 
                             <div id="mdrd_div_batchlist_remix_count" class="row" style="display:none;">
                                 <div class="col-md-12 form-group">
@@ -3109,12 +3106,20 @@ $(document).ready(function(){
                     let finishtime = res.data.detailTime.d_finishtime;
                     let detail_action = res.data.detailTime.d_action;
 
+                    let batchcount = res.data.detailTime.d_batchcount;
+                    let batchcount_remix = res.data.detailTime.d_batchcount_remix;
+                    let detailcode_ref = res.data.detailTime.d_detailcode_ref;
+
                     if(detail_action == "Remix"){
                         $('#mdrd_div_batchlist_remix').css("display" , "");
                         $('#mdrd_div_batchlist_remix_count').css('display' , '');
 
-                        loadBatchList_remix_edit(m_code);
-                        loadbatch_count_edit();
+                        loadBatchList_remix_edit(m_code , detailcode_ref , batchcount);
+                        loadbatchcount_remix_edit(batchcount_remix);
+                    }else{
+                        $('#mdrd_div_batchlist_remix').css("display" , "none");
+                        $('#mdrd_div_batchlist_remix_count').css('display' , 'none');
+                        $('#d_batchcount_edit').val(batchcount);
                     }
 
                     $('#mdrd_chooseTime_edit').val(starttime);
@@ -3584,12 +3589,14 @@ $(document).ready(function(){
                             <table id="tb_detail_main" class="table table-bordered table-striped">
                                 <tr>
                                     <th class="t_time">Time</th>
+                                    <th class="t_time">Date</th>
                                     <th class="t_batch">Batch</th>
                                     <th class="t_batch">Mix. Status</th>
                                     <th class="t_imageS">Start Image</th>
                                     <th class="t_status">Status</th>
                                     <th class="t_imageE">Finish Image</th>
                                     <th class="t_time">Finish Time </th>
+                                    <th class="t_time">Finish Date </th>
                                     <th class="t_time">Lead Time </th>
                                     <th class="t_time">Lead Time #2 </th>
                                     <th class="t_imageE">Ref</th>
@@ -3693,12 +3700,14 @@ $(document).ready(function(){
                                             >`+runData[i].d_worktime+`</span>
                                         </b>
                                     </td>
+                                    <td>`+runData[i].d_workdate+`</td>
                                     <td>`+runData[i].runByGroup.d_batchcount+`</td>
                                     <td>`+runData[i].runByGroup.d_action+`</td>
                                     <td>`+startImageI+`</td>
                                     <td>`+runData[i].runByGroup.d_status+`</td>
                                     <td>`+finishImage+`</td>
                                     <td>`+runData[i].d_finishtime+`</td>
+                                    <td>`+runData[i].d_finishdate+`</td>
                                     <td>`+runData[i].d_leadtime+`</td>
                                     <td>`+runData[i].d_leadtime_com+`</td>
                                     <td>`+ref_codeImage+`</td>
@@ -5440,6 +5449,7 @@ $(document).ready(function(){
         $('#addRun_section').css('display' , '');
         if($(this).val() == "mix"){
             $('#div_batchlist_remix').css('display' , 'none');
+            $('#div_batchlist_remix_count').css('display' , 'none');
           
         }else if($(this).val() == "remix"){
             $('#div_batchlist_remix').css('display' , '');
@@ -5487,7 +5497,7 @@ $(document).ready(function(){
         });
     }
 
-    function loadBatchList_remix_edit(m_code='')
+    function loadBatchList_remix_edit(m_code='' , detailcode_ref , batchcount)
     {
         axios.post(url+'main/loadBatchList_remix' , {
             action:"loadBatchList_remix",
@@ -5498,14 +5508,14 @@ $(document).ready(function(){
             if(res.data.status == "Select Data Success"){
                 let batchList = res.data.batchList;
                 let output =`
-                <select id="batchlist_remix" name="batchlist_remix" class="form-control">`
+                <select id="batchlist_remix_edit" name="batchlist_remix_edit" class="form-control">`
                 if(res.data.batchList != null){
                     output +=`
-                    <option value="">กรุณาเลือก Batch ที่ต้องการ Remix</option>
+                        <option value="`+batchList[i].d_detailcode+`">กรุณาเลือกรายการ</option>
                     `;
                     for(let i = 0; i < batchList.length; i ++){
                         output +=`
-                        <option value="`+batchList[i].d_detailcode+`">Batch `+batchList[i].d_batchcount+`</option>
+                        <option value="`+batchList[i].d_detailcode+`" data_batchNo="`+batchList[i].d_batchcount+`">Batch `+batchList[i].d_batchcount+`</option>
                         `;
                     }
                 }else{
@@ -5518,10 +5528,24 @@ $(document).ready(function(){
                 `;
 
                 $('#showListBatch_edit_remix').html(output);
+
+                $('#batchlist_remix_edit option[value="'+detailcode_ref+'"]').prop("selected" , true);
+                $('#d_batchcount_edit').val(batchcount);
             }
 
         });
     }
+
+    $(document).on('change' , '#batchlist_remix_edit' , function(){
+        const d_code = $(this).val();
+        const m_code = $('#mdrde_m_code').val();
+
+        if($(this).val() != ""){
+            loadRefBatMixEdit(m_code , d_code);
+        }
+        console.log(m_code+" "+d_code);
+        
+    });
 
 
     $(document).on('change' , '#batchlist_remix' , function(){
@@ -5549,61 +5573,27 @@ $(document).ready(function(){
         }
     }
 
+    function loadRefBatMixEdit(m_code , d_code)
+    {
+        if(m_code != "" && d_code != ""){
+            axios.post(url+'main/loadRefBatMix' , {
+                action:"loadRefBatMix",
+                m_code:m_code,
+                d_code:d_code
+            }).then(res=>{
+                console.log(res.data);
+                if(res.data.status == "Select Data Success"){
+                    $('#d_batchcount_edit').val(res.data.refBatchCount.d_batchcount);
+                }
+            });
+        }
+    }
+
     $(document).on('click' , '.closeEditRef' , function(){
         $('#setpointEdit_modal').modal('hide');
         $('#runDetail_modal').modal('show');
 
     });
-
-
-    // function show_reflistfn(m_code)
-    // {
-    //     if(m_code != ""){
-    //         axios.post(url+'main/show_reflistfn',{
-    //             action:"show_reflistfn",
-    //             m_code:m_code
-    //         }).then(res=>{
-    //             console.log(res.data);
-    //             if(res.data.status == "Select Data Success"){
-    //                 let refList = res.data.refList;
-    //                 let output = `
-    //                 <select id="reflist" name="reflist" class="form-control mb-3">
-    //                     <option value="">กรุณาเลือก Reference</option>`;
-    //                     for(let i = 0; i < refList.length; i++){
-    //                         output +=`
-    //                         <option value="`+refList[i].ref_code+`">`+refList[i].ref_type+`</option>
-    //                         `;
-    //                     }
-    //                 output +=`
-    //                 </select>
-    //                 `;
-
-    //                 $('#show_reflist').html(output);
-    //             }
-    //         });
-    //     }
-
-        
-    // }
-
-
-    // $(document).on('change' , '#reflist' , function(){
-    //     if($(this).val() != ""){
-    //         if($(this).text() == "Template"){
-    //             $('#show_template').css('display' , '');
-    //             $('#show_actual').css('display' , 'none');
-    //             $('#show_realActual').css('display' , 'none');
-    //         }else if($(this).text() == "Actual"){
-    //             $('#show_template').css('display' , 'none');
-    //             $('#show_actual').css('display' , '');
-    //             $('#show_realActual').css('display' , 'none');
-    //         }else if($(this).text() == "Real Actual"){
-    //             $('#show_template').css('display' , 'none');
-    //             $('#show_actual').css('display' , 'none');
-    //             $('#show_realActual').css('display' , '');
-    //         }
-    //     }
-    // });
 
 
     $(document).on('click' , '.selectRef_radio' , function(){
@@ -5776,12 +5766,12 @@ $(document).ready(function(){
         $('#showListBatch_remix_count').html(output);
     }
 
-    function loadbatch_count_edit()
+    function loadbatchcount_remix_edit(batchcount_remix)
     {
         let batch_count = 10;
         let output = '';
         output +=`
-        <select id="d_batchcount_remix" name="d_batchcount_remix" class="form-control">
+        <select id="batchcount_remix_edit" name="batchcount_remix_edit" class="form-control">
             <option value="">กรุณาเลือกรายการ</option>
         `;
         for(let i = 1; i <= batch_count ; i ++){
@@ -5793,6 +5783,7 @@ $(document).ready(function(){
         </select>
         `;
         $('#showListBatch_edit_remix_count').html(output);
+        $('#batchcount_remix_edit option[value="'+batchcount_remix+'"]').prop('selected' , true);
     }
 
 

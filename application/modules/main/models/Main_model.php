@@ -1075,6 +1075,7 @@ class Main_model extends CI_Model {
                     if($sqlRun->num_rows() != 0){
                         $resultLineGroup = array(
                             "d_worktime" => conOnlyTimeFromDb($rs->d_worktime),
+                            "d_workdate" => conDateFromDb($rs->d_worktime),
                             "d_linenum_group" => $rs->d_linenum_group,
                             "detailcode" => $rs->d_detailcode,
                             "startImage" => $startImage,
@@ -1083,6 +1084,7 @@ class Main_model extends CI_Model {
                             "memo" => $this->loadMemoRunDetail($received_data->m_code , $rs->d_detailcode),
                             "runByGroup" => $sqlRun->row(),
                             "d_finishtime" => conOnlyTimeFromDb($rs->d_finishtime),
+                            "d_finishdate" => conDateFromDb($rs->d_finishtime),
                             "d_leadtime" => $leadtime,
                             "d_leadtime_com" => $leadtimeCom,
                             "lastStatus" => $lastStatus
@@ -2134,7 +2136,10 @@ class Main_model extends CI_Model {
                 details.d_worktime,
                 details.d_finishtime,
                 details.d_leadtime,
-                details.d_action
+                details.d_action,
+                details.d_batchcount,
+                details.d_batchcount_remix,
+                details.d_detailcode_ref
                 FROM details WHERE d_maincode = '$m_code' AND d_detailcode = '$d_code'
             ");
             return $sql;
@@ -2167,6 +2172,7 @@ class Main_model extends CI_Model {
 
 
 
+                
             // Update Item Check list
             // Save item Check
             $i_autoid_edit = $this->input->post("i_autoid_edit");
@@ -2241,7 +2247,11 @@ class Main_model extends CI_Model {
                     "d_user_modify" => getUser()->Fname." ".getUser()->Lname,
                     "d_ecode_modify" => getUser()->ecode,
                     "d_deptcode_modify" => getUser()->DeptCode,
-                    "d_datetime_modify" => date("Y-m-d H:i:s")
+                    "d_datetime_modify" => date("Y-m-d H:i:s"),
+
+                    "d_batchcount" => $this->input->post("d_batchcount_edit"),
+                    "d_batchcount_remix" => $this->input->post("batchcount_remix_edit"),
+                    "d_detailcode_ref" => $this->input->post("batchlist_remix_edit")
                 );
                 $this->db->where("d_maincode" , $maincode);
                 $this->db->where("d_detailcode" , $detailcode);
@@ -3203,9 +3213,9 @@ class Main_model extends CI_Model {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "getbatchCount"){
             $maincode = $received_data->maincode;
-            $sql = $this->db->query("SELECT d_linenum_group FROM details WHERE d_maincode = '$maincode' GROUP BY d_detailcode ORDER BY d_linenum_group DESC ");
+            $sql = $this->db->query("SELECT d_batchcount FROM details WHERE d_maincode = '$maincode' AND d_action = 'Mix' GROUP BY d_detailcode ORDER BY d_linenum_group DESC");
             if($sql->num_rows() != 0){
-                $batchCount = $sql->row()->d_linenum_group;
+                $batchCount = $sql->row()->d_batchcount;
             }else{
                 $batchCount = 0;
             }
