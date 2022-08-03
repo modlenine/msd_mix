@@ -507,7 +507,7 @@
                                 
                             </div>
 
-                            <input type="text" name="d_batchcount_edit" id="d_batchcount_edit">
+                            <input hidden type="text" name="d_batchcount_edit" id="d_batchcount_edit">
 
                             <div id="mdrd_div_batchlist_remix_count" class="row" style="display:none;">
                                 <div class="col-md-12 form-group">
@@ -3662,6 +3662,10 @@ $(document).ready(function(){
                             // Check Null
                             if(runData[i].d_finishtime == null){
                                 runData[i].d_finishtime = "";
+                            }
+
+                            if(runData[i].d_finishdate == null){
+                                runData[i].d_finishdate = ""
                             }
 
                             // Check Remix
