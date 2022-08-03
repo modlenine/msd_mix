@@ -5515,7 +5515,7 @@ $(document).ready(function(){
                 <select id="batchlist_remix_edit" name="batchlist_remix_edit" class="form-control">`
                 if(res.data.batchList != null){
                     output +=`
-                        <option value="`+batchList[i].d_detailcode+`">กรุณาเลือกรายการ</option>
+                        <option value="">กรุณาเลือกรายการ</option>
                     `;
                     for(let i = 0; i < batchList.length; i ++){
                         output +=`
