@@ -3673,21 +3673,26 @@ $(document).ready(function(){
                                 runData[i].runByGroup.d_action = runData[i].runByGroup.d_action+' #'+runData[i].runByGroup.d_batchcount_remix;
                             }
 
-                            let countMemoChar = runData[i].memo.length;
+
+                            let countMemoChar = "";
                             let resultMemoCut = '';
 
-                            if(countMemoChar > 60){
-                                resultMemoCut = runData[i].memo.slice(0,50)+`
-                                <br>
-                                <a href="javascript:void(0)" class="viewMemo" 
-                                    data_m_code="`+m_code+`"
-                                    data_d_code="`+runData[i].detailcode+`"
-                                >
-                                    <span class="mt-2"><b>[ อ่านเพิ่มเติม ]</b></span>
-                                </a>`;
-                            }else{
-                                resultMemoCut = runData[i].memo;
+                            if(runData[i].memo.length != 0){
+                                if(countMemoChar > 60){
+                                    resultMemoCut = runData[i].memo.slice(0,50)+`
+                                    <br>
+                                    <a href="javascript:void(0)" class="viewMemo" 
+                                        data_m_code="`+m_code+`"
+                                        data_d_code="`+runData[i].detailcode+`"
+                                    >
+                                        <span class="mt-2"><b>[ อ่านเพิ่มเติม ]</b></span>
+                                    </a>`;
+                                }else{
+                                    resultMemoCut = runData[i].memo;
+                                }
                             }
+
+
                         
                             output +=`
                                 <tr>
