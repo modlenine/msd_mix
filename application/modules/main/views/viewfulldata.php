@@ -961,6 +961,9 @@
                                     <li class="nav-item">
 										<a id="tabpage4" class="nav-link text-gray" data-toggle="tab" href="#page4" role="tab" aria-selected="false"><b>Job Card</b></a>
 									</li>
+                                    <li class="nav-item">
+										<a id="tabpage5" class="nav-link text-gray" data-toggle="tab" href="#page5" role="tab" aria-selected="false"><b>Packing List</b></a>
+									</li>
 								</ul>
 								<div class="tab-content">
 
@@ -1072,6 +1075,12 @@
                                     <div class="tab-pane fade" id="page4" role="tabpanel">
 										<div class="pd-20">
                                             <div id="showJobcard" class="row"></div>
+                                        </div>
+									</div>
+
+                                    <div class="tab-pane fade" id="page5" role="tabpanel">
+										<div class="pd-20">
+                                            <div id="showPackingList" class="row"></div>
                                         </div>
 									</div>
 
@@ -2319,6 +2328,13 @@ $(document).ready(function(){
         let formno = "<?php echo $mainformno; ?>";
       loaddatajobcard(prodid , dataareaid , status , formno);
     });
+    $('#tabpage5').click(function(){
+      localStorage.setItem('tab_mix' , 'tabpage5');
+        let prodid = $('#m_product_number_v').val();
+        let dataareaid = $('#m_dataareaid_v').val();
+      loaddatapackinglist(prodid , dataareaid);
+    });
+
 
 
     $(document).on('click' , '.qclink' , function(){
@@ -2788,6 +2804,14 @@ $(document).ready(function(){
             let status = $('#getFormStatus').val();
             let formno = "<?php echo $mainformno; ?>";
             loaddatajobcard(prodid , dataareaid , status , formno);
+        }else if(tabSelect == "tabpage5"){
+            $('#tabpage5').addClass('active');
+            $('#page5').addClass('active').addClass('show');
+
+            let prodid = $('#m_product_number_v').val();
+            let dataareaid = $('#m_dataareaid_v').val();
+
+            loaddatapackinglist(prodid , dataareaid);
         }else{
             $('#tabpage1').addClass('active');
             $('#page1').addClass('active').addClass('show');
@@ -5881,6 +5905,24 @@ $(document).ready(function(){
             console.log(dataareaid);
             console.log(status);
             console.log(formno);
+        }
+    }
+
+    function loaddatapackinglist(productionid , areaid)
+    {
+        if(productionid != "" && areaid != ""){
+            if(localStorage.getItem('tab_mix') == "tabpage5"){
+                let output =`
+                <div class="col-md-12">
+                    <div class="">
+                        <iframe class="" width="100%" height="950" frameBorder="0" src="/intsys/msd_mix/packing_list/data/`+productionid+`/`+areaid+`"></iframe>
+                    </div>
+                </div>
+                `;
+                $('#showPackingList').html(output);
+            }else{
+                $('#showPackingList').html('');
+            }
         }
     }
 

@@ -30,8 +30,8 @@
 	<link rel="stylesheet" href="<?=base_url()?>assets/ekko_lightbox/ekko-lightbox.css" type="text/css"/>
 
 
-	    <!-- Date picker -->
-		<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/default/zebra_datepicker.min.css" type="text/css" />
+	<!-- Date picker -->
+	<link rel="stylesheet" href="<?=base_url()?>assets/dist/css/default/zebra_datepicker.min.css" type="text/css" />
 
     <script src="<?=base_url('assets/js/jquery.min.js?v='.filemtime('./assets/js/jquery.min.js'))?>"></script>
 	<script src="<?=base_url('assets/js/vue.js')?>"></script>
@@ -132,7 +132,7 @@
 </div>
 
 <script> 
-	 // Code page Load 
+	 // Code page Load
 	$(window).on('load',function(){ 
     $('.loader').fadeOut(100); 
   }) 

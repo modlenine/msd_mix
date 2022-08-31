@@ -99,3 +99,26 @@ $db['mssql_prodplan'] = array(
 	'save_queries' => TRUE
    );
 
+
+   $db['mssql_prodplan_test'] = array(
+	'dsn' => '',
+	'hostname' => '192.168.10.60',
+	'username' => 'dataconnector',
+	'password' => 'Admin1234',
+	'database' => 'SLC_STD_TEST',
+	'dbdriver' => 'sqlsrv',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => TRUE,
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+   );
+
