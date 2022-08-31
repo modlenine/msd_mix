@@ -379,7 +379,7 @@
 							let html = ``;
 							for(let i = 0; i < stickerlabelData.length; i++){
 								html +=`
-									<div class="col-md-6 col-sm-6">
+									<div class="col-md-12 col-sm-12">
 										<label for=""><b>`+stickerlabelData[i].packinglabelfieldid+` : </b><span id="description_txt">`+stickerlabelData[i].packinglabeltext+`</span></label>
 									</div>
 								`;
