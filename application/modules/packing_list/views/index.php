@@ -333,10 +333,23 @@
 							<div class="row form-group">
 							`;
 							for(let i = 0; i < photo_list.length; i++){
+
+								// Con photo path
+								let conpathFromDb = photo_list[i].filepath.replace(/\\/g, '/');
+
+								// Del 'R:'
+								let cutR = conpathFromDb.substring(2);
+
+								// Push Path
+								let packingPathNew = 'https://intranet.saleecolour.com/intsys/msd_mix/uploads/packing_photo';
+								console.log(packingPathNew+cutR+'/'+photo_list[i].filename+photo_list[i].filenametype);
+
+								let fullDataPhoto = packingPathNew+cutR+'/'+photo_list[i].filename+photo_list[i].filenametype;
+
 								html +=`
 								<div class="col-md-4 col-lg-3 col-6 mt-2">
-								<a href="#" data-toggle="lightbox">
-									<img class="runImageView" src="#">
+								<a href="`+fullDataPhoto+`" target="_blank">
+									<img class="runImageView" src="`+fullDataPhoto+`">
 								</a>
 								</div>`;
 							}
@@ -351,14 +364,28 @@
 							let file_name = res.data.file_attach_list[0];
 							let file_path = res.data.file_attach_list[1];
 							let file_type = res.data.file_attach_list[2];
+
+							// Con File path
+							let conpathFromDb = file_path.replace(/\\/g, '/');
+
+							// Del 'R:'
+							let cutR = conpathFromDb.substring(2);
+
+							// Push Path
+							let packingPathNew = 'https://intranet.saleecolour.com/intsys/msd_mix/uploads/packing_file';
+							console.log(packingPathNew+cutR+'/'+file_name+file_type);
+
+							let fullDataPhoto = packingPathNew+cutR+'/'+file_name+file_type;
+
+
 							let html = `
 							<h5>File Attach</h5>
 							<div class="row form-group">
 							`;
 							html +=`
 								<div class="col-md-6 col-lg-6 col-6 mt-2">
-                                    <embed src="https://intranet.saleecolour.com/intsys/wdf2/uploads/images/2022/2022-08-31/200166191021571661910215-1.pdf" width="100%" frameborder="0" allowfullscreen="">
-                                    <a href="https://intranet.saleecolour.com/intsys/wdf2/uploads/images/2022/2022-08-31/200166191021571661910215-1.pdf" target="_blank"><b>`+file_name+file_type+`</b></a>
+                                    <embed src="`+fullDataPhoto+`" width="100%" frameborder="0" allowfullscreen="">
+                                    <a href="`+fullDataPhoto+`" target="_blank"><b>`+file_name+file_type+`</b></a>
                                 </div>
 							`;
 							html +=`

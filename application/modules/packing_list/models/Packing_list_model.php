@@ -9,7 +9,7 @@ class Packing_list_model extends CI_Model {
         parent::__construct();
         
         date_default_timezone_set("Asia/Bangkok");
-        $this->db5 = $this->load->database("mssql_prodplan_test" , true);
+        $this->db5 = $this->load->database("mssql_prodplan" , true);
     }
 
     public function testcode()
