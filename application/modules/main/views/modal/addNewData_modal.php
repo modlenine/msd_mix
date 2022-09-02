@@ -306,6 +306,7 @@
                 $('#m_worktype').attr({
                     data_dataareaid:data_dataareaid,
                     data_prodid:data_prodid,
+                    data_itemid:data_itemid
                 });
 
 
@@ -346,10 +347,11 @@
             $(document).on('change' , '.m_worktype' , function(){
                 const data_dataareaid = $(this).attr("data_dataareaid");
                 const data_prodid = $(this).attr("data_prodid");
+                const data_itemid = $(this).attr("data_itemid");
 
                 if($('#m_product_number').val() != ""){
                     if($('#m_worktype').val() == "Adjust"){
-                        checkpdforvalidatework(data_prodid , data_dataareaid);
+                        checkpdforvalidatework(data_prodid , data_dataareaid , data_itemid);
                     }else if($('#m_worktype').val() == "Remix"){
                         $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
                     }else{
@@ -371,13 +373,14 @@
                 
             });
 
-            function checkpdforvalidatework(productionNumber , dataareaid)
+            function checkpdforvalidatework(productionNumber , dataareaid , data_itemid)
             {
                 if(productionNumber != "" && dataareaid != ""){
                     axios.post(url+'main/checkpdforvalidatework' , {
                         action:"checkpdforvalidatework",
                         productionNumber:productionNumber,
-                        dataareaid:dataareaid
+                        dataareaid:dataareaid,
+                        data_itemid:data_itemid
                     }).then(res=>{
                         console.log(res.data);
                         if(res.data.status == "Select Data Success"){

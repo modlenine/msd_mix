@@ -3746,9 +3746,14 @@ class Main_model extends CI_Model {
     public function checkpdforvalidatework()
     {
         $received_data = json_decode(file_get_contents("php://input"));
+        $newPD = "";
         if($received_data->action == "checkpdforvalidatework"){
             $productionNumber = $received_data->productionNumber;
             $dataareaid = $received_data->dataareaid;
+            $dataitemid = $received_data->data_itemid;
+
+            // Check WIP
+            $MainPD = $this->checkPDWip($productionNumber , $dataareaid , $dataitemid);
 
             $sql = $this->db->query("SELECT
             main.m_autoid,
@@ -3761,7 +3766,7 @@ class Main_model extends CI_Model {
             FROM
             main
             WHERE
-            main.m_dataareaid = '$dataareaid' AND m_product_number = '$productionNumber'
+            main.m_dataareaid = '$dataareaid' AND m_product_number = '$MainPD'
             
             ");
 
