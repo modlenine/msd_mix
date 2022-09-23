@@ -870,6 +870,7 @@
 
                         <input hidden type="text" name="getMaincode" id="getMaincode" value="<?=getMaincode($mainformno)?>">
                         <input hidden type="text" name="getFormStatus" id="getFormStatus" value="<?=getviewfulldata(getMaincode($mainformno))->m_status?>">
+                        <input hidden type="text" name="getCheckMachine" id="getCheckMachine" value="<?=getCheckMachine(getMaincode($mainformno));?>">
 
                         <!-- Head zone -->
 						<div class="row headzone mt-3">
@@ -1795,58 +1796,71 @@ $(document).ready(function(){
 
     //Zone เพิ่มข้อมูลการทำงาน
     $(document).on('click' , '.add-detail' , function(){
-        const data_m_code = $(this).attr('data_m_code');
-        const data_ref_code = $('#ref_code_input').val();
-        const data_ref_typeactive = $(this).attr("data_ref_typeactive");
+        let resultMachineCheck = $('#getCheckMachine').val();
 
-        // check ref active
-        if($('#ref_code_input').val() != ""){
-            $('#runDetail_modal').modal('show');
-            $('.imageZone').css('display' , '');
-            $('#mdrd_m_code').val(data_m_code);
-            $('#div_choice_method').css('display','');
-            $('#mdrd_refcode').val(data_ref_code);
-            // loadSpointInMainData(data_m_code);
-            getbatchCount(data_m_code);
+        if(resultMachineCheck == 1){
+            const data_m_code = $(this).attr('data_m_code');
+            const data_ref_code = $('#ref_code_input').val();
+            const data_ref_typeactive = $(this).attr("data_ref_typeactive");
 
-            const machineName = $('#m_template_name_v').val();
-            const batchNumber = $('#m_batch_number_v').val();
-            const productNumber = $('#m_product_number_v').val();
-            const itemNumber = $('#m_item_number_v').val();
+            // check ref active
+            if($('#ref_code_input').val() != ""){
+                $('#runDetail_modal').modal('show');
+                $('.imageZone').css('display' , '');
+                $('#mdrd_m_code').val(data_m_code);
+                $('#div_choice_method').css('display','');
+                $('#mdrd_refcode').val(data_ref_code);
+                // loadSpointInMainData(data_m_code);
+                getbatchCount(data_m_code);
 
-            let title = '';
-            title +=`
-            <span><b>Machine Name : </b>`+machineName+`</span>&nbsp;&nbsp;<span><b>Batch Number : </b>`+batchNumber+`</span><br>
-            <span><b>Production Number : </b>`+productNumber+`</span>&nbsp;&nbsp;<span><b>Item Number : </b>`+itemNumber+`</span>
-            `;
+                const machineName = $('#m_template_name_v').val();
+                const batchNumber = $('#m_batch_number_v').val();
+                const productNumber = $('#m_product_number_v').val();
+                const itemNumber = $('#m_item_number_v').val();
 
-            $('#runDetailTitle').html(title);
+                let title = '';
+                title +=`
+                <span><b>Machine Name : </b>`+machineName+`</span>&nbsp;&nbsp;<span><b>Batch Number : </b>`+batchNumber+`</span><br>
+                <span><b>Production Number : </b>`+productNumber+`</span>&nbsp;&nbsp;<span><b>Item Number : </b>`+itemNumber+`</span>
+                `;
 
-            loadReferenceActual(data_m_code);
-            loadReferenceTemplate(data_m_code);
-            loadReferenceRealActual(data_m_code);
-            loadRefActual_edit2(m_code);
-            // show_reflistfn(m_code);
+                $('#runDetailTitle').html(title);
 
-            if(data_ref_typeactive == "Actual"){
-                $('#show_actual').css('display','');
-                $('#show_template').css('display','none');
-            }else if(data_ref_typeactive == "Template"){
-                $('#show_template').css('display','');
-                $('#show_actual').css('display','none');
+                loadReferenceActual(data_m_code);
+                loadReferenceTemplate(data_m_code);
+                loadReferenceRealActual(data_m_code);
+                loadRefActual_edit2(m_code);
+                // show_reflistfn(m_code);
+
+                if(data_ref_typeactive == "Actual"){
+                    $('#show_actual').css('display','');
+                    $('#show_template').css('display','none');
+                }else if(data_ref_typeactive == "Template"){
+                    $('#show_template').css('display','');
+                    $('#show_actual').css('display','none');
+                }
+
+
+                //Zone load item check list
+                loaditemForusecheckList(data_m_code , data_ref_code);
+            }else{
+                swal({
+                    title: 'กรุณาเลือก Reference ที่ต้องการใช้งาน',
+                    type: 'warning',
+                    showConfirmButton: false,
+                    timer:1000
+                });
             }
-
-
-            //Zone load item check list
-            loaditemForusecheckList(data_m_code , data_ref_code);
         }else{
             swal({
-                title: 'กรุณาเลือก Reference ที่ต้องการใช้งาน',
+                title: 'กรุณาตรวจสอบเครื่องจักรให้เรียบร้อยก่อน',
                 type: 'warning',
                 showConfirmButton: false,
-                timer:1000
+                timer:2000
             });
         }
+
+
     });
     //Zone เพิ่มข้อมูลการทำงาน
 
