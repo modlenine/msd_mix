@@ -102,7 +102,7 @@ $db['mssql_prodplan'] = array(
 
    $db['mssql_prodplan_test'] = array(
 	'dsn' => '',
-	'hostname' => '192.168.10.60',
+	'hostname' => '192.168.10.54',
 	'username' => 'dataconnector',
 	'password' => 'Admin1234',
 	'database' => 'SLC_STD_TEST',

@@ -5915,7 +5915,7 @@ $(document).ready(function(){
                 let output =`
                 <div class="col-md-12">
                     <div class="">
-                        <iframe class="" width="100%" height="1200" frameBorder="0" src="/intsys/msd_mix/packing_list/data/`+productionid+`/`+areaid+`"></iframe>
+                        <iframe class="" width="100%" height="950" frameBorder="0" src="/intsys/msd_mix/packing_list/data/`+productionid+`/`+areaid+`"></iframe>
                     </div>
                 </div>
                 `;

@@ -328,6 +328,8 @@
 						if(photo_attach_txt == "Yes"){
 							$('#photoAttach').css('display' , '');
 							let photo_list = res.data.photo_attach_list;
+
+
 							let html = `
 							<h5>Photo Attach</h5>
 							<div class="row form-group">
