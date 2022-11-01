@@ -335,7 +335,6 @@
 							<div class="row form-group">
 							`;
 							for(let i = 0; i < photo_list.length; i++){
-
 								// Con photo path
 								let conpathFromDb = photo_list[i].filepath.replace(/\\/g, '/');
 
@@ -346,12 +345,17 @@
 								let packingPathNew = 'https://intranet.saleecolour.com/intsys/msd_mix/uploads/packing_photo';
 								console.log(packingPathNew+cutR+'/'+photo_list[i].filename+photo_list[i].filenametype);
 
-								let fullDataPhoto = packingPathNew+cutR+'/'+photo_list[i].filename+photo_list[i].filenametype;
+								// let fullDataPhoto = packingPathNew+cutR+'/'+photo_list[i].filename+photo_list[i].filenametype;
 
+								let pathArray = cutR.split("/");
+								
+
+								let image = "<?php echo base_url('packing_list/loadPhoto/') ?>"+pathArray[1]+'/'+pathArray[2]+'/'+pathArray[3]+'/'+pathArray[4]+'/'+pathArray[5]+'/'+pathArray[6]+'/'+photo_list[i].filename+photo_list[i].filenametype;
+								console.log('TEST '+image);
 								html +=`
 								<div class="col-md-4 col-lg-3 col-6 mt-2">
-								<a href="`+fullDataPhoto+`" target="_blank">
-									<img class="runImageView" src="`+fullDataPhoto+`">
+								<a href="`+image+`" target="_blank" class="runImageView">
+									<img class="runImageView" src="`+image+`">
 								</a>
 								</div>`;
 							}
@@ -373,11 +377,15 @@
 							// Del 'R:'
 							let cutR = conpathFromDb.substring(2);
 
-							// Push Path
-							let packingPathNew = 'https://intranet.saleecolour.com/intsys/msd_mix/uploads/packing_file';
-							console.log(packingPathNew+cutR+'/'+file_name+file_type);
+							let pathArray = cutR.split("/");
 
-							let fullDataPhoto = packingPathNew+cutR+'/'+file_name+file_type;
+							let file = "<?php echo base_url('packing_list/loadFile/') ?>"+pathArray[1]+'/'+pathArray[2]+'/'+pathArray[3]+'/'+pathArray[4]+'/'+pathArray[5]+'/'+pathArray[6]+'/'+file_name+file_type;
+
+							// Push Path
+							// let packingPathNew = 'https://intranet.saleecolour.com/intsys/msd_mix/uploads/packing_file';
+							// console.log(packingPathNew+cutR+'/'+file_name+file_type);
+
+							// let fullDataPhoto = packingPathNew+cutR+'/'+file_name+file_type;
 
 
 							let html = `
@@ -386,8 +394,8 @@
 							`;
 							html +=`
 								<div class="col-md-6 col-lg-6 col-6 mt-2">
-                                    <embed src="`+fullDataPhoto+`" width="100%" frameborder="0" allowfullscreen="">
-                                    <a href="`+fullDataPhoto+`" target="_blank"><b>`+file_name+file_type+`</b></a>
+                                    <embed src="`+file+`" width="100%" frameborder="0" allowfullscreen="">
+                                    <a href="`+file+`" target="_blank"><b>`+file_name+file_type+`</b></a>
                                 </div>
 							`;
 							html +=`

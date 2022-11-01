@@ -26,6 +26,16 @@ class Packing_list extends MX_Controller {
         $this->packinglist->loadDataPackinglist();
     }
 
+    public function loadPhoto($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoPath6 , $photoName)
+    {
+        $this->packinglist->loadPhoto($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoPath6 , $photoName);
+    }
+
+    public function loadFile($filePath1 , $filePath2 , $filePath3 , $filePath4 , $filePath5 , $filePath6 , $fileName)
+    {
+        $this->packinglist->loadFile($filePath1 , $filePath2 , $filePath3 , $filePath4 , $filePath5 , $filePath6 , $fileName);
+    }
+
 
     
 

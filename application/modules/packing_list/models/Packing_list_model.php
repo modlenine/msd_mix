@@ -110,13 +110,27 @@ class Packing_list_model extends CI_Model {
                     // Check Photo
                     $photoattach = "";
                     $photoattach_list = "";
+                    $photoPath = "";
+                    $photoListNew = [];
                     if($sqlGetPhoto->num_rows() != 0){
                         $photoattach = "Yes";
                         $photoattach_list = $sqlGetPhoto->result();
+                        $photoPath = $sqlGetPhoto->row()->filepath;
+
+                        $cutPath = substr($photoPath , 2);
+                        $conPath = str_replace('\\', '/', $cutPath);
+
+                        foreach($sqlGetPhoto->result() as $rs){
+                            $photoName = $rs->filename.$rs->filenametype;
+                            $photoUse = base_url('packing_list/loadPhoto').$conPath.$photoName;
+                            array_push($photoListNew , $photoUse);
+                        }
                     }else{
                         $photoattach = "No";
                     }
                     // Query Photo
+
+
 
 
 
@@ -175,7 +189,8 @@ class Packing_list_model extends CI_Model {
                         "photo_attach_list" => $photoattach_list,
                         "stickerLabel" => $stickerLabel,
                         "pallet_detail" => $palletDetail,
-                        "deliverydate" => $dlvdate
+                        "deliverydate" => $dlvdate,
+                        "photoUse" => $photoListNew
                     );
 
                 }else{
@@ -229,7 +244,22 @@ class Packing_list_model extends CI_Model {
         }
         echo json_encode($output);
     }
+
     
+
+    public function loadPhoto($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoPath6 , $photoName)
+    {
+        header('Content-Type: image/jpeg');
+        echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/'.$photoPath1."/".$photoPath2."/".$photoPath3."/".$photoPath4."/".$photoPath5."/".$photoPath6."/".$photoName);
+
+        // echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/PackingPhoto/Transaction/Customer/POLY/TH-1528/PPL65002923/CAP7_15-9-2022_15-58-28.jpg');
+    }
+
+    public function loadFile($filePath1 , $filePath2 , $filePath3 , $filePath4 , $filePath5 , $filePath6 , $fileName)
+    {
+        header('Content-type: application/pdf'); 
+        readfile("ftp://ant:Ant1234@192.168.10.56:821/$filePath1/$filePath2/$filePath3/$filePath4/$filePath5/$filePath6/$fileName");
+    }
     
 
 }
