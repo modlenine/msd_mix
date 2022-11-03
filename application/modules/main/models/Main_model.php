@@ -247,7 +247,7 @@ class Main_model extends CI_Model {
             FROM
             template_master
             WHERE template_master.master_name LIKE '%$received_data->templatename%'
-            ORDER BY template_master.master_name ASC LIMIT 20
+            ORDER BY template_master.master_name ASC LIMIT 50
             ");
 
             $result = [];
@@ -291,7 +291,7 @@ class Main_model extends CI_Model {
             FROM
             template_master
             WHERE template_master.master_itemnumber LIKE '%$received_data->itemnumber%'
-            ORDER BY template_master.master_name ASC LIMIT 20
+            ORDER BY template_master.master_name ASC LIMIT 50
             ");
 
             $result = [];
