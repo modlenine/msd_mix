@@ -42,11 +42,17 @@
                             <div id="m_showpd"></div>
                         </div>
                         <div class="col-lg-6 form-group">
-                            <label for=""><b>เลือกเครื่องจักร </b><span class="textRequest">*</span></label>
+                            <label for=""><b>เลือก STD. </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_template_name" id="m_template_name" class="form-control" @keyup="searchTemplate" required>
                             <div id="m_showTemplate"></div>
                             <input hidden type="text" name="m_template_code" id="m_template_code" class="form-control">
                         </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for=""><b>เลือกเครื่องจักร </b><span class="textRequest">*</span></label>
+                            <select name="m_machine" id="m_machine" class="form-control" required></select>
+                        </div>
+
                         <div class="col-lg-6 form-group">
                             <label for=""><b>Order (kg.) </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_order" id="m_order" class="form-control" required>
@@ -311,8 +317,33 @@
 
 
                 searchTemplate(data_itemid);
+                getMachine();
+
 
             });
+
+            function getMachine()
+            {
+                axios.post(url+'main/getMachine' , {
+                    action:"getMachine"
+                }).then(res=>{
+                    console.log(res.data);
+                    if(res.data.status == "Select Data Success"){
+                        let machinelist = res.data.result;
+
+                        let html = `
+                            <option value="">กรุณาเลือกเครื่องจักร</option>
+                        `;
+                        for(let i = 0; i < machinelist.length; i++){
+                            html += `
+                                <option value="`+machinelist[i].mach_name+`">`+machinelist[i].mach_name+`</option>
+                            `;
+                        }
+
+                        $('#m_machine').html(html);
+                    }
+                });
+            }
 
             function searchTemplate(itemnumber)
             {
