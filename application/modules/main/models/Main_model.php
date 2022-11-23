@@ -730,7 +730,7 @@ class Main_model extends CI_Model {
                 "ref_status" => "inactive"
             );
             $this->db->where("ref_m_code" , $maincode);
-            $this->db->where("ref_code" , $mdspe_ref_code);
+            $this->db->where("ref_type" , 'Actual');
             $this->db->update("reference" , $arOfflineOld);
             // Save Data Reference
             // Ref From Template
