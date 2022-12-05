@@ -255,10 +255,10 @@
                                     <input type="radio" id="choice_mix" name="choice_method" value="mix" class="custom-control-input" required> 
                                     <label for="choice_mix" class="custom-control-label">มิกซ์</label>
                                 </div> 
-                                <div class="custom-control custom-radio mb-5">
+                                <!-- <div class="custom-control custom-radio mb-5">
                                     <input type="radio" id="choice_remix" name="choice_method" value="remix" class="custom-control-input" required> 
                                     <label for="choice_remix" class="custom-control-label">รีมิกซ์</label>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
