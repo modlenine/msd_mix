@@ -638,6 +638,11 @@
                                     <option value="15">15</option>
                                 </select>
                             </div>
+
+                            <div class="col-lg-6 form-group">
+                                <label for=""><b>Machine Name</b></label>
+                                <select name="ehmd_m_machine" id="ehmd_m_machine" class="form-control"></select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -886,6 +891,7 @@
                             data_m_worktype_no="<?=getviewfulldata(getMaincode($mainformno))->m_worktype_no?>"
                             data_m_pd="<?=getviewfulldata(getMaincode($mainformno))->m_product_number?>"
                             data_m_areaid="<?=getviewfulldata(getMaincode($mainformno))->m_areaid?>"
+                            data_m_machine="<?=getviewfulldata(getMaincode($mainformno))->m_machine?>"
                         >
                             <i class="fa fa-edit mr-2 editHeadData" aria-hidden="true"></i>
                         </a>
@@ -1647,6 +1653,7 @@ $(document).ready(function(){
                     m_batchsize:$('#ehmd_batchsize').val(),
                     m_worktype:$('#ehmd_worktype').val(),
                     m_worktype_no:$('#ehmd_worktype_no').val(),
+                    m_machine:$('#ehmd_m_machine').val()
                 }).then(res=>{
                     console.log(res.data);
                     if(res.data.status == "Update Data Success"){
@@ -2400,7 +2407,9 @@ $(document).ready(function(){
 
         const data_m_pd = $(this).attr("data_m_pd");
         const data_m_areaid = $(this).attr("data_m_areaid");
+        const data_m_machine = $(this).attr("data_m_machine");
         loadWorkTypeNoList_edit();
+        getMachine_edit(data_m_machine);
 
         $('#editHead_modal').modal('show');
 
@@ -2429,6 +2438,31 @@ $(document).ready(function(){
         });
 
     });
+
+
+    function getMachine_edit(data_m_machine)
+    {
+        axios.post(url+'main/getMachine' , {
+            action:"getMachine"
+        }).then(res=>{
+            console.log(res.data);
+            if(res.data.status == "Select Data Success"){
+                let machinelist = res.data.result;
+
+                let html = `
+                    <option value="">กรุณาเลือกเครื่องจักร</option>
+                `;
+                for(let i = 0; i < machinelist.length; i++){
+                    html += `
+                        <option value="`+machinelist[i].mach_name+`">`+machinelist[i].mach_name+`</option>
+                    `;
+                }
+
+                $('#ehmd_m_machine').html(html);
+                $('#ehmd_m_machine option[value="'+data_m_machine+'"]').prop("selected" , true);
+            }
+        });
+    }
 
     //Condition for edit head
     $(document).on('change' , '#ehmd_worktype' , function(){

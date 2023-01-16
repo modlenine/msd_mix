@@ -2711,6 +2711,7 @@ class Main_model extends CI_Model {
                 "m_batchsize" => $received_data->m_batchsize,
                 "m_worktype" => $received_data->m_worktype,
                 "m_worktype_no" => $received_data->m_worktype_no,
+                "m_machine" => $received_data->m_machine
             );
             $this->db->where("m_code" , $received_data->m_code);
             $this->db->update("main" , $arUpdateHead);
