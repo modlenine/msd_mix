@@ -6082,7 +6082,7 @@ $(document).ready(function(){
 
             let output =`
                 <div class="col-md-12">
-                    <div class="container-iframe">
+                    <div class="">
 
                     <iframe class="" width="100%" height="500px" frameBorder="0" src=" https://intranet.saleecolour.com/intsys/lab_matching/qc/sample/`+formno+`/`+prodid+`/`+batchnumber+`/`+dataareaid+`/1M/`+status+`"></iframe>
                             
