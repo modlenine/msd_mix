@@ -148,12 +148,17 @@ class Main_model extends CI_Model {
                     return $output;
                 }
             ),
-            array('db' => 'm_worktype', 'dt' => 1),
-            array('db' => 'm_template_name', 'dt' => 2),
-            array('db' => 'm_item_number', 'dt' => 3),
-            array('db' => 'm_product_number', 'dt' => 4),
-            array('db' => 'm_batch_number', 'dt' => 5),
-            array('db' => 'm_order', 'dt' => 6),
+            array('db' => 'm_template_name', 'dt' => 1),
+            array('db' => 'm_item_number', 'dt' => 2),
+            array('db' => 'm_product_number', 'dt' => 3),
+            array('db' => 'm_batch_number', 'dt' => 4),
+            array(
+                'db' => 'm_order', 'dt' => 5,
+                'formatter' => function($d , $row){
+                    return valueFormat3($d);
+                }
+            ),
+            array('db' => 'm_worktype_new', 'dt' => 6),
             array('db' => 'm_run', 'dt' => 7),
             array(
                 'db' => 'm_datetime', 'dt' => 8,
