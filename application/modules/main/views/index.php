@@ -100,7 +100,8 @@
 
 		let datestart = "";
 		let dateend = "";
-		loadDataList();
+		// loadDataList();
+		checkDateSearch();
 
 		// $(document).on('click' , '.l_viewmain' , function(){
 		// 	const data_mainformno = $(this).attr("data_mainformno");
@@ -117,17 +118,46 @@
 
 
 		$(document).on('click' , '#btn_searchBydate' , function(){
-			if($('#datestart').val() != "" && $('#dateend').val() != ""){
-				let date_start = $('#datestart').val();
-				let date_end = $('#dateend').val();
-				loadDataListByDate(date_start , date_end);
-			}
+			// if($('#datestart').val() != "" && $('#dateend').val() != ""){
+			// 	let date_start = $('#datestart').val();
+			// 	let date_end = $('#dateend').val();
+			// 	loadDataListByDate(date_start , date_end);
+			// }
+
+			let datestart = $('#datestart').val();
+            let dateend = $('#dateend').val();
+
+            if(datestart != "" && dateend != ""){
+                let dateSearch_value = {
+                'dateStart':datestart,
+                'dateEnd':dateend
+                }
+                sessionStorage.setItem('dateSearch_mix',JSON.stringify(dateSearch_value));
+                checkDateSearch();
+                // console.log(datestart+dateend);
+            }else{
+                swal(
+                        {
+                            type: 'error',
+                            title: 'กรุณาเลือกวันที่ต้องการค้นหา',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }
+                    );
+                    $('#datestart').val('');
+                    $('#dateend').val('');
+            }
+
 		});
 
 		$(document).on('click' , '#btn_clearSearchByDate' , function(){
-			let table = $('#dataMainList').DataTable();
-			table.state.clear();
-			location.reload();
+			// let table = $('#dataMainList').DataTable();
+			// table.state.clear();
+			// location.reload();
+
+			sessionStorage.removeItem('dateSearch_mix');
+            $('#dataMainList').DataTable().state.clear();
+            checkDateSearch();
 		});
 
 
@@ -143,6 +173,8 @@
 	// Function zone
 		function loadDataList()
 		{
+			$('#dataMainList').DataTable().destroy();
+			
 			let thid = 1;
 			$('#dataMainList thead th').each(function() {
 				var title = $(this).text();
@@ -166,10 +198,10 @@
 					}
 				});
 
-				if(datestart != "" && dateend != ""){
-					$('#dataMainList').DataTable().destroy();
+				// if(datestart != "" && dateend != ""){
+				// 	$('#dataMainList').DataTable().destroy();
 					
-				}
+				// }
 				
 					var table = $('#dataMainList').removeAttr('width').DataTable({
 								"scrollX": true,
@@ -226,6 +258,9 @@
 
 		function loadDataListByDate(date_start , date_end)
 		{
+
+			$('#dataMainList').DataTable().destroy();
+
 			let thid = 1;
 			$('#dataMainList thead th').each(function() {
 				var title = $(this).text();
@@ -249,10 +284,10 @@
 					}
 				});
 
-				if(date_start != "" && date_end != ""){
-					$('#dataMainList').DataTable().destroy();
+				// if(date_start != "" && date_end != ""){
+				// 	$('#dataMainList').DataTable().destroy();
 					
-				}
+				// }
 				
 					var table = $('#dataMainList').removeAttr('width').DataTable({
 								"scrollX": true,
@@ -319,6 +354,26 @@
 
 			}else{
 				$('#btn-addMachineData').css('display' , '');
+			}
+		}
+
+
+
+		function checkDateSearch()
+		{
+			let dataDateSearch = sessionStorage.getItem('dateSearch_mix');
+			console.log(JSON.parse(dataDateSearch));
+			if(dataDateSearch !== null){
+				console.log('มีค่า');
+				let dateStart_value = JSON.parse(dataDateSearch).dateStart;
+				let dataEnd_value = JSON.parse(dataDateSearch).dateEnd;
+				loadDataListByDate(dateStart_value,dataEnd_value);
+				$('#datestart').val(dateStart_value);
+				$('#dateend').val(dataEnd_value);
+			}else{
+				loadDataList();
+				$('#datestart').val('');
+				$('#dateend').val('');
 			}
 		}
 

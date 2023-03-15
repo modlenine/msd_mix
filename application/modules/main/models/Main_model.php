@@ -141,7 +141,7 @@ class Main_model extends CI_Model {
                 'formatter' => function ($d, $row) {
                     $output = '';
                     $output .= '
-                <a id="l_viewmain" class="l_viewmain" href="javascript:void(0)"
+                <a id="l_viewmain" class="l_viewmain" href="'.base_url('viewfulldata.html/').$d.'"
                     data_mainformno="'.$d.'"
                 ><b>' . $d . '</b></a>
                 ';
