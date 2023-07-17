@@ -147,7 +147,6 @@
                     $('#datestart').val('');
                     $('#dateend').val('');
             }
-
 		});
 
 		$(document).on('click' , '#btn_clearSearchByDate' , function(){
@@ -174,7 +173,7 @@
 		function loadDataList()
 		{
 			$('#dataMainList').DataTable().destroy();
-			
+
 			let thid = 1;
 			$('#dataMainList thead th').each(function() {
 				var title = $(this).text();
@@ -258,7 +257,6 @@
 
 		function loadDataListByDate(date_start , date_end)
 		{
-
 			$('#dataMainList').DataTable().destroy();
 
 			let thid = 1;
@@ -356,7 +354,6 @@
 				$('#btn-addMachineData').css('display' , '');
 			}
 		}
-
 
 
 		function checkDateSearch()

@@ -26,7 +26,13 @@ function gfn()
 
 function getDb()
 {
-    $sql = gfn()->db->query("SELECT * FROM db WHERE db_autoid = 1 ");
+    if($_SERVER['HTTP_HOST'] == "localhost"){
+        $dbHost = "192.168.20.22";
+    }else{
+        $dbHost = "localhost";
+    }
+
+    $sql = gfn()->db->query("SELECT * FROM db WHERE db_host = '$dbHost' ");
     return $sql->row();
 }
 

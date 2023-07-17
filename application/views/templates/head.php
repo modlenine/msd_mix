@@ -37,12 +37,6 @@
 	<script src="<?=base_url('assets/js/vue.js')?>"></script>
 	<script src="<?=base_url('assets/js/axios.min.js')?>"></script>
 
-
-	
-
-	
-
-
 	<style>
 		/* thai */
 		@font-face {

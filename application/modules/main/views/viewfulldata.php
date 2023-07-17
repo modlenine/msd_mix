@@ -2877,7 +2877,6 @@ $(document).ready(function(){
             let status = $('#getFormStatus').val();
             let formno = "<?php echo $mainformno; ?>";
             loaddatajobcard(prodid , dataareaid , status , formno);
-
         }else if(tabSelect == "tabpage5"){
             $('#tabpage5').addClass('active');
             $('#page5').addClass('active').addClass('show');
@@ -3791,7 +3790,8 @@ $(document).ready(function(){
                                     }
                                 }
                             }
-                            
+
+
                         
                             output +=`
                                 <tr>
@@ -6070,6 +6070,7 @@ $(document).ready(function(){
     }
 
 
+
     function loaddataSticker(formno , prodid , batchnumber , dataareaid , status)
     {
         if(formno != "" && prodid != "" && batchnumber != "" && dataareaid != "" && status != ""){
@@ -6090,20 +6091,18 @@ $(document).ready(function(){
                 </div>
                 `;
                 $('#qcsticker').html(output);
-
-
-
-
   
             // console.log("https://intranet.saleecolour.com/intsys/production_plan/machine/jobcard/"+prodid+"/"+dataareaid+"/2-3-4/0/"+status+"/"+formno+"/");
         }
-
             console.log(prodid);
             console.log(dataareaid);
             console.log(status);
             console.log(formno);
             console.log(batchnumber);
     }
+
+
+
 
 
 
