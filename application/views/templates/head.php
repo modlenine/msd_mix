@@ -220,6 +220,7 @@
 			ecode == "D2022" ||
 			ecode == "M2067" ||
 			ecode == "M0282" ||
+			ecode == "M0085" ||
 			ecode == "M0126"){
 				$('#settingMenuLi').css('display' , '');
 			}else{
