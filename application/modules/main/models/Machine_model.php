@@ -404,6 +404,13 @@ class machine_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         $template = [];
+        $deptcode = "";
+        if(getUser()->DeptCode == 1015 || getUser()->DeptCode == 1014){
+            $deptcode = "AND master_deptcode IN (1015,1014)";
+        }else{
+            $deptcodeDefault = getUser()->DeptCode;
+            $deptcode = "AND master_deptcode = '$deptcodeDefault'";
+        }
          if($received_data->action == "loadTemplateList"){
             $sql = $this->db->query("SELECT
             template_master.master_autoid,
@@ -420,7 +427,7 @@ class machine_model extends CI_Model {
             template_master.master_remark
             FROM
             template_master
-            WHERE master_name LIKE '%$received_data->searchTemplate%'
+            WHERE master_name LIKE '%$received_data->searchTemplate%' $deptcode
             ORDER BY template_master.master_autoid DESC LIMIT 50");
 
             foreach($sql->result() as $rs){
@@ -440,7 +447,8 @@ class machine_model extends CI_Model {
             $output = array(
                 "msg" => "ดึงข้อมูลสำเร็จ",
                 "status" => "Select Data Success",
-                "getTemplate" => $template
+                "getTemplate" => $template,
+                "ecode" => getUser()->DeptCode
             );
             
 
@@ -770,6 +778,15 @@ class machine_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "countTemplate"){
+
+            $deptcode = "";
+            if(getUser()->DeptCode == 1015 || getUser()->DeptCode == 1014){
+                $deptcode = "master_deptcode IN (1015,1014)";
+            }else{
+                $deptcodeDefault = getUser()->DeptCode;
+                $deptcode = "master_deptcode = '$deptcodeDefault'";
+            }
+
             $sql = $this->db->query("SELECT
             template_master.master_autoid,
             template_master.master_temcode,
@@ -777,7 +794,7 @@ class machine_model extends CI_Model {
             template_master.master_itemnumber,
             template_master.master_remark
             FROM
-            template_master");
+            template_master where $deptcode");
 
             $output = array(
                 "msg" => "ดึงข้อมูล Template Count สำเร็จ",
@@ -800,6 +817,15 @@ class machine_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "loadTemplateMasterList"){
+
+            $deptcode = "";
+            if(getUser()->DeptCode == 1015 || getUser()->DeptCode == 1014){
+                $deptcode = "master_deptcode IN (1015,1014)";
+            }else{
+                $deptcodeDefault = getUser()->DeptCode;
+                $deptcode = "master_deptcode = '$deptcodeDefault'";
+            }
+
             $sql = $this->db->query("SELECT
             template_master.master_autoid,
             template_master.master_temcode,
@@ -807,7 +833,7 @@ class machine_model extends CI_Model {
             template_master.master_itemnumber,
             template_master.master_remark
             FROM
-            template_master
+            template_master WHERE $deptcode
             ORDER BY master_autoid ASC
             ");
 

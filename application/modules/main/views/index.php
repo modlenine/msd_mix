@@ -65,9 +65,9 @@
 										<th>STD. Name</th>
 										<th>Item Number</th>
 										<th>Production Number</th>
+										<th>Job Number</th>
 										<th>Batch Number</th>
 										<th>Order</th>
-
 										<th>Work Type</th>
 										<th>Run</th>
 										<th>Date</th>
@@ -91,11 +91,25 @@
 	$(document).ready(function(){
 		checkProductionUser();
 		localStorage.removeItem('tab');
+		let deptcode = "<?php echo getUser()->DeptCode; ?>";
 
 		let url = "<?php echo base_url(); ?>";
 
 		$('#btn-addMachineData').click(function(){
 			$('#addNewData_modal').modal('show');
+
+			$('#frm_savemainData input').val('');
+			$('#frm_savemainData select option[value=""]').prop("selected" , true);
+			// Check Dept
+			if(deptcode == 1014 || deptcode == 1015){
+				$('#m_product_number').attr('disabled' , true).removeAttr('required');
+				$('.divProdid').css('display','none');
+				$('.divjob').css('display','');
+				$('.divTypeofbag').css('display' , 'none');
+				$('.divBagtext').css('display' , 'none');
+				$('.divBatchSize').css('display' , 'none');
+
+            }
 		});
 
 		let datestart = "";
@@ -225,11 +239,11 @@
 										targets: "_all",
 										orderable: false
 									},
-									{"width": "100","targets": 0},
+									{"width": "80","targets": 0},
 									{"width": "200","targets": 1},
 									{"width": "200","targets": 2},
 									{"width": "100","targets": 3},
-									{"width": "150","targets": 4},
+									{"width": "100","targets": 4},
 									{"width": "100","targets": 5},
 									{"width": "100","targets": 6},
 									{"width": "50","targets": 7},
@@ -312,14 +326,15 @@
 									},
 									{"width": "80","targets": 0},
 									{"width": "200","targets": 1},
-									{"width": "100","targets": 2},
+									{"width": "200","targets": 2},
 									{"width": "100","targets": 3},
-									{"width": "150","targets": 4},
-									{"width": "150","targets": 5},
-									{"width": "150","targets": 6},
-									{"width": "100","targets": 7},
+									{"width": "100","targets": 4},
+									{"width": "100","targets": 5},
+									{"width": "100","targets": 6},
+									{"width": "50","targets": 7},
 									{"width": "100","targets": 8},
-									{"width": "150","targets": 9}
+									{"width": "100","targets": 9},
+									{"width": "150","targets": 10}
 								],
 								});
 
@@ -343,15 +358,12 @@
 		{
 			const deptcode = "<?php echo getUser()->DeptCode; ?>";
 			const ecode = "<?php echo getUser()->ecode; ?>";
-			if(deptcode != "1007"){
-				if(ecode == "M1809" || ecode == "M0282"){
-					$('#btn-addMachineData').css('display' , '');
-				}else{
-					$('#btn-addMachineData').css('display' , 'none');
-				}
+			if(deptcode == "1007" || deptcode == "1014" || deptcode == "1015" || deptcode == "1002"){
+
+				$('#btn-addMachineData').css('display' , '');
 
 			}else{
-				$('#btn-addMachineData').css('display' , '');
+				$('#btn-addMachineData').css('display' , 'none');
 			}
 		}
 

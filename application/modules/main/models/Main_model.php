@@ -39,23 +39,24 @@ class Main_model extends CI_Model {
             array('db' => 'm_template_name', 'dt' => 1),
             array('db' => 'm_item_number', 'dt' => 2),
             array('db' => 'm_product_number', 'dt' => 3),
-            array('db' => 'm_batch_number', 'dt' => 4),
+            array('db' => 'm_job_number', 'dt' => 4),
+            array('db' => 'm_batch_number', 'dt' => 5),
             array(
-                'db' => 'm_order', 'dt' => 5,
+                'db' => 'm_order', 'dt' => 6,
                 'formatter' => function($d , $row){
                     return valueFormat3($d);
                 }
             ),
-            array('db' => 'm_worktype_new', 'dt' => 6),
-            array('db' => 'm_run', 'dt' => 7),
+            array('db' => 'm_worktype_new', 'dt' => 7),
+            array('db' => 'm_run', 'dt' => 8),
             array(
-                'db' => 'm_datetime', 'dt' => 8,
+                'db' => 'm_datetime', 'dt' => 9,
                 'formatter' => function($d , $row){
                     return conDateTimeFromDb($d);
                 }
             ),
             array(
-                'db' => 'm_status', 'dt' => 9,
+                'db' => 'm_status', 'dt' => 10,
                 'formatter' => function($d , $row){
                     $output = '';
                     if($d == "Start"){
@@ -83,7 +84,7 @@ class Main_model extends CI_Model {
                 }
             ),
             array(
-                'db' => 'm_memo', 'dt' => 10,)
+                'db' => 'm_memo', 'dt' => 11,)
         );
 
         // SQL server connection information
@@ -424,6 +425,73 @@ class Main_model extends CI_Model {
     }
 
 
+    public function searchJobNo()
+    {
+        $received_data = json_decode(file_get_contents("php://input"));
+        if($received_data->action == "searchJobNo"){
+
+            $dataareaid = $received_data->m_areaid;
+            $searchJobnumber = $received_data->m_job_number;
+            $resultCheckJobRunning = $this->checkJobRuning($searchJobnumber , $dataareaid);
+
+
+
+            $output = '';
+            $yearNow = date("Y");
+
+            if($resultCheckJobRunning->num_rows() == 0){
+                $sql = $this->db3->query("SELECT TOP 20
+                itemid , 
+                jobrequisitionid , 
+                temperature , 
+                qtysample , 
+                submitdate , 
+                dataareaid ,
+                commentsaletxt
+                FROM bpc_matchingrequisition 
+                WHERE canceljob = 0 AND dataareaid = '$dataareaid' AND jobrequisitionid LIKE '%$searchJobnumber%' AND year(submitdate) = $yearNow ORDER BY jobrequisitionid DESC
+                    ");
+    
+                $output = '<ul class="list-group lgjobnumber">';
+                foreach ($sql->result() as $rs) {
+    
+                    $itemid = $rs->itemid;
+                    $jobnumber = $rs->jobrequisitionid;
+    
+                    $output .= '
+                    <a href="#" id="jobnumber_attr" class="jobnumber_attr"
+                    data_jobnumber = "' . $rs->jobrequisitionid . '"
+                    data_itemid = "' . $rs->itemid . '"
+                    data_qtysample= "'.number_format($rs->qtysample , 3).'"
+                    data_batchid = "' . $rs->jobrequisitionid . '"
+                    data_dataareaid = "' . $rs->dataareaid . '"
+                    data_temperature = "'.number_format($rs->temperature , 2).'"
+                    ><li class="list-group-item">' . $rs->jobrequisitionid . '</li></a>
+                    ';
+                    
+                }
+                $output .= '</ul>';
+                echo $output;
+            }else{
+                $output = '<ul class="list-group lgjobnumber">';
+                $output .='<h3>Job number ดังกล่าวอยู่ในสถานะ Start</h3>';
+                $output .= '</ul>';
+                echo $output;
+            }
+        }
+    }
+    private function checkJobRuning($jobnumber , $dataareaid)
+    {
+        if($jobnumber != "" && $dataareaid != ""){
+            $sql = $this->db->query("SELECT
+            m_job_number
+            FROM main WHERE m_job_number = '$jobnumber' AND m_dataareaid = '$dataareaid'
+            ");
+            return $sql;
+        }
+    }
+
+
     public function searchBag()
     {
         $received_data = json_decode(file_get_contents("php://input"));
@@ -493,59 +561,117 @@ class Main_model extends CI_Model {
 
     public function saveMaindata()
     {
-        if(
-            $this->input->post("m_areaid") != "" &&
-            $this->input->post("m_product_number") != "" &&
-            $this->input->post("m_template_name") != "" &&
-            $this->input->post("m_order") != "" &&
-            $this->input->post("m_temperature") != "" &&
-            $this->input->post("m_item_number") != "" &&
-            $this->input->post("m_batch_number") != "" &&
-            $this->input->post("m_worktype") != "" &&
-            $this->input->post("m_run") != "" &&
-            $this->input->post("m_machine") != ""
-        ){
-            $formno = getFormNo();
 
-            $arSaveData = array(
-                "m_formno" => $formno,
-                "m_code" => getRuningCode(100),
-                "m_areaid" => $this->input->post("m_areaid"),
-                "m_product_number" => $this->input->post("m_product_number"),
-                "m_template_name" => $this->input->post("m_template_name"),
-                "m_machine" => $this->input->post("m_machine"),
-                "m_order" => $this->input->post("m_order"),
-                "m_temperature" => $this->input->post("m_temperature"),
-                "m_item_number" => $this->input->post("m_item_number"),
-                "m_batch_number" => $this->input->post("m_batch_number"),
-                "m_batchsize" => $this->input->post("m_batchsize"),
-                "m_worktype" => $this->input->post("m_worktype"),
-                "m_worktype_no" => $this->input->post("m_worktypeNo"),
-                "m_run" => $this->input->post("m_run"),
-                "m_template_code" => $this->input->post("m_template_code"),
-                "m_typeofbag" => $this->input->post("m_typeofbag"),
-                "m_typeofbagtxt" => $this->input->post("m_typeofbagtxt"),
-                "m_user" => getUser()->Fname." ".getUser()->Lname,
-                "m_ecode" => getUser()->ecode,
-                "m_deptcode" => getUser()->DeptCode,
-                "m_datetime" => date("Y-m-d H:i:s"),
-                "m_status" => "Open",
-                "m_dataareaid" => $this->input->post("m_areaid")
-            );
-            $this->db->insert("main" , $arSaveData);
+        if(getUser()->DeptCode == 1014 || getUser()->DeptCode == 1015){
+            if(
+                $this->input->post("m_areaid") != "" &&
+                $this->input->post("m_job_number") != "" &&
+                $this->input->post("m_template_name") != "" &&
+                $this->input->post("m_order") != "" &&
+                $this->input->post("m_temperature") != "" &&
+                $this->input->post("m_batch_number") != "" &&
+                $this->input->post("m_worktype") != "" &&
+                $this->input->post("m_run") != "" &&
+                $this->input->post("m_machine") != ""
+            ){
+                $formno = getFormNo();
 
-            $output = array(
-                "msg" => "บันทึกข้อมูลสำเร็จ",
-                "status" => "Insert Data Success",
-                "templateformno" => $formno
-            );
+                $arSaveData = array(
+                    "m_formno" => $formno,
+                    "m_code" => getRuningCode(100),
+                    "m_areaid" => $this->input->post("m_areaid"),
 
+                    "m_template_name" => $this->input->post("m_template_name"),
+                    "m_machine" => $this->input->post("m_machine"),
+                    "m_order" => $this->input->post("m_order"),
+                    "m_temperature" => $this->input->post("m_temperature"),
+                    "m_item_number" => $this->input->post("m_item_number"),
+                    "m_batch_number" => $this->input->post("m_batch_number"),
+
+                    "m_worktype" => $this->input->post("m_worktype"),
+                    "m_worktype_no" => $this->input->post("m_worktypeNo"),
+                    "m_run" => $this->input->post("m_run"),
+                    "m_template_code" => $this->input->post("m_template_code"),
+                    "m_job_number" => $this->input->post("m_job_number"),
+
+                    "m_user" => getUser()->Fname." ".getUser()->Lname,
+                    "m_ecode" => getUser()->ecode,
+                    "m_deptcode" => getUser()->DeptCode,
+                    "m_datetime" => date("Y-m-d H:i:s"),
+                    "m_status" => "Open",
+                    "m_dataareaid" => $this->input->post("m_areaid")
+                );
+                $this->db->insert("main" , $arSaveData);
+
+                $output = array(
+                    "msg" => "บันทึกข้อมูลสำเร็จ",
+                    "status" => "Insert Data Success",
+                    "templateformno" => $formno
+                );
+
+            }else{
+                $output = array(
+                    "msg" => "บันทึกข้อมูลไม่สำเร็จ",
+                    "status" => "Insert Data Not Success"
+                );
+            }
         }else{
-            $output = array(
-                "msg" => "บันทึกข้อมูลไม่สำเร็จ",
-                "status" => "Insert Data Not Success"
-            );
+            if(
+                $this->input->post("m_areaid") != "" &&
+                $this->input->post("m_product_number") != "" &&
+                $this->input->post("m_template_name") != "" &&
+                $this->input->post("m_order") != "" &&
+                $this->input->post("m_temperature") != "" &&
+                $this->input->post("m_item_number") != "" &&
+                $this->input->post("m_batch_number") != "" &&
+                $this->input->post("m_worktype") != "" &&
+                $this->input->post("m_run") != "" &&
+                $this->input->post("m_machine") != ""
+            ){
+                $formno = getFormNo();
+
+                $arSaveData = array(
+                    "m_formno" => $formno,
+                    "m_code" => getRuningCode(100),
+                    "m_areaid" => $this->input->post("m_areaid"),
+                    "m_product_number" => $this->input->post("m_product_number"),
+                    "m_template_name" => $this->input->post("m_template_name"),
+                    "m_machine" => $this->input->post("m_machine"),
+                    "m_order" => $this->input->post("m_order"),
+                    "m_temperature" => $this->input->post("m_temperature"),
+                    "m_item_number" => $this->input->post("m_item_number"),
+                    "m_batch_number" => $this->input->post("m_batch_number"),
+                    "m_batchsize" => $this->input->post("m_batchsize"),
+                    "m_worktype" => $this->input->post("m_worktype"),
+                    "m_worktype_no" => $this->input->post("m_worktypeNo"),
+                    "m_run" => $this->input->post("m_run"),
+                    "m_template_code" => $this->input->post("m_template_code"),
+                    "m_typeofbag" => $this->input->post("m_typeofbag"),
+                    "m_typeofbagtxt" => $this->input->post("m_typeofbagtxt"),
+                    "m_user" => getUser()->Fname." ".getUser()->Lname,
+                    "m_ecode" => getUser()->ecode,
+                    "m_deptcode" => getUser()->DeptCode,
+                    "m_datetime" => date("Y-m-d H:i:s"),
+                    "m_status" => "Open",
+                    "m_dataareaid" => $this->input->post("m_areaid")
+                );
+                $this->db->insert("main" , $arSaveData);
+
+                $output = array(
+                    "msg" => "บันทึกข้อมูลสำเร็จ",
+                    "status" => "Insert Data Success",
+                    "templateformno" => $formno
+                );
+
+            }else{
+                $output = array(
+                    "msg" => "บันทึกข้อมูลไม่สำเร็จ",
+                    "status" => "Insert Data Not Success"
+                );
+            }
         }
+
+
 
         echo json_encode($output);
     }
@@ -911,6 +1037,8 @@ class Main_model extends CI_Model {
             main.m_formno,
             main.m_code,
             main.m_areaid,
+            main.m_job_number,
+            main.m_product_number,
             main.m_status
             FROM
             main
@@ -920,7 +1048,9 @@ class Main_model extends CI_Model {
             $output = array(
                 "msg" => "ดึงข้อมูลสำเร็จ",
                 "status" => "Select Data Success",
-                "form_status" => $sql->row()->m_status
+                "form_status" => $sql->row()->m_status,
+                "job_number" => $sql->row()->m_job_number,
+                "product_number" => $sql->row()->m_product_number
             );
         }else{
             $output = array(
@@ -3057,12 +3187,18 @@ class Main_model extends CI_Model {
         if($received_data->action == "loadReferenceAll"){
             $maincode = $received_data->maincode;
             $m_status = "";
+            $m_job_number = "";
+            $m_product_number = "";
 
-            $sqlGetStatus = $this->db->query("SELECT m_status FROM main WHERE m_code = '$maincode' ");
+            $sqlGetStatus = $this->db->query("SELECT m_status , m_product_number , m_job_number FROM main WHERE m_code = '$maincode' ");
             if($sqlGetStatus->num_rows() != 0){
                 $m_status = $sqlGetStatus->row()->m_status;
+                $m_job_number = $sqlGetStatus->row()->m_job_number;
+                $m_product_number = $sqlGetStatus->row()->m_product_number;
             }else{
                 $m_status = "";
+                $m_job_number = "";
+                $m_product_number = "";
             }
             // Get Template Ref
             // Get Item
@@ -3097,7 +3233,9 @@ class Main_model extends CI_Model {
                 "m_status" => $m_status,
                 "ref_status" => $refStatus->row(),
                 "ref_actualRef" => $actualRef->row(),
-                "lastStatus" => $laststatus->row()
+                "lastStatus" => $laststatus->row(),
+                "job_number" => $m_job_number,
+                "product_number" => $m_product_number
             );
 
         }else{

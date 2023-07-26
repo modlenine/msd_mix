@@ -6,14 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?=$title?></title>
 
-
 	<!-- <link rel="stylesheet" href="<?=base_url('assets/')?>timepicker/css/font-icons.css" type="text/css" /> -->
-
 	<!-- Date & Time Picker CSS -->
 	<!-- <link rel="stylesheet" href="<?=base_url('assets/')?>timepicker/css/components/datepicker.css" type="text/css" />
 	<link rel="stylesheet" href="<?=base_url('assets/')?>timepicker/css/components/timepicker.css" type="text/css" />
 	<link rel="stylesheet" href="<?=base_url('assets/')?>timepicker/css/components/daterangepicker.css" type="text/css" /> -->
-
 
     <script src="<?=base_url('assets/js/custom/highcharts.js?v='.filemtime('./assets/js/custom/highcharts.js'))?>"></script>
     <script src="<?=base_url('assets/js/custom/series-label.js?v='.filemtime('./assets/js/custom/series-label.js'))?>"></script>
@@ -21,864 +18,837 @@
     <script src="<?=base_url('assets/js/custom/export-data.js?v='.filemtime('./assets/js/custom/export-data.js'))?>"></script>
     <script src="<?=base_url('assets/js/custom/accessibility.js?v='.filemtime('./assets/js/custom/accessibility.js'))?>"></script>
 
-
-
-
-
 </head>
 <body>
 
     <div class="main-container">
 		<div id="viewfulldata_vue" class="pd-ltr-20">
 
+            <!-- Set Point Zone -->
+            <div class="modal fade bs-example-modal-lg" id="setpoint_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
-        <!-- Set Point Zone -->
-        <div class="modal fade bs-example-modal-lg" id="setpoint_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <form id="frm_saveSpoint" autocomplete="off" style="width:100%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="spointTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveSetpoint" name="btn-saveSetpoint" @click="saveSpoint"><i class="fi-save mr-2"></i>บันทึก</button>
-                            <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>
-
-                    <input hidden type="text" name="checkTemplateCode" id="checkTemplateCode">
-                    <input hidden type="text" name="mdsp_m_code" id="mdsp_m_code">
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <label for=""><b>Item Sequence</b></label>
-                                <div id="showItemSequenceArray_mdv" class="mt-3"></div>
-                                <input type="text" name="itemSequence_mdv" id="itemSequence_mdv" class="form-control mt-3">
-                                <div id="showItemidList_mdv"></div>
+                    <form id="frm_saveSpoint" autocomplete="off" style="width:100%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="spointTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
                         </div>
-                        <div class="dropdown-divider"></div>
 
-                        <label for=""><b>Step Sequence</b></label>
-                        <div class="row mainStep">
-                            <div class="col-md-10">
-                                <input type="text" name="stepSequence_mdv" id="stepSequence_mdv" class="form-control" style="text-transform: uppercase;">
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveSetpoint" name="btn-saveSetpoint" @click="saveSpoint"><i class="fi-save mr-2"></i>บันทึก</button>
+                                <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
                             </div>
-                            <div class="col-md-2 div_iAddStepSequence">
-                                <span>
-                                    <i class="fa fa-save iAddStepSequence_mdv" aria-hidden="true"></i>
-                                </span>
+                            <div>
+
                             </div>
                         </div>
-                        <div id="stepSequenceDiv_mdv" class="row mt-1"></div>
+
+                        <input hidden type="text" name="checkTemplateCode" id="checkTemplateCode">
+                        <input hidden type="text" name="mdsp_m_code" id="mdsp_m_code">
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label for=""><b>Item Sequence</b></label>
+                                    <div id="showItemSequenceArray_mdv" class="mt-3"></div>
+                                    <input type="text" name="itemSequence_mdv" id="itemSequence_mdv" class="form-control mt-3">
+                                    <div id="showItemidList_mdv"></div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+
+                            <label for=""><b>Step Sequence</b></label>
+                            <div class="row mainStep">
+                                <div class="col-md-10">
+                                    <input type="text" name="stepSequence_mdv" id="stepSequence_mdv" class="form-control" style="text-transform: uppercase;">
+                                </div>
+                                <div class="col-md-2 div_iAddStepSequence">
+                                    <span>
+                                        <i class="fa fa-save iAddStepSequence_mdv" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="stepSequenceDiv_mdv" class="row mt-1"></div>
+                        </div>
+                    
                     </div>
-                
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
-        <!-- Set Point Zone -->
+            <!-- Set Point Zone -->
 
+            <!-- Set Point Zone -->
+            <div class="modal fade bs-example-modal-lg" id="setpointEdit_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
-        <!-- Set Point Zone -->
-        <div class="modal fade bs-example-modal-lg" id="setpointEdit_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <form id="frm_saveEditSpoint" autocomplete="off" style="width:100%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="spointEditTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveEditSetpoint" name="btn-saveEditSetpoint" @click="saveEditSpoint"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
-                            <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>
-
-                    <input hidden type="text" name="mdspe_m_code" id="mdspe_m_code">
-                    <input hidden type="text" name="mdspe_ref_code" id="mdspe_ref_code">
-                    <input hidden type="text" name="mdspe_ref_version" id="mdspe_ref_version">
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <label for=""><b>Item Sequence</b></label>
-                                <div id="showItemSequenceArray_mdve" class="mt-3"></div>
-                                <input type="text" name="itemSequence_mdve" id="itemSequence_mdve" class="form-control mt-3">
-                                <div id="showItemidList_mdve"></div>
+                    <form id="frm_saveEditSpoint" autocomplete="off" style="width:100%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="spointEditTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
                         </div>
-                        <div class="dropdown-divider"></div>
 
-                        <label for=""><b>Step Sequence</b></label>
-                        <div class="row mainStep">
-                            <div class="col-md-10">
-                                <input type="text" name="stepSequence_mdve" id="stepSequence_mdve" class="form-control" style="text-transform: uppercase;">
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveEditSetpoint" name="btn-saveEditSetpoint" @click="saveEditSpoint"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
+                                <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
                             </div>
-                            <div class="col-md-2 div_iAddStepSequence">
-                                <span>
-                                    <i class="fa fa-save iAddStepSequence_mdve" aria-hidden="true"></i>
-                                </span>
+                            <div>
+
                             </div>
                         </div>
-                        <div id="stepSequenceDiv_mdve" class="row mt-1"></div>
+
+                        <input hidden type="text" name="mdspe_m_code" id="mdspe_m_code">
+                        <input hidden type="text" name="mdspe_ref_code" id="mdspe_ref_code">
+                        <input hidden type="text" name="mdspe_ref_version" id="mdspe_ref_version">
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label for=""><b>Item Sequence</b></label>
+                                    <div id="showItemSequenceArray_mdve" class="mt-3"></div>
+                                    <input type="text" name="itemSequence_mdve" id="itemSequence_mdve" class="form-control mt-3">
+                                    <div id="showItemidList_mdve"></div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+
+                            <label for=""><b>Step Sequence</b></label>
+                            <div class="row mainStep">
+                                <div class="col-md-10">
+                                    <input type="text" name="stepSequence_mdve" id="stepSequence_mdve" class="form-control" style="text-transform: uppercase;">
+                                </div>
+                                <div class="col-md-2 div_iAddStepSequence">
+                                    <span>
+                                        <i class="fa fa-save iAddStepSequence_mdve" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="stepSequenceDiv_mdve" class="row mt-1"></div>
+                        </div>
+                    
                     </div>
-                
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
-        <!-- Set Point Zone -->
+            <!-- Set Point Zone -->
 
+            <!-- Set Point Zone -->
+            <div class="modal fade bs-example-modal-lg" id="setpointEdit2_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
-        <!-- Set Point Zone -->
-        <div class="modal fade bs-example-modal-lg" id="setpointEdit2_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <form id="frm_saveEditSpointReal" autocomplete="off" style="width:100%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="spointEditTitle2"></div>
-                        <div>
-                            <button type="button" class="close closeEditRef" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveEditSetpointReal" name="btn-saveEditSetpointReal" @click="saveEditSpointReal"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
-                            <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-
-                        </div>
-                    </div>
-
-                    <input type="text" name="mdspe_m_code2" id="mdspe_m_code2">
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <label for=""><b>Item Sequence</b></label>
-                                <div id="showItemSequenceArray_mdve2" class="mt-3"></div>
-                                <input type="text" name="itemSequence_mdve2" id="itemSequence_mdve2" class="form-control mt-3">
-                                <div id="showItemidList_mdve2"></div>
+                    <form id="frm_saveEditSpointReal" autocomplete="off" style="width:100%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="spointEditTitle2"></div>
+                            <div>
+                                <button type="button" class="close closeEditRef" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
                         </div>
-                        <div class="dropdown-divider"></div>
 
-                        <label for=""><b>Step Sequence</b></label>
-                        <div class="row mainStep">
-                            <div class="col-md-10">
-                                <input type="text" name="stepSequence_mdve2" id="stepSequence_mdve2" class="form-control" style="text-transform: uppercase;">
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveEditSetpointReal" name="btn-saveEditSetpointReal" @click="saveEditSpointReal"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
+                                <!-- <button type="button" class="btn btn-danger" id="btn-closeSetpoint"><i class="fi-x mr-2"></i>ปิด</button> -->
                             </div>
-                            <div class="col-md-2 div_iAddStepSequence">
-                                <span>
-                                    <i class="fa fa-save iAddStepSequence_mdve2" aria-hidden="true"></i>
-                                </span>
+                            <div>
+
                             </div>
                         </div>
-                        <div id="stepSequenceDiv_mdve2" class="row mt-1"></div>
+
+                        <input type="text" name="mdspe_m_code2" id="mdspe_m_code2">
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <label for=""><b>Item Sequence</b></label>
+                                    <div id="showItemSequenceArray_mdve2" class="mt-3"></div>
+                                    <input type="text" name="itemSequence_mdve2" id="itemSequence_mdve2" class="form-control mt-3">
+                                    <div id="showItemidList_mdve2"></div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+
+                            <label for=""><b>Step Sequence</b></label>
+                            <div class="row mainStep">
+                                <div class="col-md-10">
+                                    <input type="text" name="stepSequence_mdve2" id="stepSequence_mdve2" class="form-control" style="text-transform: uppercase;">
+                                </div>
+                                <div class="col-md-2 div_iAddStepSequence">
+                                    <span>
+                                        <i class="fa fa-save iAddStepSequence_mdve2" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="stepSequenceDiv_mdve2" class="row mt-1"></div>
+                        </div>
+                    
                     </div>
-                
+                    </form>
                 </div>
-                </form>
             </div>
-        </div>
-        <!-- Set Point Zone -->
+            <!-- Set Point Zone -->
 
+            <!-- runDetail_modal Zone -->
+            <div class="modal fade bs-example-modal-lg" id="runDetail_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
 
-        <!-- runDetail_modal Zone -->
-        <div class="modal fade bs-example-modal-lg" id="runDetail_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
-
-                <form @submit.prevent="saveRunDetail" id="frm_saveRunDetail" class="needs-validation" novalidate style="width:100%;" autocomplete="off">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="runDetailTitle"></div>
-                        <div>
-                            <button type="button" class="close close_runDetail_modal" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        <div>
-                            <button type="submit" class="btn btn-success" id="btn-saveRunDetail" name="btn-saveRunDetail"><i class="fi-save mr-2"></i>บันทึก</button>
-                            <!-- <button type="button" class="btn btn-danger close_runDetail_modal" data-dismiss="modal" id="btn-closeRunDetail"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-                            <span><b>สถานะ : </b><span id="showProcess">Waiting Run</span></span>
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <input hidden type="text" name="mdrd_m_code" id="mdrd_m_code">
-                        <input hidden type="text" name="mdrd_d_code" id="mdrd_d_code">
-                        <input hidden type="text" name="mdrd_sd_status" id="mdrd_sd_status">
-                        <input hidden type="text" name="mdrd_refcode" id="mdrd_refcode">
-                        <input hidden type="text" name="mdrd_worktime_view" id="mdrd_worktime_view">
-
-
-                        <!-- <div id="div_remarkview" class="for form-group" style="display:none;">
-                            <label for=""><b>Remark.</b></label>
-                            <textarea name="templateremark_view" id="templateremark_view" cols="30" rows="10" class="form-control" readonly></textarea>
-                        </div> -->
-
-                        <div id="div_choice_method" class="row" style="display:none;">
-                            <div class="col-lg-12 form-inline">
-                                <div class="custom-control custom-radio mb-5 mr-3">
-                                    <input type="radio" id="choice_mix" name="choice_method" value="mix" class="custom-control-input" required> 
-                                    <label for="choice_mix" class="custom-control-label">มิกซ์</label>
-                                </div> 
-                                <!-- <div class="custom-control custom-radio mb-5">
-                                    <input type="radio" id="choice_remix" name="choice_method" value="remix" class="custom-control-input" required> 
-                                    <label for="choice_remix" class="custom-control-label">รีมิกซ์</label>
-                                </div> -->
+                    <form @submit.prevent="saveRunDetail" id="frm_saveRunDetail" class="needs-validation" novalidate style="width:100%;" autocomplete="off">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="runDetailTitle"></div>
+                            <div>
+                                <button type="button" class="close close_runDetail_modal" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
                         </div>
 
-                    <section id="addRun_section" style="display:none;">
-
-                        <div id="div_batchlist_remix" class="row" style="display:none;">
-                            <div class="col-md-12 form-group">
-                                <label for=""><b>กรุณาเลือก Bacth ที่ต้องการ Remix</b></label>
-                                <div id="showListBatch_remix"></div>
+                        <div class="modal-header">
+                            <div>
+                                <button type="submit" class="btn btn-success" id="btn-saveRunDetail" name="btn-saveRunDetail"><i class="fi-save mr-2"></i>บันทึก</button>
+                                <!-- <button type="button" class="btn btn-danger close_runDetail_modal" data-dismiss="modal" id="btn-closeRunDetail"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div>
+                                <span><b>สถานะ : </b><span id="showProcess">Waiting Run</span></span>
                             </div>
                         </div>
 
-                        <div id="div_batchlist_remix_count" class="row" style="display:none;">
-                            <div class="col-md-12 form-group">
-                                <label for=""><b>กรุณาเลือกจำนวนครั้งของการ Remix</b></label>
-                                <div id="showListBatch_remix_count"></div>
+                        <div class="modal-body">
+                            <input hidden type="text" name="mdrd_m_code" id="mdrd_m_code">
+                            <input hidden type="text" name="mdrd_d_code" id="mdrd_d_code">
+                            <input hidden type="text" name="mdrd_sd_status" id="mdrd_sd_status">
+                            <input hidden type="text" name="mdrd_refcode" id="mdrd_refcode">
+                            <input hidden type="text" name="mdrd_worktime_view" id="mdrd_worktime_view">
+
+
+                            <!-- <div id="div_remarkview" class="for form-group" style="display:none;">
+                                <label for=""><b>Remark.</b></label>
+                                <textarea name="templateremark_view" id="templateremark_view" cols="30" rows="10" class="form-control" readonly></textarea>
+                            </div> -->
+
+                            <div id="div_choice_method" class="row" style="display:none;">
+                                <div class="col-lg-12 form-inline">
+                                    <div class="custom-control custom-radio mb-5 mr-3">
+                                        <input type="radio" id="choice_mix" name="choice_method" value="mix" class="custom-control-input" required> 
+                                        <label for="choice_mix" class="custom-control-label">มิกซ์</label>
+                                    </div> 
+                                    <!-- <div class="custom-control custom-radio mb-5">
+                                        <input type="radio" id="choice_remix" name="choice_method" value="remix" class="custom-control-input" required> 
+                                        <label for="choice_remix" class="custom-control-label">รีมิกซ์</label>
+                                    </div> -->
+                                </div>
                             </div>
-                        </div>
 
-                        <div id="show_template" style="display:none;"></div>
-                        <div id="show_actual" style="display:none;"></div>
-                        <div id="show_realActual" style="display:none;"></div>
+                        <section id="addRun_section" style="display:none;">
+
+                            <div id="div_batchlist_remix" class="row" style="display:none;">
+                                <div class="col-md-12 form-group">
+                                    <label for=""><b>กรุณาเลือก Bacth ที่ต้องการ Remix</b></label>
+                                    <div id="showListBatch_remix"></div>
+                                </div>
+                            </div>
+
+                            <div id="div_batchlist_remix_count" class="row" style="display:none;">
+                                <div class="col-md-12 form-group">
+                                    <label for=""><b>กรุณาเลือกจำนวนครั้งของการ Remix</b></label>
+                                    <div id="showListBatch_remix_count"></div>
+                                </div>
+                            </div>
+
+                            <div id="show_template" style="display:none;"></div>
+                            <div id="show_actual" style="display:none;"></div>
+                            <div id="show_realActual" style="display:none;"></div>
 
 
-                        <section id="itemCheckList_section">
-                            <div id="showItemCheckList"></div>
-                        </section>
+                            <section id="itemCheckList_section">
+                                <div id="showItemCheckList"></div>
+                            </section>
 
 
-                        <div class="row mt-3 form-group">
-                            <div class="col-md-6">
-                                <label id="textTime" for=""><b>กรุณาเลือกเวลาเดินงาน</b></label>
+                            <div class="row mt-3 form-group">
+                                <div class="col-md-6">
+                                    <label id="textTime" for=""><b>กรุณาเลือกเวลาเดินงาน</b></label>
 
-                                <!-- <div class="">
-                                    <div class="input-group text-left" data-target-input="nearest" data-target=".datetimepicker1">
-                                        <input type="text" id="mdrd_chooseTime" name="mdrd_chooseTime" class="form-control datetimepicker-input datetimepicker1" data-target=".datetimepicker1" placeholder="กรุณาเลือกเวลา" required/>
-                                        <div class="input-group-append" data-target=".datetimepicker1" data-toggle="datetimepicker">
-                                            <div class="input-group-text bgClock"><i class="icon-clock"></i></div>
+                                    <!-- <div class="">
+                                        <div class="input-group text-left" data-target-input="nearest" data-target=".datetimepicker1">
+                                            <input type="text" id="mdrd_chooseTime" name="mdrd_chooseTime" class="form-control datetimepicker-input datetimepicker1" data-target=".datetimepicker1" placeholder="กรุณาเลือกเวลา" required/>
+                                            <div class="input-group-append" data-target=".datetimepicker1" data-toggle="datetimepicker">
+                                                <div class="input-group-text bgClock"><i class="icon-clock"></i></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div> -->
-                                <input type="text" name="mdrd_chooseTime" id="mdrd_chooseTime" class="form-control" placeholder="กรุณาเลือกเวลา">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for=""><b>Batch</b></label>
-                                <input type="text" name="batchCount" id="batchCount" class="form-control" readonly>
-                            </div>
-                        </div>
-
-
-                        <div class="row form-group imageZone" style="display:none;">
-
-                            <div class="col-lg-12 bottommargin">
-                                <label>อัพโหลดรูปภาพ , เอกสารที่เกี่ยวข้อง</label><br>
-                                <input id="mdrd_f_start" name="mdrd_f_start[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
-                            </div>
-
-                        </div>
-
-                        <div style="margin-bottom:50px;"></div>
-
-                        <div class="row form-group">
-                            <div class="col-md-12 form-group">
-                                <label for="">หมายเหตุ</label>
-                                <textarea name="mdrd_d_run_memo" id="mdrd_d_run_memo" cols="10" rows="5" class="form-control"></textarea>
-                            </div>
-                        </div>
-
-                    </section>
-                        
-                    </div>
-                
-                </div>
-                </form>
-                
-            </div>
-        </div>
-        <!-- runDetail_modal Zone -->
-
-
-        <!-- Image View Modal -->
-        <div class="modal fade bs-example-modal-lg" id="runDetailImage_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="runDetailImageTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <div id="showImageRunDetail"></div>
-                  
-                    </div>
-                </div>
-    
-                
-            </div>
-        </div>
-        <!-- Image View Modal -->
-
-
-
-        <!-- Run Memo View -->
-        <div class="modal fade bs-example-modal-lg" id="runDetailMemo_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="runDetailMemoTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div id="showMemoRunDetail"></div>
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-        <!-- Run Memo View -->
-
-
-
-        <!-- Stop Memo -->
-        <div class="modal fade bs-example-modal-lg" id="mainMemo_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="mainMemoTitle"></div>
-                        <div>
-                            <button type="button" class="close close_mainMemo_modal" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveMainMemo" name="btn-saveMainMemo" @click="saveMemoStop"><i class="fi-save mr-2"></i>บันทึก</button>
-                            <!-- <button type="button" class="btn btn-danger close_mainMemo_modal" data-dismiss="modal" id="btn-closeMainMemo"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div></div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label for="">หมายเหตุ</label>
-                                <textarea name="m_memo_v" id="m_memo_v" cols="30" rows="10" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-        <!-- Stop Memo -->
-
-
-
-        <!-- Stop Memo -->
-        <div class="modal fade bs-example-modal-lg" id="cancelMemo_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="cancelMemoTitle"></div>
-                        <div>
-                            <button type="button" class="close close_cancelMemo_modal" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveMainMemo" name="btn-saveMainMemo" @click="saveMemoCancel"><i class="fi-save mr-2"></i>บันทึก</button>
-                            <button type="button" class="btn btn-danger close_cancelMemo_modal" data-dismiss="modal" id="btn-closeMainMemo"><i class="fi-x mr-2"></i>ปิด</button>
-                        </div>
-                        <div></div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label for="">หมายเหตุ</label>
-                                <textarea name="m_memo_v2" id="m_memo_v2" cols="30" rows="10" class="form-control"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-        <!-- Stop Memo -->
-
-
-
-        <!-- Edit Run Data Modal -->
-        <div class="modal fade bs-example-modal-lg" id="editRunDetail_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-                <form id="frm_saveRunDetailEdit" autocomplete="off" style="width:100%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="runDetailEditTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        </div>
-                    </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveRunDetail_edit" name="btn-saveRunDetail_edit" @click="saveRunDetailEdit"><i class="fi-save mr-2"></i>บันทึก การแก้ไข</button>
-                            <button type="button" class="btn btn-danger" id="btn-deleteRunDetail" @click="deleteRunDetail"><i class="fa fa-trash mr-2" aria-hidden="true"></i>ลบรายการ</button>
-                            <!-- <button type="button" class="btn btn-warning" id="btn-closeRunDetail" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-                            <span id="mdEditShowStatus"></span>
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <input hidden type="text" name="mdrde_m_code" id="mdrde_m_code">
-
-                        <div id="showRunGroupList"></div>
-                        <div class="dropdown-divider"></div>   
-           
-                        <section id="editRunDetail_section" style="display:none;">
-
-                            <div id="mdrd_div_batchlist_remix" class="row" style="display:none;">
-                                <div class="col-md-12 form-group">
-                                    <label for=""><b>แก้ไข Bacth ที่ต้องการ Remix</b></label>
-                                    <div id="showListBatch_edit_remix"></div>
+                                    </div> -->
+                                    <input type="text" name="mdrd_chooseTime" id="mdrd_chooseTime" class="form-control" placeholder="กรุณาเลือกเวลา">
                                 </div>
-                                
-                            </div>
 
-                            <input hidden type="text" name="d_batchcount_edit" id="d_batchcount_edit">
-
-                            <div id="mdrd_div_batchlist_remix_count" class="row" style="display:none;">
-                                <div class="col-md-12 form-group">
-                                    <label for=""><b>แก้ไขจำนวนครั้งของการ Remix</b></label>
-                                    <div id="showListBatch_edit_remix_count"></div>
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col-lg-12">
-                                    <label for=""><b>แก้ไขเวลาเดินงาน (Start)</b></label>
-                                    <input type="text" name="mdrd_chooseTime_edit" id="mdrd_chooseTime_edit" class="form-control" placeholder="แก้ไขเวลาเดินงาน">
-                                </div>
-                            </div>
-
-                            <div class="row form-group">
-                                <div class="col-lg-12">
-                                    <label for=""><b>แก้ไขเวลาจบงาน (Finish)</b></label>
-                                    <input type="text" name="mdrd_chooseTimeFinish_edit" id="mdrd_chooseTimeFinish_edit" class="form-control" placeholder="แก้ไขเวลาเดินงาน">
+                                <div class="col-md-6">
+                                    <label for=""><b>Batch</b></label>
+                                    <input type="text" name="batchCount" id="batchCount" class="form-control" readonly>
                                 </div>
                             </div>
 
 
-                            <div id="showItemCheckList_edit"></div>
+                            <div class="row form-group imageZone" style="display:none;">
 
-                            <div id="startimage_editview"></div>
-
-                            <div id="startImage_section" class="row form-group imageZone">
                                 <div class="col-lg-12 bottommargin">
-                                    <label>แก้ไขรูปภาพ เริ่มงาน</label><br>
-                                    <input id="start_image_edit" name="start_image_edit[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
+                                    <label>อัพโหลดรูปภาพ , เอกสารที่เกี่ยวข้อง</label><br>
+                                    <input id="mdrd_f_start" name="mdrd_f_start[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
                                 </div>
+
                             </div>
-                            <div style="margin-bottom:10px;"></div>
 
-
-
-                            <div id="finishimage_editview"></div>
-
-                            <div id="finishImage_section" class="row form-group imageZone" style="display:none;">
-                                <div class="col-lg-12 bottommargin">
-                                    <label>แก้ไขรูปภาพ หลังเสร็จงาน</label><br>
-                                    <input id="finish_image_edit" name="finish_image_edit[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
-                                </div>
-                            </div>
                             <div style="margin-bottom:50px;"></div>
 
-                            <div id="memo_section"></div>
-
+                            <div class="row form-group">
+                                <div class="col-md-12 form-group">
+                                    <label for="">หมายเหตุ</label>
+                                    <textarea name="mdrd_d_run_memo" id="mdrd_d_run_memo" cols="10" rows="5" class="form-control"></textarea>
+                                </div>
+                            </div>
 
                         </section>
-
-                        
+                            
+                        </div>
+                    
                     </div>
+                    </form>
+                    
                 </div>
-                </form>
             </div>
-        </div>
-        <!-- Edit Run Data Modal -->
+            <!-- runDetail_modal Zone -->
 
+            <!-- Image View Modal -->
+            <div class="modal fade bs-example-modal-lg" id="runDetailImage_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="runDetailImageTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
 
-        <!-- Edit Head Modal -->
-        <div class="modal fade bs-example-modal-lg" id="editHead_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-body">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id=""><b>แก้ไขข้อมูลหลัก : </b><span id="ehTitle"></span></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <div id="showImageRunDetail"></div>
+                    
                         </div>
                     </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="button" class="btn btn-success" id="btn-saveHead_edit" name="btn-saveHead_edit" @click="saveEditHead"><i class="fi-save mr-2"></i>บันทึก การแก้ไข</button>
-                            <!-- <button type="button" class="btn btn-warning" id="btn-closeHead" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-                            <input hidden type="text" name="ehmd_mcode" id="ehmd_mcode">
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Order (kg.)</b></label>
-                                <input type="text" name="ehmd_order" id="ehmd_order" class="form-control">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Batch Size</b></label>
-                                <input type="text" name="ehmd_batchsize" id="ehmd_batchsize" class="form-control">
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Work Type</b></label>
-                                <!-- <input type="text" name="ehmd_worktype" id="ehmd_worktype" class="form-control"> -->
-                                <select name="ehmd_worktype" id="ehmd_worktype" class="form-control">
-                                    <option value="">กรุณาเลือกประเภทงาน</option>
-                                    <option value="Normal">Normal</option>
-                                    <option value="Remix">Remix</option>
-                                    <option value="Adjust">Adjust</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Work Type No. </b></label>
-                                <div id="showWorkTypeNoList_edit"></div>
-                            </div>
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Run</b></label>
-                                <select name="ehmd_run" id="ehmd_run" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                    <option value="11">11</option>
-                                    <option value="12">12</option>
-                                    <option value="13">13</option>
-                                    <option value="14">14</option>
-                                    <option value="15">15</option>
-                                </select>
-                            </div>
-
-                            <div class="col-lg-6 form-group">
-                                <label for=""><b>Machine Name</b></label>
-                                <select name="ehmd_m_machine" id="ehmd_m_machine" class="form-control"></select>
-                            </div>
-                        </div>
-                    </div>
+        
+                    
                 </div>
- 
             </div>
-        </div>
-        <!-- Edit Head Modal -->
+            <!-- Image View Modal -->
 
+            <!-- Run Memo View -->
+            <div class="modal fade bs-example-modal-lg" id="runDetailMemo_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="runDetailMemoTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
 
-        <!-- Machine Check Modal -->
-        <div class="modal fade bs-example-modal-lg" id="machineCheck_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-
-            <form id="frm_saveMachineCheck" autocomplete="off" style="width:100%;" @submit.prevent="saveMachineCheck">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="mcmdTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div class="modal-body">
+                            <div id="showMemoRunDetail"></div>
                         </div>
                     </div>
-
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="submit" class="btn btn-success" id="btn-saveMachineCheck" name="btn-saveMachineCheck" @click=""><i class="fi-save mr-2"></i>บันทึก</button>
-                            <!-- <button type="button" class="btn btn-warning" id="btn-closeMachineCheck" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
-                        </div>
-                        <div>
-                            <input hidden type="text" name="mcmd_mcode" id="mcmd_mcode">
-                        </div>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for=""><b>Machine Name</b></label>
-                                <input type="text" name="mck_machinename" id="mck_machinename" class="form-control" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label for=""><b>วันที่</b></label>
-                                <input type="text" name="mck_datetime" id="mck_datetime" class="form-control" readonly>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            <div class="col-md-6">
-                                <label for=""><b>Item Number</b></label>
-                                <input type="text" name="mck_itemnumber" id="mck_itemnumber" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <label for=""><b>Batch Number</b></label>
-                                <input type="text" name="mck_batchnumber" id="mck_batchnumber" class="form-control">
-                            </div>
-                        </div>
-                        <hr>
-                        <div id="showMachineCheckList_md"></div>
-                    </div>
+        
                 </div>
-            </form>
             </div>
-        </div>
-        <!-- Machine Check Modal -->
+            <!-- Run Memo View -->
 
+            <!-- Stop Memo -->
+            <div class="modal fade bs-example-modal-lg" id="mainMemo_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="mainMemoTitle"></div>
+                            <div>
+                                <button type="button" class="close close_mainMemo_modal" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
 
-        <!-- Machine Check Modal -->
-        <div class="modal fade bs-example-modal-lg" id="machineCheckEdit_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-header">
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveMainMemo" name="btn-saveMainMemo" @click="saveMemoStop"><i class="fi-save mr-2"></i>บันทึก</button>
+                                <!-- <button type="button" class="btn btn-danger close_mainMemo_modal" data-dismiss="modal" id="btn-closeMainMemo"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div></div>
+                        </div>
 
-            <form id="frm_saveMachineCheckEdit" autocomplete="off" style="width:100%;" @submit.prevent="saveEditMachineCheck">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="mcmdTitleEdit"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <label for="">หมายเหตุ</label>
+                                    <textarea name="m_memo_v" id="m_memo_v" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
+        
+                </div>
+            </div>
+            <!-- Stop Memo -->
 
-                    <div class="modal-header">
-                        
-                        <div>
-                            <button type="submit" class="btn btn-success" id="btn-saveMachineCheckEdit" name="btn-saveMachineCheckEdit"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
-                            <button type="button" class="btn btn-danger" id="btn-delMachineCheckEdit" @click="deleteMachineCheck"><i aria-hidden="true" class="fa fa-trash mr-2"></i>ลบ</button>
-                            <!-- <button type="button" class="btn btn-warning" id="btn-closeMachineCheckEdit" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
+            <!-- Stop Memo -->
+            <div class="modal fade bs-example-modal-lg" id="cancelMemo_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="cancelMemoTitle"></div>
+                            <div>
+                                <button type="button" class="close close_cancelMemo_modal" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
                         </div>
-                        <div>
-                            <input hidden type="text" name="mcmd_mcodeEdit" id="mcmd_mcodeEdit">
+
+                        <div class="modal-header">
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveMainMemo" name="btn-saveMainMemo" @click="saveMemoCancel"><i class="fi-save mr-2"></i>บันทึก</button>
+                                <button type="button" class="btn btn-danger close_cancelMemo_modal" data-dismiss="modal" id="btn-closeMainMemo"><i class="fi-x mr-2"></i>ปิด</button>
+                            </div>
+                            <div></div>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <label for="">หมายเหตุ</label>
+                                    <textarea name="m_memo_v2" id="m_memo_v2" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
+        
+                </div>
+            </div>
+            <!-- Stop Memo -->
 
-                    <div class="modal-body">
+            <!-- Edit Run Data Modal -->
+            <div class="modal fade bs-example-modal-lg" id="editRunDetail_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
 
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label for="">เลือกข้อมูลที่ต้องการแก้ไข</label>
-                                <div id="showCheckListGroupEdit"></div>
-                            </div> 
+                    <form id="frm_saveRunDetailEdit" autocomplete="off" style="width:100%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="runDetailEditTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
                         </div>
-                        <hr>
+
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveRunDetail_edit" name="btn-saveRunDetail_edit" @click="saveRunDetailEdit"><i class="fi-save mr-2"></i>บันทึก การแก้ไข</button>
+                                <button type="button" class="btn btn-danger" id="btn-deleteRunDetail" @click="deleteRunDetail"><i class="fa fa-trash mr-2" aria-hidden="true"></i>ลบรายการ</button>
+                                <!-- <button type="button" class="btn btn-warning" id="btn-closeRunDetail" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div>
+                                <span id="mdEditShowStatus"></span>
+                            </div>
+                        </div>
+
+                        <div class="modal-body">
+                            <input hidden type="text" name="mdrde_m_code" id="mdrde_m_code">
+
+                            <div id="showRunGroupList"></div>
+                            <div class="dropdown-divider"></div>   
+            
+                            <section id="editRunDetail_section" style="display:none;">
+
+                                <div id="mdrd_div_batchlist_remix" class="row" style="display:none;">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><b>แก้ไข Bacth ที่ต้องการ Remix</b></label>
+                                        <div id="showListBatch_edit_remix"></div>
+                                    </div>
+                                    
+                                </div>
+
+                                <input hidden type="text" name="d_batchcount_edit" id="d_batchcount_edit">
+
+                                <div id="mdrd_div_batchlist_remix_count" class="row" style="display:none;">
+                                    <div class="col-md-12 form-group">
+                                        <label for=""><b>แก้ไขจำนวนครั้งของการ Remix</b></label>
+                                        <div id="showListBatch_edit_remix_count"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-12">
+                                        <label for=""><b>แก้ไขเวลาเดินงาน (Start)</b></label>
+                                        <input type="text" name="mdrd_chooseTime_edit" id="mdrd_chooseTime_edit" class="form-control" placeholder="แก้ไขเวลาเดินงาน">
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-lg-12">
+                                        <label for=""><b>แก้ไขเวลาจบงาน (Finish)</b></label>
+                                        <input type="text" name="mdrd_chooseTimeFinish_edit" id="mdrd_chooseTimeFinish_edit" class="form-control" placeholder="แก้ไขเวลาเดินงาน">
+                                    </div>
+                                </div>
 
 
-                        <div id="sectionEditData" style="display:none;">
+                                <div id="showItemCheckList_edit"></div>
+
+                                <div id="startimage_editview"></div>
+
+                                <div id="startImage_section" class="row form-group imageZone">
+                                    <div class="col-lg-12 bottommargin">
+                                        <label>แก้ไขรูปภาพ เริ่มงาน</label><br>
+                                        <input id="start_image_edit" name="start_image_edit[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom:10px;"></div>
+
+
+
+                                <div id="finishimage_editview"></div>
+
+                                <div id="finishImage_section" class="row form-group imageZone" style="display:none;">
+                                    <div class="col-lg-12 bottommargin">
+                                        <label>แก้ไขรูปภาพ หลังเสร็จงาน</label><br>
+                                        <input id="finish_image_edit" name="finish_image_edit[]" type="file" class="file" multiple data-show-upload="false" data-show-caption="true" data-show-preview="true" accept="image/*" required>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom:50px;"></div>
+
+                                <div id="memo_section"></div>
+
+
+                            </section>
+
+                            
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Edit Run Data Modal -->
+
+            <!-- Edit Head Modal -->
+            <div class="modal fade bs-example-modal-lg" id="editHead_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id=""><b>แก้ไขข้อมูลหลัก : </b><span id="ehTitle"></span></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="button" class="btn btn-success" id="btn-saveHead_edit" name="btn-saveHead_edit" @click="saveEditHead"><i class="fi-save mr-2"></i>บันทึก การแก้ไข</button>
+                                <!-- <button type="button" class="btn btn-warning" id="btn-closeHead" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div>
+                                <input hidden type="text" name="ehmd_mcode" id="ehmd_mcode">
+                            </div>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Order (kg.)</b></label>
+                                    <input type="text" name="ehmd_order" id="ehmd_order" class="form-control">
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Batch Size</b></label>
+                                    <input type="text" name="ehmd_batchsize" id="ehmd_batchsize" class="form-control">
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Work Type</b></label>
+                                    <!-- <input type="text" name="ehmd_worktype" id="ehmd_worktype" class="form-control"> -->
+                                    <select name="ehmd_worktype" id="ehmd_worktype" class="form-control">
+                                        <option value="">กรุณาเลือกประเภทงาน</option>
+                                        <option value="Normal">Normal</option>
+                                        <option value="Remix">Remix</option>
+                                        <option value="Adjust">Adjust</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Work Type No. </b></label>
+                                    <div id="showWorkTypeNoList_edit"></div>
+                                </div>
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Run</b></label>
+                                    <select name="ehmd_run" id="ehmd_run" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label for=""><b>Machine Name</b></label>
+                                    <select name="ehmd_m_machine" id="ehmd_m_machine" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+            <!-- Edit Head Modal -->
+
+            <!-- Machine Check Modal -->
+            <div class="modal fade bs-example-modal-lg" id="machineCheck_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                <form id="frm_saveMachineCheck" autocomplete="off" style="width:100%;" @submit.prevent="saveMachineCheck">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="mcmdTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="submit" class="btn btn-success" id="btn-saveMachineCheck" name="btn-saveMachineCheck" @click=""><i class="fi-save mr-2"></i>บันทึก</button>
+                                <!-- <button type="button" class="btn btn-warning" id="btn-closeMachineCheck" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div>
+                                <input hidden type="text" name="mcmd_mcode" id="mcmd_mcode">
+                            </div>
+                        </div>
+
+                        <div class="modal-body">
                             <div class="row form-group">
                                 <div class="col-md-6">
                                     <label for=""><b>Machine Name</b></label>
-                                    <input type="text" name="mck_machinenameEdit" id="mck_machinenameEdit" class="form-control" readonly>
+                                    <input type="text" name="mck_machinename" id="mck_machinename" class="form-control" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for=""><b>วันที่</b></label>
-                                    <input type="text" name="mck_datetimeEdit" id="mck_datetimeEdit" class="form-control" readonly>
+                                    <input type="text" name="mck_datetime" id="mck_datetime" class="form-control" readonly>
                                 </div>
                             </div>
 
                             <div class="row form-group">
                                 <div class="col-md-6">
                                     <label for=""><b>Item Number</b></label>
-                                    <input type="text" name="mck_itemnumberEdit" id="mck_itemnumberEdit" class="form-control" readonly>
+                                    <input type="text" name="mck_itemnumber" id="mck_itemnumber" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label for=""><b>Batch Number</b></label>
-                                    <input type="text" name="mck_batchnumberEdit" id="mck_batchnumberEdit" class="form-control" readonly>
+                                    <input type="text" name="mck_batchnumber" id="mck_batchnumber" class="form-control">
                                 </div>
                             </div>
                             <hr>
-                            <div id="showMachineCheckListEdit_md"></div>
+                            <div id="showMachineCheckList_md"></div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <!-- Machine Check Modal -->
+
+            <!-- Machine Check Modal -->
+            <div class="modal fade bs-example-modal-lg" id="machineCheckEdit_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                <form id="frm_saveMachineCheckEdit" autocomplete="off" style="width:100%;" @submit.prevent="saveEditMachineCheck">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="mcmdTitleEdit"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-header">
+                            
+                            <div>
+                                <button type="submit" class="btn btn-success" id="btn-saveMachineCheckEdit" name="btn-saveMachineCheckEdit"><i class="fi-save mr-2"></i>บันทึกการแก้ไข</button>
+                                <button type="button" class="btn btn-danger" id="btn-delMachineCheckEdit" @click="deleteMachineCheck"><i aria-hidden="true" class="fa fa-trash mr-2"></i>ลบ</button>
+                                <!-- <button type="button" class="btn btn-warning" id="btn-closeMachineCheckEdit" data-dismiss="modal"><i class="fi-x mr-2"></i>ปิด</button> -->
+                            </div>
+                            <div>
+                                <input hidden type="text" name="mcmd_mcodeEdit" id="mcmd_mcodeEdit">
+                            </div>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <label for="">เลือกข้อมูลที่ต้องการแก้ไข</label>
+                                    <div id="showCheckListGroupEdit"></div>
+                                </div> 
+                            </div>
+                            <hr>
+
+
+                            <div id="sectionEditData" style="display:none;">
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for=""><b>Machine Name</b></label>
+                                        <input type="text" name="mck_machinenameEdit" id="mck_machinenameEdit" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for=""><b>วันที่</b></label>
+                                        <input type="text" name="mck_datetimeEdit" id="mck_datetimeEdit" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        <label for=""><b>Item Number</b></label>
+                                        <input type="text" name="mck_itemnumberEdit" id="mck_itemnumberEdit" class="form-control" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for=""><b>Batch Number</b></label>
+                                        <input type="text" name="mck_batchnumberEdit" id="mck_batchnumberEdit" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div id="showMachineCheckListEdit_md"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <!-- Machine Check Modal -->
+
+            <!-- Show Ref use Modal -->
+            <div class="modal fade bs-example-modal-lg" id="showRefUse_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="showRefTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
                         </div>
 
 
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-        <!-- Machine Check Modal -->
+                        <div class="modal-body">
 
+                            <!-- Show Ref Data -->
+                            <div id="refDataUse"></div>
 
-
-
-        <!-- Show Ref use Modal -->
-        <div class="modal fade bs-example-modal-lg" id="showRefUse_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="showRefTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
                     </div>
-
-
-                    <div class="modal-body">
-
-                        <!-- Show Ref Data -->
-                        <div id="refDataUse"></div>
-
-                    </div>
+    
                 </div>
-  
             </div>
-        </div>
-        <!-- Show Ref use Modal -->
+            <!-- Show Ref use Modal -->
+
+            <!-- Show item check Modal -->
+            <div class="modal fade bs-example-modal-lg" id="itemcheck_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="showItemCheckTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
 
 
-        <!-- Show item check Modal -->
-        <div class="modal fade bs-example-modal-lg" id="itemcheck_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable modalRunSize">
+                        <div class="modal-body">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="showItemCheckTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <!-- Show Ref Data -->
+                            <div id="itemCheckShow_view"></div>
+
                         </div>
                     </div>
-
-
-                    <div class="modal-body">
-
-                        <!-- Show Ref Data -->
-                        <div id="itemCheckShow_view"></div>
-
-                    </div>
+    
                 </div>
-  
             </div>
-        </div>
-        <!-- Show Ref use Modal -->
+            <!-- Show Ref use Modal -->
+
+            <!-- Show memo Modal -->
+            <div class="modal fade bs-example-modal-lg" id="viewmemo_modal" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div id="showMemoTitle"></div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            </div>
+                        </div>
 
 
-        <!-- Show memo Modal -->
-        <div class="modal fade bs-example-modal-lg" id="viewmemo_modal" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-body">
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div id="showMemoTitle"></div>
-                        <div>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <!-- Show Ref Data -->
+                            <div id="showViewMemo"></div>
+
                         </div>
                     </div>
-
-
-                    <div class="modal-body">
-
-                        <!-- Show Ref Data -->
-                        <div id="showViewMemo"></div>
-
-                    </div>
+    
                 </div>
-  
             </div>
-        </div>
-        <!-- Show memo Modal -->
+            <!-- Show memo Modal -->
 
-		
-			<div class="row">
-				<div class="col-xl-12 mb-30">
-					<div class="card-box height-100-p pd-20">
-						<h3 style="text-align:center;">หน้าแสดงรายละเอียด</h3>
+            
+            <div class="row">
+                <div class="col-xl-12 mb-30">
+                    <div class="card-box height-100-p pd-20">
+                        <h3 style="text-align:center;">หน้าแสดงรายละเอียด</h3>
 
                         <h5 style="text-align:center;margin-top:10px;">เอกสารเลขที่ : <?=$mainformno?></h5>
 
                         <input hidden type="text" name="getMaincode" id="getMaincode" value="<?=getMaincode($mainformno)?>">
                         <input hidden type="text" name="getFormStatus" id="getFormStatus" value="<?=getviewfulldata(getMaincode($mainformno))->m_status?>">
                         <input hidden type="text" name="getCheckMachine" id="getCheckMachine" value="<?=getCheckMachine(getMaincode($mainformno));?>">
+                        <input hidden type="text" name="getMaindept" id="getMaindept" value="<?=getviewfulldata(getMaincode($mainformno))->m_deptcode?>">
 
                         <!-- Head zone -->
-						<div class="row headzone mt-3">
+                        <div class="row headzone mt-3">
 
                         <!-- Edit Button -->
                         <a href="javascript:void(0)" class="editHeadDataA"
@@ -895,6 +865,20 @@
                         >
                             <i class="fa fa-edit mr-2 editHeadData" aria-hidden="true"></i>
                         </a>
+
+                        <!-- check PD or LAB -->
+                        <?php 
+                            $pdDept = "";
+                            $labDept = "";
+
+                            if(getviewfulldata(getMaincode($mainformno))->m_job_number == ""){
+                                $labDept = 'style="display:none;"';
+                            }else if(getviewfulldata(getMaincode($mainformno))->m_product_number == ""){
+                                $pdDept = 'style="display:none;"';
+                            }
+                        
+                        ?>
+
                         <!-- Edit Button -->
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Company</b></label>
@@ -908,9 +892,13 @@
                                 <label for=""><b>Machine Name</b></label>
                                 <input type="text" name="m_machine_v" id="m_machine_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_machine?>">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-4 form-group" <?=$pdDept?>>
                                 <label for=""><b>Production Number</b></label>
                                 <input type="text" name="m_product_number_v" id="m_product_number_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_product_number?>">
+                            </div>
+                            <div class="col-md-4 form-group" <?=$labDept?>>
+                                <label for=""><b>Job Number</b></label>
+                                <input type="text" name="m_job_number_v" id="m_job_number_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_job_number?>">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Item Number</b></label>
@@ -924,15 +912,15 @@
                                 <label for=""><b>Order (kg.)</b></label>
                                 <input type="text" name="m_order_v" id="m_order_v" class="form-control" readonly value="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_order , 3)?>">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-4 form-group" <?=$pdDept?>>
                                 <label for=""><b>Type of bag</b></label>
                                 <input type="text" name="m_batchsize_v" id="m_batchsize_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_typeofbag?>">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-4 form-group" <?=$pdDept?>>
                                 <label for=""><b>Bag Text</b></label>
                                 <input type="text" name="m_batchsize_v" id="m_batchsize_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_typeofbagtxt?>">
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-4 form-group" <?=$pdDept?>>
                                 <label for=""><b>Batch Size</b></label>
                                 <input type="text" name="m_batchsize_v" id="m_batchsize_v" class="form-control" readonly value="<?=number_format(getviewfulldata(getMaincode($mainformno))->m_batchsize , 3)?>">
                             </div>
@@ -961,29 +949,29 @@
 
                         
 
-							
-							<div class="tab mt-5">
-								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item">
-										<a id="tabpage1" class="nav-link text-gray" data-toggle="tab" href="#page1" role="tab" aria-selected="true"><b>รายละเอียดเครื่องจักร</b></a>
-									</li>
+                            
+                            <div class="tab mt-5">
+                                <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-										<a id="tabpage2" class="nav-link text-gray" data-toggle="tab" href="#page2" role="tab" aria-selected="true"><b>ตรวจสอบเครื่องจักร</b></a>
-									</li>
-									<li class="nav-item">
-										<a id="tabpage3" class="nav-link text-gray" data-toggle="tab" href="#page3" role="tab" aria-selected="false"><b>Qc Sampling</b></a>
-									</li>
+                                        <a id="tabpage1" class="nav-link text-gray" data-toggle="tab" href="#page1" role="tab" aria-selected="true"><b>รายละเอียดเครื่องจักร</b></a>
+                                    </li>
                                     <li class="nav-item">
-										<a id="tabpage4" class="nav-link text-gray" data-toggle="tab" href="#page4" role="tab" aria-selected="false"><b>Job Card</b></a>
-									</li>
+                                        <a id="tabpage2" class="nav-link text-gray" data-toggle="tab" href="#page2" role="tab" aria-selected="true"><b>ตรวจสอบเครื่องจักร</b></a>
+                                    </li>
                                     <li class="nav-item">
-										<a id="tabpage5" class="nav-link text-gray" data-toggle="tab" href="#page5" role="tab" aria-selected="false"><b>Packing List</b></a>
-									</li>
-								</ul>
-								<div class="tab-content">
+                                        <a id="tabpage3" class="nav-link text-gray" data-toggle="tab" href="#page3" role="tab" aria-selected="false"><b>Qc Sampling</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="tabpage4" class="nav-link text-gray" data-toggle="tab" href="#page4" role="tab" aria-selected="false"><b>Job Card</b></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a id="tabpage5" class="nav-link text-gray" data-toggle="tab" href="#page5" role="tab" aria-selected="false"><b>Packing List</b></a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
 
-									<div class="tab-pane fade" id="page1" role="tabpanel">
-										<div class="pd-20">
+                                    <div class="tab-pane fade" id="page1" role="tabpanel">
+                                        <div class="pd-20">
 
                                             <div id="forPd_v">
                                                 <!-- start button zone -->
@@ -1034,7 +1022,6 @@
 
                                             <div id="line_forPd_v" class="dropdown-divider"></div>
 
-
                                             <div id="speacial_section" class="row align-items-center mt-3" style="display:none;">
                                                 <div class="col-md-12 text-center">
                                                     <h4>ข้อแนะนำพิเศษ</h4>
@@ -1059,17 +1046,17 @@
                                             <!-- Show Detail Zone -->
                                             <div id="show_ref"></div>
                                             <div id="show_detail"></div>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
-									<div class="tab-pane fade" id="page2" role="tabpanel">
-										<div class="pd-20">
+                                    <div class="tab-pane fade" id="page2" role="tabpanel">
+                                        <div class="pd-20">
                                             <div id="showMachineCheck"></div>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
                                     <div class="tab-pane fade" id="page3" role="tabpanel">
-										<div class="pd-20">
+                                        <div class="pd-20">
                                             <div class="row">
                                                 <div class="col-lg-1"></div>
                                                 <div id="showQcSampling" class="col-lg-10" style="width:100%"></div>
@@ -1085,23 +1072,23 @@
                                                     <div id="showGraphMain"></div>
                                                 </div>
                                             </div>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
                                     <div class="tab-pane fade" id="page4" role="tabpanel">
-										<div class="pd-20">
+                                        <div class="pd-20">
                                             <div id="showJobcard" class="row"></div>
                                         </div>
-									</div>
+                                    </div>
 
                                     <div class="tab-pane fade" id="page5" role="tabpanel">
-										<div class="pd-20">
+                                        <div class="pd-20">
                                             <div id="showPackingList" class="row"></div>
                                         </div>
-									</div>
+                                    </div>
 
-								</div>
-							</div>
+                                </div>
+                            </div>
 
                         <div class="row form-group text-center">
                             <div class="col-md-4">
@@ -1118,9 +1105,9 @@
                             </div>
                         </div>
 
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 
 		</div>
 	</div>
@@ -2598,8 +2585,10 @@ $(document).ready(function(){
         const productNumber = $('#m_product_number_v').val();
         const itemNumber = $('#m_item_number_v').val();
 
+        const maindeptcode = $('#getMaindept').val();
+
         // Check Dept
-        if(userdeptcode == 1007 || userecode == "M1809"){
+        if(userdeptcode == maindeptcode || userecode == "M1809"){
             let title = '';
             title +=`
             <span><b>Machine Name : </b>`+machineName+`</span>&nbsp;&nbsp;<span><b>Batch Number : </b>`+batchNumber+`</span><br>
@@ -3473,15 +3462,19 @@ $(document).ready(function(){
             action:"checkFormStatus",
             m_code:m_code
         }).then(res=>{
-            // console.log(res);
+            console.log(res);
             if(res.data.status == "Select Data Success"){
                 let deptcode = "<?php echo getUser()->DeptCode; ?>";
                 let ecode = "<?php echo getUser()->ecode; ?>";
                 let posi = "<?php echo getUser()->posi; ?>";
 
-                if(deptcode != "1007"){
+                let job_number = res.data.job_number;
+                let product_number = res.data.product_number;
 
-                    if(ecode == "M1809" || ecode == "M0282"){
+                if(product_number !== null){
+                    console.log('Production Zone');
+                    if(deptcode == "1007"){
+
                         if(res.data.form_status == "Wait Start"){
 
                             $('.startButtonZone').css('display' , '');
@@ -3500,9 +3493,11 @@ $(document).ready(function(){
                             $('.startButtonZone').css('display' , 'none');
                             $('.spointzone').css('display' , 'none');
 
+                            // Control Stop Button
                             if(userdeptcode == 1007 && userposi > 15 || userecode == "M1809"){
                                 $('.stopButtonZone').css('display' , '');
                             }
+                            // Control Stop Button
 
                             $('.cancelButtonZone').css('display' , 'none');
                             // console.log(spointData);
@@ -3516,7 +3511,6 @@ $(document).ready(function(){
 
                             // Other Image
                             getSpeacialData(get_templatecode);
-
 
                         }else if(res.data.form_status == "Cancel"){
 
@@ -3535,8 +3529,13 @@ $(document).ready(function(){
 
                             $('.cancelButtonZone').css('display' , 'none');
                             $('.spointzone').css('display' , 'none');
-                            
-                            $('.startButtonZone').css('display' , 'none');
+
+                            if(ecode == "M0085"){
+                                $('.startButtonZone').css('display' , '');
+                            }else{
+                                $('.startButtonZone').css('display' , 'none');
+                            }
+
                             $('.stopButtonZone').css('display' , 'none');
 
                             $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
@@ -3553,103 +3552,276 @@ $(document).ready(function(){
                             // Other Image
                             getSpeacialData(get_templatecode);
 
-                        }
+                        }                    
+
                     }else{
-                        $('.cancelButtonZone').css('display' , 'none');
-                        $('.spointzone').css('display' , 'none');
-                        $('.startButtonZone').css('display' , 'none');
-                        $('.stopButtonZone').css('display' , 'none');
-                        $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
-                        $('#checkPageMenu').css('display' , 'none');
 
-                        createDataPage(m_code);
-                        $('.textAreaM').prop('disabled' , true);
-                        $('.editHeadData').css('display' , 'none');
-                        $('.mainDivTable').css('display','');
-                    }
+                        if(ecode == "M1809" || ecode == "M0282"){
+                            if(res.data.form_status == "Wait Start"){
 
-                }else{
-                    if(res.data.form_status == "Wait Start"){
+                                $('.startButtonZone').css('display' , '');
+                                $('.spointzone').css('display' , 'none');
+                                createDataPage(m_code);
 
-                        $('.startButtonZone').css('display' , '');
-                        $('.spointzone').css('display' , 'none');
-                        createDataPage(m_code);
+                            }else if(res.data.form_status == "Open"){
 
-                    }else if(res.data.form_status == "Open"){
+                                $('.spointzone').css('display' , '');
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.cancelButtonZone').css('display' , '');
+                                $('#checkPageMenu').css('display' , '');
 
-                        $('.spointzone').css('display' , '');
-                        $('.startButtonZone').css('display' , 'none');
-                        $('.cancelButtonZone').css('display' , '');
-                        $('#checkPageMenu').css('display' , '');
+                            }else if(res.data.form_status == "Start"){
 
-                    }else if(res.data.form_status == "Start"){
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
 
-                        $('.startButtonZone').css('display' , 'none');
-                        $('.spointzone').css('display' , 'none');
+                                if(userdeptcode == 1007 && userposi > 15 || userecode == "M1809"){
+                                    $('.stopButtonZone').css('display' , '');
+                                }
 
-                        if(userdeptcode == 1007 && userposi > 15 || userecode == "M1809"){
-                            $('.stopButtonZone').css('display' , '');
-                        }
+                                $('.cancelButtonZone').css('display' , 'none');
+                                // console.log(spointData);
+                                createDataPage(m_code);
 
-                        $('.cancelButtonZone').css('display' , 'none');
-                        // console.log(spointData);
-                        createDataPage(m_code);
+                                $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , '');
+                                $('#checkPageMenu').css('display' , '');
+                                $('.mainDivTable').css('display','');
 
-                        $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , '');
-                        $('#checkPageMenu').css('display' , '');
-                        $('.mainDivTable').css('display','');
+                                $('#show_template_remark').css('display','');
 
-                        $('#show_template_remark').css('display','');
+                                // Other Image
+                                getSpeacialData(get_templatecode);
 
-                        // Other Image
-                        getSpeacialData(get_templatecode);
 
-                    }else if(res.data.form_status == "Cancel"){
+                            }else if(res.data.form_status == "Cancel"){
 
-                        $('.cancelButtonZone').css('display' , 'none');
-                        $('.spointzone').css('display' , 'none');
-                        $('.startButtonZone').css('display' , 'none');
-                        $('.stopButtonZone').css('display' , 'none');
+                                $('.cancelButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.stopButtonZone').css('display' , 'none');
 
-                        $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , 'none');
-                        $('#checkPageMenu').css('display' , 'none');
+                                $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , 'none');
+                                $('#checkPageMenu').css('display' , 'none');
 
-                        $('.textAreaM').prop('disabled' , true);
-                        $('.editHeadData').css('display' , 'none');
+                                $('.textAreaM').prop('disabled' , true);
+                                $('.editHeadData').css('display' , 'none');
 
-                    }else if(res.data.form_status == "Stop"){
+                            }else if(res.data.form_status == "Stop"){
 
-                        $('.cancelButtonZone').css('display' , 'none');
-                        $('.spointzone').css('display' , 'none');
-                        
-                        if(ecode == "M0085"){
-                            $('.startButtonZone').css('display' , '');
+                                $('.cancelButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
+                                
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.stopButtonZone').css('display' , 'none');
+
+                                $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
+                                $('#checkPageMenu').css('display' , 'none');
+
+                                createDataPage(m_code);
+
+                                $('.textAreaM').prop('disabled' , true);
+                                $('.editHeadData').css('display' , 'none');
+                                $('.mainDivTable').css('display','');
+                                $('.export-detail').css('display' , '');
+                                $('#show_template_remark').css('display','');
+
+                                // Other Image
+                                getSpeacialData(get_templatecode);
+
+                            }
                         }else{
+                            $('.cancelButtonZone').css('display' , 'none');
+                            $('.spointzone').css('display' , 'none');
                             $('.startButtonZone').css('display' , 'none');
+                            $('.stopButtonZone').css('display' , 'none');
+                            $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
+                            $('#checkPageMenu').css('display' , 'none');
+
+                            createDataPage(m_code);
+                            $('.textAreaM').prop('disabled' , true);
+                            $('.editHeadData').css('display' , 'none');
+                            $('.mainDivTable').css('display','');
                         }
-                        
-                        $('.stopButtonZone').css('display' , 'none');
 
-                        $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
-                        $('#checkPageMenu').css('display' , 'none');
+                    }
+                }else if(job_number !== null){
+                    console.log('Lab Zone');
+                    if(deptcode == "1014" || deptcode == "1015"){
 
-                        createDataPage(m_code);
+                        if(res.data.form_status == "Wait Start"){
 
-                        $('.textAreaM').prop('disabled' , true);
-                        $('.editHeadData').css('display' , 'none');
-                        $('.mainDivTable').css('display','');
-                        $('.export-detail').css('display' , '');
-                        $('#show_template_remark').css('display','');
+                            $('.startButtonZone').css('display' , '');
+                            $('.spointzone').css('display' , 'none');
+                            createDataPage(m_code);
 
-                        // Other Image
-                        getSpeacialData(get_templatecode);
+                        }else if(res.data.form_status == "Open"){
+
+                            $('.spointzone').css('display' , '');
+                            $('.startButtonZone').css('display' , 'none');
+                            $('.cancelButtonZone').css('display' , '');
+                            $('#checkPageMenu').css('display' , '');
+
+                        }else if(res.data.form_status == "Start"){
+
+                            $('.startButtonZone').css('display' , 'none');
+                            $('.spointzone').css('display' , 'none');
+
+                            // Control Stop Button
+                            if(userdeptcode == 1007 && userposi > 15 || userecode == "M1809"){
+                                $('.stopButtonZone').css('display' , '');
+                            }else if(userdeptcode == 1014 && userposi > 15){
+                                $('.stopButtonZone').css('display' , '');
+                            }else if(userdeptcode == 1015 && userposi > 15){
+                                $('.stopButtonZone').css('display' , '');
+                            }
+                            // Control Stop Button
+
+                            $('.cancelButtonZone').css('display' , 'none');
+                            // console.log(spointData);
+                            createDataPage(m_code);
+
+                            $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , '');
+                            $('#checkPageMenu').css('display' , '');
+                            $('.mainDivTable').css('display','');
+
+                            $('#show_template_remark').css('display','');
+
+                            // Other Image
+                            getSpeacialData(get_templatecode);
+
+                        }else if(res.data.form_status == "Cancel"){
+
+                            $('.cancelButtonZone').css('display' , 'none');
+                            $('.spointzone').css('display' , 'none');
+                            $('.startButtonZone').css('display' , 'none');
+                            $('.stopButtonZone').css('display' , 'none');
+
+                            $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , 'none');
+                            $('#checkPageMenu').css('display' , 'none');
+
+                            $('.textAreaM').prop('disabled' , true);
+                            $('.editHeadData').css('display' , 'none');
+
+                        }else if(res.data.form_status == "Stop"){
+
+                            $('.cancelButtonZone').css('display' , 'none');
+                            $('.spointzone').css('display' , 'none');
+
+                            if(ecode == "M0085"){
+                                $('.startButtonZone').css('display' , '');
+                            }else{
+                                $('.startButtonZone').css('display' , 'none');
+                            }
+
+                            $('.stopButtonZone').css('display' , 'none');
+
+                            $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
+                            $('#checkPageMenu').css('display' , 'none');
+
+                            createDataPage(m_code);
+
+                            $('.textAreaM').prop('disabled' , true);
+                            $('.editHeadData').css('display' , 'none');
+                            $('.mainDivTable').css('display','');
+                            $('.export-detail').css('display' , '');
+                            $('#show_template_remark').css('display','');
+
+                            // Other Image
+                            getSpeacialData(get_templatecode);
+
+                        }                    
+
+                    }else{
+
+                        if(ecode == "M1809" || ecode == "M0282"){
+                            if(res.data.form_status == "Wait Start"){
+
+                                $('.startButtonZone').css('display' , '');
+                                $('.spointzone').css('display' , 'none');
+                                createDataPage(m_code);
+
+                            }else if(res.data.form_status == "Open"){
+
+                                $('.spointzone').css('display' , '');
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.cancelButtonZone').css('display' , '');
+                                $('#checkPageMenu').css('display' , '');
+
+                            }else if(res.data.form_status == "Start"){
+
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
+
+                                if(userdeptcode == 1007 && userposi > 15 || userecode == "M1809"){
+                                    $('.stopButtonZone').css('display' , '');
+                                }
+
+                                $('.cancelButtonZone').css('display' , 'none');
+                                // console.log(spointData);
+                                createDataPage(m_code);
+
+                                $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , '');
+                                $('#checkPageMenu').css('display' , '');
+                                $('.mainDivTable').css('display','');
+
+                                $('#show_template_remark').css('display','');
+
+                                // Other Image
+                                getSpeacialData(get_templatecode);
+
+
+                            }else if(res.data.form_status == "Cancel"){
+
+                                $('.cancelButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.stopButtonZone').css('display' , 'none');
+
+                                $('.btnGroup , .add-detail , .edit-detail , .export-detail').css('display' , 'none');
+                                $('#checkPageMenu').css('display' , 'none');
+
+                                $('.textAreaM').prop('disabled' , true);
+                                $('.editHeadData').css('display' , 'none');
+
+                            }else if(res.data.form_status == "Stop"){
+
+                                $('.cancelButtonZone').css('display' , 'none');
+                                $('.spointzone').css('display' , 'none');
+                                
+                                $('.startButtonZone').css('display' , 'none');
+                                $('.stopButtonZone').css('display' , 'none');
+
+                                $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
+                                $('#checkPageMenu').css('display' , 'none');
+
+                                createDataPage(m_code);
+
+                                $('.textAreaM').prop('disabled' , true);
+                                $('.editHeadData').css('display' , 'none');
+                                $('.mainDivTable').css('display','');
+                                $('.export-detail').css('display' , '');
+                                $('#show_template_remark').css('display','');
+
+                                // Other Image
+                                getSpeacialData(get_templatecode);
+
+                            }
+                        }else{
+                            $('.cancelButtonZone').css('display' , 'none');
+                            $('.spointzone').css('display' , 'none');
+                            $('.startButtonZone').css('display' , 'none');
+                            $('.stopButtonZone').css('display' , 'none');
+                            $('.btnGroup , .add-detail , .edit-detail').css('display' , 'none');
+                            $('#checkPageMenu').css('display' , 'none');
+
+                            createDataPage(m_code);
+                            $('.textAreaM').prop('disabled' , true);
+                            $('.editHeadData').css('display' , 'none');
+                            $('.mainDivTable').css('display','');
+                        }
 
                     }
                 }
-
-
-
-
 
             }
         });
@@ -3660,6 +3832,10 @@ $(document).ready(function(){
     function createDataPage(m_code)
     {
         loadReferenceAll(m_code);
+
+        let displayAdd = '';
+
+
         let output = '';
         output +=`
             <div id="forPd_v2" class="row form-group">
@@ -3839,7 +4015,27 @@ $(document).ready(function(){
 
 
 
-        checkProductionUser();
+        // checkProductionUser();
+        let dataDeptcode = $('#getMaindept').val();
+        if(userdeptcode == 1007){
+            if(userdeptcode == dataDeptcode){
+                $('.add-detail , .edit-detail').css('display' , '');
+            }else{
+                $('.add-detail , .edit-detail').css('display' , 'none');
+            }
+            $('.export-detail').css('display' , '');
+        }else if(userdeptcode == 1014 || userdeptcode == 1015){
+            if(userdeptcode == dataDeptcode){
+                $('.add-detail , .edit-detail').css('display' , '');
+            }else{
+                $('.add-detail , .edit-detail').css('display' , 'none');
+            }
+            $('.export-detail').css('display' , '');
+        }else{
+            $('.export-detail').css('display' , '');
+        }
+
+
         if($('#sd_lastStatusCheck').val() != "Finish" && $('#sd_lastStatusCheck').val() != ""){
             $('#add-detail').prop('disabled' , true);
         }else if($('#sd_lastStatusCheck').val() == ""){
@@ -4153,55 +4349,124 @@ $(document).ready(function(){
                     aItemList.push(actualRef_itemArr[i].ref_detail_name);
                 }
 
+                let job_number = res.data.job_number;
+                let product_number = res.data.product_number;
                 let display = '';
-                if(res.data.m_status == "Start"){
-                    if(res.data.lastStatus != null){
-                        if(res.data.lastStatus.d_status == "Runing"){
-                            display = 'style="display:none;"';
+
+
+                if(product_number == "" || product_number === null){
+                    if(userdeptcode == 1014 || userdeptcode == 1015){
+                        if(res.data.m_status == "Start"){
+                            if(res.data.lastStatus != null){
+                                if(res.data.lastStatus.d_status == "Runing"){
+                                    display = 'style="display:none;"';
+                                }else{
+                                    display = '';
+                                }
+                            }else{
+                                display = '';
+                            }
+                            
                         }else{
-                            display = '';
+                            display = 'style="display:none;"';
                         }
                     }else{
-                        display = '';
+                        display = 'style="display:none;"';
                     }
-                    
-                }else{
-                    display = 'style="display:none;"';
+                }else if(job_number == "" || job_number === null){
+                    if(userdeptcode == 1007){
+                        if(res.data.m_status == "Start"){
+                            if(res.data.lastStatus != null){
+                                if(res.data.lastStatus.d_status == "Runing"){
+                                    display = 'style="display:none;"';
+                                }else{
+                                    display = '';
+                                }
+                            }else{
+                                display = '';
+                            }
+                            
+                        }else{
+                            display = 'style="display:none;"';
+                        }
+                    }else{
+                        display = 'style="display:none;"';
+                    }
                 }
+
 
                 let radioDisplay = '';
-                if(res.data.lastStatus != null){
 
-                    if(res.data.lastStatus.d_status == "Runing"){
-                        radioDisplay = 'disabled';
-                    }else{
-                        
-                        if(res.data.m_status == "Stop"){
-                            radioDisplay = 'disabled';
-                        }else if(res.data.m_status == "Cancel"){
-                            radioDisplay = 'disabled';
-                        }else if(res.data.m_status == "Wait Start"){
-                            radioDisplay = 'disabled';
+                if(product_number === null || product_number == ""){
+                    if(userdeptcode == "1014" || userdeptcode == "1015"){
+                        if(res.data.lastStatus !== null){
+                            if(res.data.lastStatus.d_status == "Runing"){
+                                radioDisplay = 'disabled';
+                            }else{
+                                
+                                if(res.data.m_status == "Stop"){
+                                    radioDisplay = 'disabled';
+                                }else if(res.data.m_status == "Cancel"){
+                                    radioDisplay = 'disabled';
+                                }else if(res.data.m_status == "Wait Start"){
+                                    radioDisplay = 'disabled';
+                                }else{
+                                    radioDisplay = '';
+                                }
+                            }
                         }else{
-                            radioDisplay = '';
+                            if(res.data.m_status == "Stop"){
+                                radioDisplay = 'disabled';
+                            }else if(res.data.m_status == "Cancel"){
+                                radioDisplay = 'disabled';
+                            }else if(res.data.m_status == "Wait Start"){
+                                radioDisplay = 'disabled';
+                            }else{
+                                radioDisplay = '';
+                            }
                         }
+                    }else{
+                        radioDisplay = 'disabled';
                     }
-                }else{
-                    if(res.data.m_status == "Stop"){
-                            radioDisplay = 'disabled';
-                        }else if(res.data.m_status == "Cancel"){
-                            radioDisplay = 'disabled';
-                        }else if(res.data.m_status == "Wait Start"){
-                            radioDisplay = 'disabled';
-                        }
-                }
-                
+                }else if(job_number === null || job_number == ""){
+                    if(userdeptcode == "1007"){
+                        if(res.data.lastStatus !== null){
 
+                            if(res.data.lastStatus.d_status == "Runing"){
+                                radioDisplay = 'disabled';
+                            }else{
+                                
+                                if(res.data.m_status == "Stop"){
+                                    radioDisplay = 'disabled';
+                                }else if(res.data.m_status == "Cancel"){
+                                    radioDisplay = 'disabled';
+                                }else if(res.data.m_status == "Wait Start"){
+                                    radioDisplay = 'disabled';
+                                }else{
+                                    radioDisplay = '';
+                                }
+                            }
+                        }else{
+                            if(res.data.m_status == "Stop"){
+                                radioDisplay = 'disabled';
+                            }else if(res.data.m_status == "Cancel"){
+                                radioDisplay = 'disabled';
+                            }else if(res.data.m_status == "Wait Start"){
+                                radioDisplay = 'disabled';
+                            }
+                        }
+                    }else{
+                        radioDisplay = 'disabled';
+                    }
+                }
+
+
+                
                 // Show Ref
                 refoutput +=`
                 <input hidden type="text" id="ref_code_input" name="ref_code_input">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-group">
                         <div class="card bg-info text-white card-box">
                             <div class="card-header">
                                 Template Reference
@@ -4231,7 +4496,7 @@ $(document).ready(function(){
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 form-group">
                         <div class="card text-white bg-success card-box">
                             <div class="card-header divHeadRefActual">
                                 Actual Reference
@@ -4964,7 +5229,12 @@ $(document).ready(function(){
     {
         const deptcode = "<?php echo getUser()->DeptCode; ?>";
         const ecode = "<?php echo getUser()->ecode; ?>";
-        if(deptcode != "1007"){
+        if(deptcode == "1007"){
+
+            $('#forPd_v , #forPd_v2').css('display' , '');
+            $('#line_forPd_v').css('display' , '');
+
+        }else{
             if(ecode == "M1809" || ecode == "M0282"){
                 $('#forPd_v , #forPd_v2').css('display' , '');
                 $('#line_forPd_v').css('display' , '');
@@ -4972,10 +5242,6 @@ $(document).ready(function(){
                 $('#forPd_v , #forPd_v2').css('display' , 'none');
                 $('#line_forPd_v').css('display' , 'none');
             }
-
-        }else{
-            $('#forPd_v , #forPd_v2').css('display' , '');
-            $('#line_forPd_v').css('display' , '');
         }
     }
 

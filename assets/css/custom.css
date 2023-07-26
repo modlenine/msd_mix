@@ -552,6 +552,13 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.lgjobnumber{
+	max-height: 300px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
 
 /* Head on view page */
 .headzone{
@@ -1372,11 +1379,48 @@ textarea.form-control{
 	#searchBydate > #datestart {
 		margin-bottom:10px;
 	}
+
 }
 
 
 @media (min-width:320px) and (max-width:767px) {
-	
+	#btn-addMachineData{
+		width: 100% !important;
+		margin-bottom:5px;
+	}
+	#btn-graphMachineData{
+		width:100% !important;
+	}
+	#datestart{
+		margin-bottom:5px;
+	}
+	#btn_clearSearchByDate{
+		width: 100% !important;
+		margin-bottom:5px;
+	}
+	#btn_searchBydate{
+		width: 100% !important;
+		margin-bottom:5px;
+	}
+	li.paginate_button.previous {
+        display: inline;
+    }
+ 
+    li.paginate_button.next {
+        display: inline;
+    }
+ 
+    li.paginate_button {
+        display: none;
+    }
+
+	#add-detail , #edit-detail{
+		width: 100% !important;
+		margin-bottom:5px;
+	}
+	#export-detail{
+		width: 100% !important;
+	}
 }
 
 

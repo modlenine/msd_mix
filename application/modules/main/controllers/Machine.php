@@ -20,6 +20,7 @@ class Machine extends MX_Controller {
         getHead();
         getContent("machine/index" , $data);
         getFooter();
+
     }
 
 

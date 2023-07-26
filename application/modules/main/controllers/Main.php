@@ -47,6 +47,11 @@ class Main extends MX_Controller {
         $this->main->searchProductNo();
     }
 
+    public function searchJobNo()
+    {
+        $this->main->searchJobNo();
+    }
+
     public function searchBag()
     {
         $this->main->searchBag();

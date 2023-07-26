@@ -88,6 +88,7 @@ function getviewfulldata($maincode)
         main.m_template_name,
         main.m_machine,
         main.m_product_number,
+        main.m_job_number,
         main.m_item_number,
         main.m_batch_number,
         main.m_batchsize,

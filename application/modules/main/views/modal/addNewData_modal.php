@@ -36,10 +36,15 @@
                                 <option value="ca">Composite Asia Co.,Ltd.</option>
                             </select>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 form-group divProdid">
                             <label for=""><b>Production Number </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_product_number" id="m_product_number" class="form-control" @keyup="searchProductNo" @click="productno_null" required>
                             <div id="m_showpd"></div>
+                        </div>
+                        <div class="col-lg-6 form-group divjob" style="display:none;">
+                            <label for=""><b>Job Number </b><span class="textRequest">*</span></label>
+                            <input type="text" name="m_job_number" id="m_job_number" class="form-control" @keyup="searchJobNo" @click="jobno_null" required>
+                            <div id="m_showjob"></div>
                         </div>
                         <div class="col-lg-6 form-group">
                             <label for=""><b>เลือก STD. </b><span class="textRequest">*</span></label>
@@ -57,15 +62,15 @@
                             <label for=""><b>Order (kg.) </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_order" id="m_order" class="form-control" required>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 form-group divTypeofbag">
                             <label for=""><b>Type of bag </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_typeofbag" id="m_typeofbag" class="form-control" readonly>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 form-group divBagtext">
                             <label for=""><b>Bag Text </b><span class="textRequest">*</span></label>
                             <input type="text" name="m_typeofbagtxt" id="m_typeofbagtxt" class="form-control" readonly>
                         </div>
-                        <div class="col-lg-6 form-group">
+                        <div class="col-lg-6 form-group divBatchSize">
                             <label for=""><b>Batch Size </b></label>
                             <input type="text" name="m_batchsize" id="m_batchsize" class="form-control">
                         </div>
@@ -119,6 +124,8 @@
     <script>
         $(document).ready(function(){
             let url = "<?php echo base_url(); ?>";
+            let deptcode = "<?php echo getUser()->DeptCode; ?>";
+            let datenow = "<?php echo date("d/m/Y"); ?>";
             loadRunList();
             loadWorkTypeNoList();
 
@@ -184,6 +191,32 @@
 
                         
                     },
+                    searchJobNo()
+                    {
+                        if($('#m_job_number').val() != ""){
+                            axios.post(url+'main/searchJobNo' , {
+                                action:"searchJobNo",
+                                m_job_number:$('#m_job_number').val(),
+                                m_areaid:$('#m_areaid').val()
+                            }).then(res => {
+                                console.log(res);
+                                $('#m_showjob').html(res.data);
+                            });
+                        }else{
+                            $('#m_showjob').html('');
+                        }
+
+
+                        if($('#m_areaid').val() == ""){
+                            $('#m_areaid').addClass('inputNull');
+                            $('#m_job_number').val('');
+                        }else{
+                            $('#m_areaid').removeClass('inputNull');
+                            $('#m_job_number').val();
+                        }
+
+                        
+                    },
                     saveMaindata()
                     {
                         $('#btn-saveMain').prop('disabled' , true);
@@ -231,6 +264,17 @@
                             $('#m_areaid').removeClass('inputNull');
                             $('#m_product_number').val();
                         }
+                    },
+                    jobno_null()
+                    {
+                        if($('#m_areaid').val() == ""){
+                            $('#m_areaid').addClass('inputNull');
+                            $('#m_product_number').val('');
+
+                        }else{
+                            $('#m_areaid').removeClass('inputNull');
+                            $('#m_product_number').val();
+                        }
                     }
                 },
                 created() {
@@ -263,6 +307,7 @@
                 $('#frm_savemainData input[name=m_batchsize]').val('');
                 $('#frm_savemainData input[name=m_worktype]').val('');
                 $('#frm_savemainData input[name=m_run]').val('');
+                $('#frm_savemainData input[name=m_datetime]').val(datenow);
             });
 
 
@@ -317,6 +362,38 @@
 
 
                 searchTemplate(data_itemid);
+                getMachine();
+
+
+            });
+
+            $(document).on('click' , '.jobnumber_attr' , function(){
+
+                $('#m_template_name').val('');
+                $('#m_worktype').val('');
+                $('#m_run').val('');
+
+                const data_jobnumber = $(this).attr("data_jobnumber");
+                const data_itemid = $(this).attr("data_itemid");
+                const data_batchid = $(this).attr("data_batchid");
+                const data_qtysample = $(this).attr("data_qtysample");
+                const data_dataareaid = $(this).attr("data_dataareaid");
+                const data_temperature = $(this).attr("data_temperature");
+
+                $('#m_item_number').val(data_itemid);
+                $('#m_batch_number').val(data_batchid);
+                $('#m_job_number').val(data_jobnumber);
+                $('#m_order').val(data_qtysample);
+                $('#m_temperature').val(data_temperature);
+                $('#m_showjob').html('');
+
+                $('#m_worktype').attr({
+                    data_dataareaid:data_dataareaid,
+                    data_jobnumber:data_jobnumber,
+                });
+
+
+                // searchTemplate(data_itemid);
                 getMachine();
 
 
@@ -380,27 +457,53 @@
                 const data_prodid = $(this).attr("data_prodid");
                 const data_itemid = $(this).attr("data_itemid");
 
-                if($('#m_product_number').val() != ""){
-                    if($('#m_worktype').val() == "Adjust"){
-                        checkpdforvalidatework(data_prodid , data_dataareaid , data_itemid);
-                    }else if($('#m_worktype').val() == "Remix"){
-                        $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
+                if(deptcode == 1014 || deptcode == 1015){
+                    if($('#m_job_number').val() != ""){
+                        if($('#m_worktype').val() == "Adjust"){
+                            checkpdforvalidatework(data_prodid , data_dataareaid , data_itemid);
+                        }else if($('#m_worktype').val() == "Remix"){
+                            $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
+                        }else{
+                            $('#m_worktypeNo').attr({
+                                "style": "pointer-events: none;",
+                                "readonly":"readonly"
+                            });
+                        }
                     }else{
-                        $('#m_worktypeNo').attr({
-                            "style": "pointer-events: none;",
-                            "readonly":"readonly"
+                        swal({
+                            title: 'กรุณาเลือก JOB ก่อน',
+                            type: 'error',
+                            showConfirmButton: false,
+                            timer:1000
+                        }).then(function(){
+                            $('#m_worktype').val('');
                         });
                     }
                 }else{
-                    swal({
-                        title: 'กรุณาเลือก PD ก่อน',
-                        type: 'error',
-                        showConfirmButton: false,
-                        timer:1000
-                    }).then(function(){
-                        $('#m_worktype').val('');
-                    });
+                    if($('#m_product_number').val() != ""){
+                        if($('#m_worktype').val() == "Adjust"){
+                            checkpdforvalidatework(data_prodid , data_dataareaid , data_itemid);
+                        }else if($('#m_worktype').val() == "Remix"){
+                            $('#m_worktypeNo').removeAttr("style").removeAttr("readonly");
+                        }else{
+                            $('#m_worktypeNo').attr({
+                                "style": "pointer-events: none;",
+                                "readonly":"readonly"
+                            });
+                        }
+                    }else{
+                        swal({
+                            title: 'กรุณาเลือก PD ก่อน',
+                            type: 'error',
+                            showConfirmButton: false,
+                            timer:1000
+                        }).then(function(){
+                            $('#m_worktype').val('');
+                        });
+                    }
                 }
+
+
                 
             });
 
