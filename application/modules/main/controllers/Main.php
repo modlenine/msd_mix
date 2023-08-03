@@ -27,9 +27,9 @@ class Main extends MX_Controller {
         $this->main->loadMainData();
     }
 
-    public function loadMainDataByDate($date_start , $date_end)
+    public function loadMainDataByDate($date_start , $date_end , $dept)
     {
-        $this->main->loadMainDataByDate($date_start , $date_end);
+        $this->main->loadMainDataByDate($date_start , $date_end , $dept);
     }
 
     public function searchTemplate()

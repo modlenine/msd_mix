@@ -33,7 +33,13 @@
 						<div class="row mt-4">
 							<div class="col-md-12">
 								<div id="searchBydate" class="row">
-									<div class="col-md-6"></div>
+									<div class="col-md-6">
+										<select name="dataFilterDept" id="dataFilterDept" class="form-control">
+											<option value="all">All</option>
+											<option value="pd">PD</option>
+											<option value="lab">LAB</option>
+										</select>
+									</div>
 									<div class="col-md-6">
 										<div class="row">
 											<div class="col-md-6">
@@ -169,8 +175,20 @@
 			// location.reload();
 
 			sessionStorage.removeItem('dateSearch_mix');
+			sessionStorage.removeItem('dataFilter_mix');
             $('#dataMainList').DataTable().state.clear();
             checkDateSearch();
+		});
+
+
+		$(document).on('change' , '#dataFilterDept' , function(){
+			let filterdept = $('#dataFilterDept').val();
+			let dataSearch_value = {
+                'filterdept':filterdept
+                }
+			sessionStorage.setItem('dataFilter_mix',JSON.stringify(dataSearch_value));
+			checkDateSearch();
+			console.log(filterdept);
 		});
 
 
@@ -269,8 +287,21 @@
 				});
 		}
 
-		function loadDataListByDate(date_start , date_end)
+		function loadDataListByDate(date_start , date_end , dept_type)
 		{
+
+			if(date_start == ""){
+				date_start = "0";
+			}
+
+			if(date_end == ""){
+				date_end = "0"
+			}
+
+			if(dept_type == ""){
+				dept_type = "10"
+			}
+
 			$('#dataMainList').DataTable().destroy();
 
 			let thid = 1;
@@ -315,7 +346,7 @@
 									}
 								},
 								"ajax": {
-									"url":"<?php echo base_url('main/loadMainDataByDate/') ?>"+date_start+"/"+date_end,
+									"url":"<?php echo base_url('main/loadMainDataByDate/') ?>"+date_start+"/"+date_end+"/"+dept_type,
 								},
 								order: [
 									[0, 'desc']
@@ -371,19 +402,35 @@
 		function checkDateSearch()
 		{
 			let dataDateSearch = sessionStorage.getItem('dateSearch_mix');
+			let dataFilter = sessionStorage.getItem('dataFilter_mix');
 			console.log(JSON.parse(dataDateSearch));
+
+			let dateStart_value , dataEnd_value;
+			let dataFilter_value;
+
 			if(dataDateSearch !== null){
 				console.log('มีค่า');
-				let dateStart_value = JSON.parse(dataDateSearch).dateStart;
-				let dataEnd_value = JSON.parse(dataDateSearch).dateEnd;
-				loadDataListByDate(dateStart_value,dataEnd_value);
+				dateStart_value = JSON.parse(dataDateSearch).dateStart;
+				dataEnd_value = JSON.parse(dataDateSearch).dateEnd;
 				$('#datestart').val(dateStart_value);
 				$('#dateend').val(dataEnd_value);
 			}else{
-				loadDataList();
+				// loadDataList();
+				dateStart_value = "";
+				dataEnd_value = "";
 				$('#datestart').val('');
 				$('#dateend').val('');
 			}
+
+			if(dataFilter !== null){
+				dataFilter_value = JSON.parse(dataFilter).filterdept;
+				$('#dataFilterDept').val(dataFilter_value);
+			}else{
+				dataFilter_value = "all";
+				$('#dataFilterDept').val('all');
+			}
+
+			loadDataListByDate(dateStart_value,dataEnd_value,dataFilter_value);
 		}
 
 

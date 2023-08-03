@@ -126,7 +126,7 @@ class Main_model extends CI_Model {
     }
 
 
-    public function loadMainDataByDate($date_start , $date_end)
+    public function loadMainDataByDate($date_start , $date_end , $dept )
     {
 
 
@@ -152,23 +152,24 @@ class Main_model extends CI_Model {
             array('db' => 'm_template_name', 'dt' => 1),
             array('db' => 'm_item_number', 'dt' => 2),
             array('db' => 'm_product_number', 'dt' => 3),
-            array('db' => 'm_batch_number', 'dt' => 4),
+            array('db' => 'm_job_number', 'dt' => 4),
+            array('db' => 'm_batch_number', 'dt' => 5),
             array(
-                'db' => 'm_order', 'dt' => 5,
+                'db' => 'm_order', 'dt' => 6,
                 'formatter' => function($d , $row){
                     return valueFormat3($d);
                 }
             ),
-            array('db' => 'm_worktype_new', 'dt' => 6),
-            array('db' => 'm_run', 'dt' => 7),
+            array('db' => 'm_worktype_new', 'dt' => 7),
+            array('db' => 'm_run', 'dt' => 8),
             array(
-                'db' => 'm_datetime', 'dt' => 8,
+                'db' => 'm_datetime', 'dt' => 9,
                 'formatter' => function($d , $row){
                     return conDateTimeFromDb($d);
                 }
             ),
             array(
-                'db' => 'm_status', 'dt' => 9,
+                'db' => 'm_status', 'dt' => 10,
                 'formatter' => function($d , $row){
                     $output = '';
                     if($d == "Start"){
@@ -196,7 +197,7 @@ class Main_model extends CI_Model {
                 }
             ),
             array(
-                'db' => 'm_memo', 'dt' => 10,)
+                'db' => 'm_memo', 'dt' => 11,)
         );
 
         // SQL server connection information
@@ -229,9 +230,38 @@ class Main_model extends CI_Model {
         //         SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_owner = '$ecode' ")
         //     );
         // }
+        $searchDate = "";
+        if($date_start != "0" && $date_end != "0"){
+            $searchDate = "m_datetime BETWEEN '$date_start 00:00:01' AND '$date_end 23:59:59'";
+        }else{
+            $searchDate = "";
+        }
+
+        $filterDept = "";
+        $filterDeptCondition = "";
+        if($dept != "10"){
+            if($dept == "all"){
+                $filterDeptCondition = "m_deptcode IN ('1015' , '1014' , '1007')";
+            }else if($dept == "pd"){
+                $filterDeptCondition = "m_deptcode IN ('1007')";
+            }else if($dept == "lab"){
+                $filterDeptCondition = "m_deptcode IN ('1015' , '1014')";
+            }else{
+                $filterDeptCondition = "m_deptcode IN ('1015' , '1014' , '1007')";
+            }
+
+            if($date_start != "0" && $date_end != "0"){
+                $filterDept = "AND $filterDeptCondition";
+            }else{
+                $filterDept = "$filterDeptCondition";
+            }
+        }else{
+            $filterDept = "";
+        }
+        
 
         echo json_encode(
-            SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "m_datetime BETWEEN '$date_start 00:00:01' AND '$date_end 23:59:59' ")
+            SSP::complex($_GET, $sql_details, $table, $primaryKey, $columns, null, "$searchDate $filterDept")
         );
 
         
