@@ -191,6 +191,12 @@
 							<span class="micon dw dw-calendar1"></span><span class="mtext">ตั้งค่าเทมเพลต</span>
 						</a>
 					</li>
+
+					<li id="" style="">
+						<a href="https://intranet.saleecolour.com/intsys/plc_mix" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-calendar1"></span><span class="mtext">ตั้งค่า PLC กำหนดสิทธิ์<br>ระดับหัวหน้างาน</span>
+						</a>
+					</li>
 			
 					<!-- <li>
 						<a href="sitemap.html" class="dropdown-toggle no-arrow">
