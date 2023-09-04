@@ -192,9 +192,9 @@
 						</a>
 					</li>
 
-					<li id="" style="">
+					<li id="settingPlc" style="display:none;">
 						<a href="https://intranet.saleecolour.com/intsys/plc_mix" class="dropdown-toggle no-arrow">
-							<span class="micon dw dw-calendar1"></span><span class="mtext">ตั้งค่า PLC กำหนดสิทธิ์<br>ระดับหัวหน้างาน</span>
+							<span class="micon dw dw-calendar1"></span><span class="mtext">ตั้งค่า PLC</span>
 						</a>
 					</li>
 			
@@ -218,6 +218,8 @@
 
         $(document).ready(function(){
 			const ecode = "<?php echo getUser()->ecode; ?>";
+			const deptcode = "<?php echo getUser()->DeptCode; ?>";
+			const posi = "<?php echo getUser()->posi; ?>";
 			const adminEcode = ['M1809' , 'M1413' , 'M0506' , 'D2022' , 'M2067'];
 
 			//Lab = M0126 , M1416 , M1351 , M0010
@@ -239,27 +241,41 @@
 
 			// controlButton_foradmin(ecode);
 
+
+			// Control plc user
+			if(deptcode == 1007){
+				if(posi >= 55){
+					$('#settingPlc').css('display' , '');
+				}else{
+					$('#settingPlc').css('display' , 'none');
+				}
+			}else if(deptcode == 1002){
+				$('#settingPlc').css('display' , '');
+			}else{
+				$('#settingPlc').css('display' , 'none');
+			}
+
             $('#logoutBtn').click(function(){
                 logoutConfirm();
             });
 
 
 			//control button
-			function controlButton_foradmin(ecode)
-			{
-				//Control ปุ่มลงทะเบียน
-				let ecodeAdminTrue = adminEcode.filter(function(value , index, arr){
-					if(value == ecode){
-						$('#settingMenuLi').css('display' , '');
-						return value;
-					}else{
-						$('#settingMenuLi').css('display' , 'none');
-						return null;
-					}
+			// function controlButton_foradmin(ecode)
+			// {
+			// 	//Control ปุ่มลงทะเบียน
+			// 	let ecodeAdminTrue = adminEcode.filter(function(value , index, arr){
+			// 		if(value == ecode){
+			// 			$('#settingMenuLi').css('display' , '');
+			// 			return value;
+			// 		}else{
+			// 			$('#settingMenuLi').css('display' , 'none');
+			// 			return null;
+			// 		}
 					
-				});
-				console.log(ecodeAdminTrue);
-			}
+			// 	});
+			// 	console.log(ecodeAdminTrue);
+			// }
 
 			
         });
