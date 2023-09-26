@@ -81,6 +81,7 @@
                                 <option value="Normal">Normal</option>
                                 <option value="Remix">Remix</option>
                                 <option value="Adjust">Adjust</option>
+                                <option value="Separate">Separate</option>
                             </select>
                         </div>
                         <div class="col-lg-6 form-group">

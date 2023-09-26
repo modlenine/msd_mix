@@ -590,6 +590,7 @@
                                         <option value="Normal">Normal</option>
                                         <option value="Remix">Remix</option>
                                         <option value="Adjust">Adjust</option>
+                                        <option value="Separate">Separate</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-6 form-group">
@@ -2351,7 +2352,8 @@ $(document).ready(function(){
         let dataareaid = $('#m_dataareaid_v').val();
         let status = $('#getFormStatus').val();
         let formno = "<?php echo $mainformno; ?>";
-      loaddatajobcard(prodid , dataareaid , status , formno);
+        let worktype = "<?php echo getviewfulldata(getMaincode($mainformno))->m_worktype?>";
+      loaddatajobcard(prodid , dataareaid , status , formno , worktype);
     });
     $('#tabpage5').click(function(){
       localStorage.setItem('tab_mix' , 'tabpage5');
@@ -2421,6 +2423,10 @@ $(document).ready(function(){
             $('#ehmd_worktype_no').attr({
                 "style": "pointer-events: none;",
             });
+        }else if(data_m_worktype == "Separate"){
+            $('#ehmd_worktype_no').attr({
+                "style": "pointer-events: none;",
+            });
         }else{
             $('#ehmd_worktype_no').removeAttr("style");
         }
@@ -2468,7 +2474,7 @@ $(document).ready(function(){
         const data_m_code = $(this).attr("data_m_code");
         const data_m_formno = $(this).attr("data_m_formno");
 
-        if($(this).val() == "Normal"){
+        if($(this).val() == "Normal" || $(this).val() == "Separate"){
             $('#ehmd_worktype_no').val('');
             $('#ehmd_worktype_no').attr({
                 "style": "pointer-events: none;",
@@ -2865,7 +2871,8 @@ $(document).ready(function(){
             let dataareaid = $('#m_dataareaid_v').val();
             let status = $('#getFormStatus').val();
             let formno = "<?php echo $mainformno; ?>";
-            loaddatajobcard(prodid , dataareaid , status , formno);
+            let worktype = "<?php echo getviewfulldata(getMaincode($mainformno))->m_worktype?>";
+            loaddatajobcard(prodid , dataareaid , status , formno , worktype);
         }else if(tabSelect == "tabpage5"){
             $('#tabpage5').addClass('active');
             $('#page5').addClass('active').addClass('show');
@@ -3864,7 +3871,6 @@ $(document).ready(function(){
                                     <th class="t_time">Time</th>
                                     <th class="t_time">Date</th>
                                     <th class="t_batch">Batch</th>
-                                    <th class="t_batch">Mix. Status</th>
                                     <th class="t_imageS">Start Image</th>
                                     <th class="t_status">Status</th>
                                     <th class="t_imageE">Finish Image</th>
@@ -3986,7 +3992,6 @@ $(document).ready(function(){
                                     </td>
                                     <td>`+runData[i].d_workdate+`</td>
                                     <td>`+runData[i].runByGroup.d_batchcount+`</td>
-                                    <td>`+runData[i].runByGroup.d_action+`</td>
                                     <td>`+startImageI+`</td>
                                     <td>`+runData[i].runByGroup.d_status+`</td>
                                     <td>`+finishImage+`</td>
@@ -6216,9 +6221,9 @@ $(document).ready(function(){
     }
 
 
-    function loaddatajobcard(prodid , dataareaid , status , formno)
+    function loaddatajobcard(prodid , dataareaid , status , formno , worktype)
     {
-        if(prodid != "" && dataareaid != "" && status != "" && formno != ""){
+        if(prodid != "" && dataareaid != "" && status != "" && formno != "" && worktype != ""){
             // convert status 
             if(status == "Start"){
                 status = 0;
@@ -6230,7 +6235,7 @@ $(document).ready(function(){
                 let output =`
                 <div class="col-md-12">
                     <div class="">
-                        <iframe class="" width="100%" height="1000" frameBorder="0" src="https://intranet.saleecolour.com/intsys/production_plan/machine/jobcard/`+prodid+`/`+dataareaid+`/1/1/`+status+`/`+formno+`/"></iframe>
+                        <iframe class="" width="100%" height="1000" frameBorder="0" src="https://intranet.saleecolour.com/intsys/production_plan/machine/jobcard/`+prodid+`/`+dataareaid+`/1/1/`+status+`/`+formno+`/`+worktype+`"></iframe>
                     </div>
                 </div>
                 `;
