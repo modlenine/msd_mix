@@ -91,7 +91,9 @@
 			ecode == "M0126" ||
 			ecode == "M1416" ||
 			ecode == "M1351" ||
-			ecode == "M0010")
+			ecode == "M0010" ||
+            ecode == "M0330" ||
+            ecode == "M1451")
         {
 
             let runScreenMain = [];

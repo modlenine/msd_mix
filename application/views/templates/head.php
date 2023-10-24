@@ -233,7 +233,9 @@
 			ecode == "M0126" ||
 			ecode == "M1416" ||
 			ecode == "M1351" ||
-			ecode == "M0010"){
+			ecode == "M0010" ||
+			ecode == "M0330" ||
+			ecode == "M1451"){
 				$('#settingMenuLi').css('display' , '');
 			}else{
 				$('#settingMenuLi').css('display' , 'none');
@@ -244,7 +246,7 @@
 
 			// Control plc user
 			if(deptcode == 1007){
-				if(posi >= 55){
+				if(posi >= 55 || ecode == "M2067"){
 					$('#settingPlc').css('display' , '');
 				}else{
 					$('#settingPlc').css('display' , 'none');
