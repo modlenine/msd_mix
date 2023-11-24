@@ -316,6 +316,15 @@ class Main_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "searchTemplate"){
+            $userDeptCode = getUser()->DeptCode;
+            $sqlQuery = "";
+            if($userDeptCode == "1007"){
+                $sqlQuery = "AND master_deptcode = '1007'";
+            }else if($userDeptCode == "1015"){
+                $sqlQuery = "AND master_deptcode = '1015'";
+            }else{
+                $sqlQuery = "";
+            }
             $sql = $this->db->query("SELECT
             template_master.master_autoid,
             template_master.master_temcode,
@@ -326,7 +335,7 @@ class Main_model extends CI_Model {
             template_master.master_temperature
             FROM
             template_master
-            WHERE template_master.master_itemnumber LIKE '%$received_data->itemnumber%'
+            WHERE template_master.master_itemnumber LIKE '%$received_data->itemnumber%' $sqlQuery
             ORDER BY template_master.master_name ASC LIMIT 50
             ");
 
