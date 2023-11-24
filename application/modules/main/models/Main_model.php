@@ -316,6 +316,7 @@ class Main_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "searchTemplate"){
+            
             $userDeptCode = getUser()->DeptCode;
             $sqlQuery = "";
             if($userDeptCode == "1007"){
@@ -325,6 +326,7 @@ class Main_model extends CI_Model {
             }else{
                 $sqlQuery = "";
             }
+
             $sql = $this->db->query("SELECT
             template_master.master_autoid,
             template_master.master_temcode,
