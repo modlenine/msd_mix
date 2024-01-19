@@ -941,6 +941,9 @@
                                 <label for=""><b>Date</b></label>
                                 <input type="text" name="m_datetime_v" id="m_datetime_v" class="form-control" readonly value="<?=conDateFromDb(getviewfulldata(getMaincode($mainformno))->m_datetime)?>">
                             </div>
+                            <div class="col-md-4 form-group">
+                                <div id="BarcodeId"></div>
+                            </div>
 
                             
                         </div>
@@ -2081,11 +2084,6 @@ $(document).ready(function(){
             $('#item_valuem_'+data_linenum).val('');
         }
     });
-
-
-
-
-
 
 
     $(document).on('click' , '.runImageI' , function(){
@@ -4057,10 +4055,6 @@ $(document).ready(function(){
 
         $('#viewmemo_modal').modal('show');
         loadmemoforshow(data_m_code , data_d_code);
-
-
-        
-
     });
 
     function loadmemoforshow(data_m_code , data_d_code)
@@ -6373,10 +6367,24 @@ $(document).ready(function(){
     }
 
 
-
-
-
-
+    load_plcmix();
+    function load_plcmix()
+    {
+        const data_area = "<?php echo getviewfulldata(getMaincode($mainformno))->m_dataareaid; ?>";
+        const item_number = "<?php echo getviewfulldata(getMaincode($mainformno))->m_item_number; ?>";
+       $.ajax({
+        url:"https://intranet.saleecolour.com/intsys/plc_mix/webapi/getItemBarcode",
+        method:"GET",
+        data:{
+            item_number:item_number,
+            data_area:data_area
+        },
+        async:false,
+        success:function(res){
+            $('#BarcodeId').html(res);
+        }
+       });
+    }
 
 
 }); //End ready function 
