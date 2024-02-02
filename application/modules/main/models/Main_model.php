@@ -38,25 +38,26 @@ class Main_model extends CI_Model {
             ),
             array('db' => 'm_template_name', 'dt' => 1),
             array('db' => 'm_item_number', 'dt' => 2),
-            array('db' => 'm_product_number', 'dt' => 3),
-            array('db' => 'm_job_number', 'dt' => 4),
-            array('db' => 'm_batch_number', 'dt' => 5),
+            array('db' => 'm_machine', 'dt' => 3),
+            array('db' => 'm_product_number', 'dt' => 4),
+            array('db' => 'm_job_number', 'dt' => 5),
+            array('db' => 'm_batch_number', 'dt' => 6),
             array(
-                'db' => 'm_order', 'dt' => 6,
+                'db' => 'm_order', 'dt' => 7,
                 'formatter' => function($d , $row){
                     return valueFormat3($d);
                 }
             ),
-            array('db' => 'm_worktype_new', 'dt' => 7),
-            array('db' => 'm_run', 'dt' => 8),
+            array('db' => 'm_worktype_new', 'dt' => 8),
+            array('db' => 'm_run', 'dt' => 9),
             array(
-                'db' => 'm_datetime', 'dt' => 9,
+                'db' => 'm_datetime', 'dt' => 10,
                 'formatter' => function($d , $row){
                     return conDateTimeFromDb($d);
                 }
             ),
             array(
-                'db' => 'm_status', 'dt' => 10,
+                'db' => 'm_status', 'dt' => 11,
                 'formatter' => function($d , $row){
                     $output = '';
                     if($d == "Start"){
@@ -84,7 +85,7 @@ class Main_model extends CI_Model {
                 }
             ),
             array(
-                'db' => 'm_memo', 'dt' => 11,)
+                'db' => 'm_memo', 'dt' => 12),
         );
 
         // SQL server connection information
@@ -151,25 +152,26 @@ class Main_model extends CI_Model {
             ),
             array('db' => 'm_template_name', 'dt' => 1),
             array('db' => 'm_item_number', 'dt' => 2),
-            array('db' => 'm_product_number', 'dt' => 3),
-            array('db' => 'm_job_number', 'dt' => 4),
-            array('db' => 'm_batch_number', 'dt' => 5),
+            array('db' => 'm_machine', 'dt' => 3),
+            array('db' => 'm_product_number', 'dt' => 4),
+            array('db' => 'm_job_number', 'dt' => 5),
+            array('db' => 'm_batch_number', 'dt' => 6),
             array(
-                'db' => 'm_order', 'dt' => 6,
+                'db' => 'm_order', 'dt' => 7,
                 'formatter' => function($d , $row){
                     return valueFormat3($d);
                 }
             ),
-            array('db' => 'm_worktype_new', 'dt' => 7),
-            array('db' => 'm_run', 'dt' => 8),
+            array('db' => 'm_worktype_new', 'dt' => 8),
+            array('db' => 'm_run', 'dt' => 9),
             array(
-                'db' => 'm_datetime', 'dt' => 9,
+                'db' => 'm_datetime', 'dt' => 10,
                 'formatter' => function($d , $row){
                     return conDateTimeFromDb($d);
                 }
             ),
             array(
-                'db' => 'm_status', 'dt' => 10,
+                'db' => 'm_status', 'dt' => 11,
                 'formatter' => function($d , $row){
                     $output = '';
                     if($d == "Start"){
@@ -197,7 +199,7 @@ class Main_model extends CI_Model {
                 }
             ),
             array(
-                'db' => 'm_memo', 'dt' => 11,)
+                'db' => 'm_memo', 'dt' => 12,)
         );
 
         // SQL server connection information
@@ -316,7 +318,7 @@ class Main_model extends CI_Model {
     {
         $received_data = json_decode(file_get_contents("php://input"));
         if($received_data->action == "searchTemplate"){
-            
+
             $userDeptCode = getUser()->DeptCode;
             $sqlQuery = "";
             if($userDeptCode == "1007"){

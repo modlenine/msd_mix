@@ -2086,6 +2086,11 @@ $(document).ready(function(){
     });
 
 
+
+
+
+
+
     $(document).on('click' , '.runImageI' , function(){
         let title = '';
         const data_maincode = $(this).attr("data_maincode");
@@ -4055,6 +4060,10 @@ $(document).ready(function(){
 
         $('#viewmemo_modal').modal('show');
         loadmemoforshow(data_m_code , data_d_code);
+
+
+        
+
     });
 
     function loadmemoforshow(data_m_code , data_d_code)
@@ -6367,6 +6376,7 @@ $(document).ready(function(){
     }
 
 
+
     load_plcmix();
     function load_plcmix()
     {
@@ -6385,6 +6395,8 @@ $(document).ready(function(){
         }
        });
     }
+
+
 
 
 }); //End ready function 

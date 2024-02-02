@@ -70,6 +70,7 @@
 										
 										<th>STD. Name</th>
 										<th>Item Number</th>
+										<th>Machine Name</th>
 										<th>Production Number</th>
 										<th>Job Number</th>
 										<th>Batch Number</th>
