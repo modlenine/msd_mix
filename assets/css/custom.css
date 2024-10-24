@@ -1520,7 +1520,3 @@ textarea.form-control{
 	width: 100%;
 	height: 100%;
   }
-
-  .warptext{
-	word-wrap:break-word;
-  }

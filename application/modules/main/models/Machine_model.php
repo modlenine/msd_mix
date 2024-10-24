@@ -407,6 +407,8 @@ class machine_model extends CI_Model {
         $deptcode = "";
         if(getUser()->DeptCode == 1015 || getUser()->DeptCode == 1014){
             $deptcode = "AND master_deptcode IN (1015,1014)";
+        }else if(getUser()->ecode == "M0040"){
+            $deptcode = "AND master_deptcode IN (1007)";
         }else{
             $deptcodeDefault = getUser()->DeptCode;
             $deptcode = "AND master_deptcode = '$deptcodeDefault'";

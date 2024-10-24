@@ -907,7 +907,9 @@
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Batch Number</b></label>
-                                <input type="text" name="m_batch_number_v" id="m_batch_number_v" class="form-control" readonly value="<?=getviewfulldata(getMaincode($mainformno))->m_batch_number?>">
+                                <input type="text" name="m_batch_number_v" id="m_batch_number_v" class="form-control" readonly value="<?= getviewfulldata(getMaincode($mainformno))->m_job_number != '' 
+        ? '' 
+        : getviewfulldata(getMaincode($mainformno))->m_batch_number ?>">
                             </div>
                             <div class="col-md-4 form-group">
                                 <label for=""><b>Order (kg.)</b></label>

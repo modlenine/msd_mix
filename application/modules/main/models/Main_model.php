@@ -155,7 +155,15 @@ class Main_model extends CI_Model {
             array('db' => 'm_machine', 'dt' => 3),
             array('db' => 'm_product_number', 'dt' => 4),
             array('db' => 'm_job_number', 'dt' => 5),
-            array('db' => 'm_batch_number', 'dt' => 6),
+            array('db' => 'm_batch_number', 'dt' => 6 , 
+                'formatter' => function($d , $row){
+                    if($row[5] != ""){
+                        return "";
+                    }else{
+                        return $d;
+                    }
+                }
+            ),
             array(
                 'db' => 'm_order', 'dt' => 7,
                 'formatter' => function($d , $row){

@@ -235,7 +235,9 @@
 			ecode == "M1351" ||
 			ecode == "M0010" ||
 			ecode == "M0330" ||
-			ecode == "M1451"){
+			ecode == "M1451" ||
+			ecode == "M0040" ||
+			ecode == "M0126"){
 				$('#settingMenuLi').css('display' , '');
 			}else{
 				$('#settingMenuLi').css('display' , 'none');
