@@ -412,7 +412,9 @@ class Main_model extends CI_Model {
                 $prodid = $rs->prodid;
 
                 if(substr($rs->slc_orgreference , 0 , 2) == "PD"){
-                    $wipProdid = $this->checkPDWip($prodid , $dataareaid , $itemid);
+                    $sqlCheckWip = $this->checkPDWip($prodid , $dataareaid , $itemid);
+                    $wipProdid = $sqlCheckWip->row()->prodid;
+                    // $wipStatus = $sqlCheckWip->prodstatus;
 
                     $sql2 = $this->db3->query("SELECT TOP 20
                         prodtable.itemid,
@@ -586,7 +588,8 @@ class Main_model extends CI_Model {
                 prodtable.dataareaid,
                 prodtable.prodid,
                 prodtable.inventdimid,
-                prodtable.slc_orgreference
+                prodtable.slc_orgreference,
+                prodtable.prodstatus
                 FROM
                 prodtable
                 WHERE prodtable.dataareaid = '$dataareaid' AND prodtable.itemid = '$itemid' AND prodtable.prodid like '%$prodid%'
@@ -602,7 +605,7 @@ class Main_model extends CI_Model {
                 }
                 
             }else{
-                return $sql->row()->prodid;
+                return $sql;
             }
         }  
     }
@@ -3950,7 +3953,10 @@ class Main_model extends CI_Model {
             $dataitemid = $received_data->data_itemid;
 
             // Check WIP
-            $MainPD = $this->checkPDWip($productionNumber , $dataareaid , $dataitemid);
+            //แก้ไขล่าสุด 15-01-2025 เพิ่มเงื่อนไขของการ WIP ข้ามปีโดยยังไม่ได้ Mix
+            $sqlCheckWip = $this->checkPDWip($productionNumber , $dataareaid , $dataitemid);
+            $MainPD = $sqlCheckWip->row()->prodid;
+            $pdStatus = $sqlCheckWip->row()->prodstatus;
 
             $sql = $this->db->query("SELECT
             main.m_autoid,
@@ -3959,7 +3965,6 @@ class Main_model extends CI_Model {
             main.m_product_number,
             main.m_status,
             main.m_dataareaid
-            
             FROM
             main
             WHERE
@@ -3982,8 +3987,15 @@ class Main_model extends CI_Model {
                     }
                 }
             }else{
-                $pdworktype = "Normal";
-                $numCheckStatus = 2;
+                //แก้ไขล่าสุด 15-01-2025 เพิ่มเงื่อนไขของการ WIP ข้ามปีโดยยังไม่ได้ Mix
+                if($pdStatus == 7){
+                    $pdworktype = "Adjust";
+                    $numCheckStatus = 1;
+                }else{
+                    $pdworktype = "Normal";
+                    $numCheckStatus = 2;
+                }
+                //แก้ไขล่าสุด 15-01-2025
             }
             
             $output = array(
