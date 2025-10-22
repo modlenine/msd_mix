@@ -87,16 +87,18 @@
 			ecode == "D2022" ||
 			ecode == "M2067" ||
 			ecode == "M0282" ||
-            ecode == "M0085" ||
+			ecode == "M0085" ||
 			ecode == "M0126" ||
 			ecode == "M1416" ||
 			ecode == "M1351" ||
 			ecode == "M0010" ||
-            ecode == "M0330" ||
-            ecode == "M1451" ||
+			ecode == "M0330" ||
+			ecode == "M1451" ||
 			ecode == "M0040" ||
-            ecode == "M1357" ||
-            ecode == "M1473" ||
+			ecode == "M1357" ||
+			ecode == "M1473" ||
+			ecode == "M1832" ||
+			ecode == "M1551" ||
 			ecode == "M0126")
         {
 
