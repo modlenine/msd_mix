@@ -258,19 +258,59 @@ class Packing_list_model extends CI_Model {
 
     public function loadPhoto($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoPath6 , $photoName)
     {
-        header('Content-Type: image/jpeg');
-        echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/'.$photoPath1."/".$photoPath2."/".$photoPath3."/".$photoPath4."/".$photoPath5."/".$photoPath6."/".$photoName);
+        $ftpPath = "ftp://ant:Ant1234@192.168.10.56:821/$photoPath1/$photoPath2/$photoPath3/$photoPath4/$photoPath5/$photoPath6/$photoName";
+        $data = @file_get_contents($ftpPath);
+        if($data === false){
+            header('HTTP/1.1 404 Not Found');
+            exit;
+        }
 
-        // echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/PackingPhoto/Transaction/Customer/POLY/TH-1528/PPL65002923/CAP7_15-9-2022_15-58-28.jpg');
+        $img = @imagecreatefromstring($data);
+        if($img === false){
+            header('Content-Type: image/jpeg');
+            echo $data;
+            return;
+        }
+
+        // Rotate left (counterclockwise) 90 degrees
+        $rotated = @imagerotate($img, 0, 0);
+        if($rotated){
+            imagedestroy($img);
+            $img = $rotated;
+        }
+
+        header('Content-Type: image/jpeg');
+        imagejpeg($img, null, 90);
+        imagedestroy($img);
     }
 
 
     public function loadPhotoMaster($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoName)
     {
-        header('Content-Type: image/jpeg');
-        echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/'.$photoPath1."/".$photoPath2."/".$photoPath3."/".$photoPath4."/".$photoPath5."/".$photoName);
+        $ftpPath = "ftp://ant:Ant1234@192.168.10.56:821/$photoPath1/$photoPath2/$photoPath3/$photoPath4/$photoPath5/$photoName";
+        $data = @file_get_contents($ftpPath);
+        if($data === false){
+            header('HTTP/1.1 404 Not Found');
+            exit;
+        }
 
-        // echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/PackingPhoto/Transaction/Customer/POLY/TH-1528/PPL65002923/CAP7_15-9-2022_15-58-28.jpg');
+        $img = @imagecreatefromstring($data);
+        if($img === false){
+            header('Content-Type: image/jpeg');
+            echo $data;
+            return;
+        }
+
+        // Rotate left (counterclockwise) 90 degrees
+        $rotated = @imagerotate($img, 0, 0);
+        if($rotated){
+            imagedestroy($img);
+            $img = $rotated;
+        }
+
+        header('Content-Type: image/jpeg');
+        imagejpeg($img, null, 90);
+        imagedestroy($img);
     }
 
 
