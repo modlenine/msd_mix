@@ -197,6 +197,12 @@
 							<span class="micon dw dw-calendar1"></span><span class="mtext">ตั้งค่า PLC</span>
 						</a>
 					</li>
+
+					<li>
+						<a href="https://intranet.saleecolour.com/intsys/validate_mix/main/trans_main" class="dropdown-toggle no-arrow">
+							<span class="micon dw dw-analytics-5"></span><span class="mtext">Validate for MIX</span>
+						</a>
+					</li>
 			
 					<!-- <li>
 						<a href="sitemap.html" class="dropdown-toggle no-arrow">

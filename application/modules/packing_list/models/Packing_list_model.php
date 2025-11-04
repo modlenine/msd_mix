@@ -59,6 +59,7 @@ class Packing_list_model extends CI_Model {
 
                     $sql_package = $this->db5->query("SELECT 
                     a.slc_packageid ,
+                    a.slc_packinglistidused,
                     b.packagetxt,
                     b.containweight,
                     a.qtysched,
@@ -71,12 +72,14 @@ class Packing_list_model extends CI_Model {
 
                     $package_number = "";
                     $package_text = "";
+                    $packinglistid = "";
                     if($sql_package->num_rows() != 0){
                         $package_number = $sql_package->row()->slc_packageid;
                         $package_text = $sql_package->row()->packagetxt;
                         $package_containweight = $sql_package->row()->containweight;
                         $qtysched = $sql_package->row()->qtysched;
                         $dlvdate = conDateFromDb($sql_package->row()->dlvdate);
+                        $packinglistid = $sql_package->row()->slc_packinglistidused;
                     }
 
                     // Check File attach
@@ -173,6 +176,17 @@ class Packing_list_model extends CI_Model {
                     }
                     // Query Pallet Detail
 
+
+                    //Query Master picture
+                    $queryMasterPicture = $this->db5->query("SELECT
+                        packinglistid,
+                        filenametype,
+                        filename,
+                        filepath
+                        FROM slc_packinglistphoto
+                        WHERE packinglistid = ? AND dataareaid = ?
+                    " , array($packinglistid , $mainData->dataareaid));
+
                     $output = array(
                         "msg" => "ดึงข้อมูลสำเร็จ",
                         "status" => "Select Data Succes",
@@ -186,6 +200,7 @@ class Packing_list_model extends CI_Model {
                         "file_attach" => $fileattach,
                         "file_attach_list" => $fileattach_list,
                         "photo_attach" => $photoattach,
+                        "photo_attach_list_master" => $queryMasterPicture->result(),
                         "photo_attach_list" => $photoattach_list,
                         "stickerLabel" => $stickerLabel,
                         "pallet_detail" => $palletDetail,
@@ -207,6 +222,7 @@ class Packing_list_model extends CI_Model {
                         "file_attach" => null,
                         "file_attach_list" => null,
                         "photo_attach" => null,
+                        "photo_attach_list_master" => null,
                         "photo_attach_list" => null,
                         "stickerLabel" => null,
                         "pallet_detail" => null,
@@ -227,20 +243,13 @@ class Packing_list_model extends CI_Model {
                     "file_attach" => null,
                     "file_attach_list" => null,
                     "photo_attach" => null,
+                    "photo_attach_list_master" => null,
                     "photo_attach_list" => null,
                     "stickerLabel" => null,
                     "pallet_detail" => null,
                     "deliverydate" => null
                 );
             }
-
-
-
-
-
-
-
-
         }
         echo json_encode($output);
     }
@@ -254,6 +263,16 @@ class Packing_list_model extends CI_Model {
 
         // echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/PackingPhoto/Transaction/Customer/POLY/TH-1528/PPL65002923/CAP7_15-9-2022_15-58-28.jpg');
     }
+
+
+    public function loadPhotoMaster($photoPath1 , $photoPath2 , $photoPath3 , $photoPath4 , $photoPath5 , $photoName)
+    {
+        header('Content-Type: image/jpeg');
+        echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/'.$photoPath1."/".$photoPath2."/".$photoPath3."/".$photoPath4."/".$photoPath5."/".$photoName);
+
+        // echo file_get_contents('ftp://ant:Ant1234@192.168.10.56:821/PackingPhoto/Transaction/Customer/POLY/TH-1528/PPL65002923/CAP7_15-9-2022_15-58-28.jpg');
+    }
+
 
     public function loadFile($filePath1 , $filePath2 , $filePath3 , $filePath4 , $filePath5 , $filePath6 , $fileName)
     {

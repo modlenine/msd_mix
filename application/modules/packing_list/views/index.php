@@ -110,131 +110,154 @@
 
 </head>
 <body>
-<div class="container">
+	<div class="container">
+		<div class="row mt-2">
+			<div class="col-xl-12 mb-30">
+				<div class="card-box height-100-p pd-20">
 
-		
-			<div class="row mt-2">
-				<div class="col-xl-12 mb-30">
-					<div class="card-box height-100-p pd-20">
-
-						<section id="production_order_detail">
-							<div>
-								<h3><u>PRODUCTION ORDER DETAILS</u></h3>
-								<p></p>
-								<div class="row">
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>ORDER QTY : </b><span id="order_qty"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>DELIVERY DATE : </b><span id="deliverydate"></span></label>
-									</div>
+					<section id="production_order_detail">
+						<div>
+							<h3><u>PRODUCTION ORDER DETAILS</u></h3>
+							<p></p>
+							<div class="row">
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>ORDER QTY : </b><span id="order_qty"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>DELIVERY DATE : </b><span id="deliverydate"></span></label>
 								</div>
 							</div>
-							<hr>
-						</section>
+						</div>
+						<hr>
+					</section>
 
-						<section id="packing_list_detail">
-							<div style="height:250px;">
-								<h3><u>PACKING LIST DETAILS</u></h3>
-								<p></p>
-								<p>
-									<label for=""><b>Package number : </b><span id="package_number_txt"></span> : <span id="package_text_txt"></span></label>
-									<br>
-									<label for=""><b>Packing list remark : </b><span id="packing_list_remark_txt"></span></label>
-								</p>
+					<section id="packing_list_detail">
+						<div style="height:250px;">
+							<h3><u>PACKING LIST DETAILS</u></h3>
+							<p></p>
+							<p>
+								<label for=""><b>Package number : </b><span id="package_number_txt"></span> : <span id="package_text_txt"></span></label>
+								<br>
+								<label for=""><b>Packing list remark : </b><span id="packing_list_remark_txt"></span></label>
+							</p>
+						</div>
+						<div>
+							<p class="d-flex justify-content-between">
+								<label for=""><b>Need COA : </b><span id="need_coa_txt"></span></label>
+								<label for=""><b>Standard label : </b><span id="standard_label_txt"></span></label>
+								<label for=""><b>File attach : </b><span id="file_attach_txt"></span></label>
+								<label for=""><b>Photo attach : </b><span id="photo_attach_txt"></span></label>
+							</p>
+						</div>
+						<hr>
+
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1"
+								role="tab" aria-controls="tab1" aria-selected="true">
+								<b>Packing master photo</b>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2"
+								role="tab" aria-controls="tab2" aria-selected="false">
+								<b>Packing production photo</b>
+								</a>
+							</li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+								<section id="photoAttachMaster" style="display:none;">
+									<div id="showPhotoAttachMaster"></div>
+								</section>
 							</div>
-							<div>
-								<p class="d-flex justify-content-between">
-									<label for=""><b>Need COA : </b><span id="need_coa_txt"></span></label>
-									<label for=""><b>Standard label : </b><span id="standard_label_txt"></span></label>
-									<label for=""><b>File attach : </b><span id="file_attach_txt"></span></label>
-									<label for=""><b>Photo attach : </b><span id="photo_attach_txt"></span></label>
-								</p>
+							<div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+								<section id="photoAttach" style="display:none;">
+									<div id="showPhotoAttach"></div>
+								</section>
 							</div>
-							<section id="fileAttach" style="display:none;">
-								<div id="showFileAttach"></div>
-							</section>
+						</div>
 
-							<section id="photoAttach" style="display:none;">
-								<div id="showPhotoAttach"></div>
-							</section>
-							<hr>
+
+						<section id="fileAttach" style="display:none;">
+							<div id="showFileAttach"></div>
 						</section>
+						<hr>
 
-						<section id="sticker_label_detail">
-							<div>
-								<h3><u>STICKER LABEL DETAILS</u></h3>
-								<p></p>
-								<div id="sticker_label_section" class="row">
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>DESCRIPTION : </b><span id="description_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>PRODUCT CODE : </b></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>LOT NO : </b></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>NET WEIGHT : </b></label>
-									</div>
+
+					</section>
+
+					<section id="sticker_label_detail">
+						<div>
+							<h3><u>STICKER LABEL DETAILS</u></h3>
+							<p></p>
+							<div id="sticker_label_section" class="row">
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>DESCRIPTION : </b><span id="description_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>PRODUCT CODE : </b></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>LOT NO : </b></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>NET WEIGHT : </b></label>
 								</div>
 							</div>
-							<hr>
-						</section>
+						</div>
+						<hr>
+					</section>
 
-						<section id="pallet_details">
-							<div>
-								<h3><u>PALLET DETAILS</u></h3>
-								<p></p>
-								<div class="row">
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Pallet number : </b><span id="pallet_number_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Pallet type : </b><span id="pallet_type_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Pallet sort : </b><span id="pallet_sort_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Stretch hood : </b><span id="stretch_hood_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Pallet warpping : </b><span id="pallet_wrap_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Label pallet : </b><span id="label_pallet_txt"></span></label>
-									</div>
-									<div class="col-md-6 col-sm-6">
-										<label for=""><b>Pallet container weight : </b><span id="pallet_containerweight_txt"></span></label>
-									</div>
+					<section id="pallet_details">
+						<div>
+							<h3><u>PALLET DETAILS</u></h3>
+							<p></p>
+							<div class="row">
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Pallet number : </b><span id="pallet_number_txt"></span></label>
 								</div>
-								
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Pallet type : </b><span id="pallet_type_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Pallet sort : </b><span id="pallet_sort_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Stretch hood : </b><span id="stretch_hood_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Pallet warpping : </b><span id="pallet_wrap_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Label pallet : </b><span id="label_pallet_txt"></span></label>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<label for=""><b>Pallet container weight : </b><span id="pallet_containerweight_txt"></span></label>
+								</div>
 							</div>
-							<hr>
-						</section>
+							
+						</div>
+						<hr>
+					</section>
 
-						<section id="package_summary">
-							<div>
-								<h3><u>PACKAGE SUMMARY</u></h3>
-								<p></p>
-								<p>
-									<label for=""><b>Total packages : </b><span id="total_package"></span></label><br>
-									<label for=""><b>Total pallets : </b><span id="total_pallet"></span></label>
-								</p>
-							</div>
-							<hr>
-						</section>
-
-
-
-					</div>
+					<section id="package_summary">
+						<div>
+							<h3><u>PACKAGE SUMMARY</u></h3>
+							<p></p>
+							<p>
+								<label for=""><b>Total packages : </b><span id="total_package"></span></label><br>
+								<label for=""><b>Total pallets : </b><span id="total_pallet"></span></label>
+							</p>
+						</div>
+						<hr>
+					</section>
 				</div>
 			</div>
-
-
-
+		</div>
 	</div>
 </body>
 
@@ -311,6 +334,7 @@
 						let standard_label_txt = conValueYesNo(res.data.standard_label);
 						let file_attach_txt = res.data.file_attach;
 						let photo_attach_txt = res.data.photo_attach;
+						let photo_attach_master = res.data.photo_attach_list_master;
 
 						$('#package_number_txt').html(package_number_txt);
 						$('#package_text_txt').html(package_text_txt);
@@ -324,14 +348,45 @@
 							$('#sticker_label_detail').css('display' , 'none');
 						}
 
+						// Fetch photo master
+						if(photo_attach_master != null && photo_attach_master.length > 0){
+							$('#photoAttachMaster').css('display' , '');
+							let photo_list_master = photo_attach_master;
+
+							let html = `
+							<div style="height:50px;"></div>
+							<div class="row form-group">
+							`;
+							for(let i = 0; i < photo_list_master.length; i++){
+								// Con photo path
+								let conpathFromDb = photo_list_master[i].filepath.replace(/\\/g, '/');
+
+								// Del 'R:'
+								let cutR = conpathFromDb.substring(2);
+
+								let pathArray = cutR.split("/");
+
+								let image = "<?php echo base_url('packing_list/loadPhotoMaster/') ?>"+pathArray[1]+'/'+pathArray[2]+'/'+pathArray[3]+'/'+pathArray[4]+'/'+pathArray[5]+'/'+photo_list_master[i].filename+photo_list_master[i].filenametype;
+								
+								html +=`
+								<div class="col-md-4 col-lg-3 col-6 mt-2">
+								<a href="`+image+`" target="_blank" class="runImageView">
+									<img class="runImageView" src="`+image+`">
+								</a>
+								</div>`;
+							}
+							html +=`</div>`;
+							$('#showPhotoAttachMaster').html(html);
+						}
+
 						//Fetch Photo
-						if(photo_attach_txt == "Yes"){
+						if(false && photo_attach_txt == "Yes"){
 							$('#photoAttach').css('display' , '');
 							let photo_list = res.data.photo_attach_list;
 
 
 							let html = `
-							<h5>Photo Attach</h5>
+							<div></div>
 							<div class="row form-group">
 							`;
 							for(let i = 0; i < photo_list.length; i++){
@@ -363,6 +418,48 @@
 							$('#showPhotoAttach').html(html);
 						}
 						//Fetch Photo
+                        // Defer Photo rendering until Tab 2 is activated
+                        window.photoAttachEnabled = (photo_attach_txt === "Yes");
+                        window.photoAttachData = window.photoAttachEnabled ? res.data.photo_attach_list : [];
+                        window.photoAttachRendered = false;
+
+                        function renderPhotoAttach(list){
+                            if(!window.photoAttachEnabled || window.photoAttachRendered){ return; }
+                            $('#photoAttach').css('display' , '');
+                            let html = `
+                            <div style="height:50px;"></div>
+                            <div class="row form-group">
+                            `;
+                            for(let i = 0; i < list.length; i++){
+                                let conpathFromDb = list[i].filepath.replace(/\\/g, '/');
+                                let cutR = conpathFromDb.substring(2);
+                                let pathArray = cutR.split("/");
+                                let image = "<?php echo base_url('packing_list/loadPhoto/') ?>"+pathArray[1]+'/'+pathArray[2]+'/'+pathArray[3]+'/'+pathArray[4]+'/'+pathArray[5]+'/'+pathArray[6]+'/'+list[i].filename+list[i].filenametype;
+                                html +=`
+                                <div class="col-md-4 col-lg-3 col-6 mt-2">
+                                    <a href="`+image+`" target="_blank" class="runImageView">
+                                        <img class="runImageView" src="`+image+`">
+                                    </a>
+                                </div>`;
+                            }
+                            html +=`</div>`;
+                            $('#showPhotoAttach').html(html);
+                            window.photoAttachRendered = true;
+                        }
+
+                        // Render once when Tab 2 is shown
+                        $(document).off('shown.bs.tab', '#tab2-tab').on('shown.bs.tab', '#tab2-tab', function(){
+                            if(window.photoAttachEnabled && !window.photoAttachRendered){
+                                renderPhotoAttach(window.photoAttachData);
+                            }
+                        });
+
+                        // If Tab 2 already active when data arrives, render now
+                        if($('#tab2').hasClass('active') || $('#tab2-tab').hasClass('active')){
+                            if(window.photoAttachEnabled && !window.photoAttachRendered){
+                                renderPhotoAttach(window.photoAttachData);
+                            }
+                        }
 
 						// Fetch File
 						if(file_attach_txt == "Yes"){
