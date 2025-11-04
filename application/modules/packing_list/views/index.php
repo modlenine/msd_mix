@@ -447,17 +447,32 @@
                             window.photoAttachRendered = true;
                         }
 
+                        function renderNoPhotoAttach(){
+                            if(window.photoAttachRendered){ return; }
+                            $('#photoAttach').css('display' , '');
+                            $('#showPhotoAttach').html('<div class="text-center text-muted">ไม่พบรูปภาพ</div>');
+                            window.photoAttachRendered = true;
+                        }
+
                         // Render once when Tab 2 is shown
                         $(document).off('shown.bs.tab', '#tab2-tab').on('shown.bs.tab', '#tab2-tab', function(){
-                            if(window.photoAttachEnabled && !window.photoAttachRendered){
-                                renderPhotoAttach(window.photoAttachData);
+                            if(!window.photoAttachRendered){
+                                if(window.photoAttachEnabled){
+                                    renderPhotoAttach(window.photoAttachData);
+                                }else{
+                                    renderNoPhotoAttach();
+                                }
                             }
                         });
 
                         // If Tab 2 already active when data arrives, render now
                         if($('#tab2').hasClass('active') || $('#tab2-tab').hasClass('active')){
-                            if(window.photoAttachEnabled && !window.photoAttachRendered){
-                                renderPhotoAttach(window.photoAttachData);
+                            if(!window.photoAttachRendered){
+                                if(window.photoAttachEnabled){
+                                    renderPhotoAttach(window.photoAttachData);
+                                }else{
+                                    renderNoPhotoAttach();
+                                }
                             }
                         }
 
