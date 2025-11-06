@@ -968,6 +968,9 @@
                                         <a id="tabpage3" class="nav-link text-gray" data-toggle="tab" href="#page3" role="tab" aria-selected="false"><b>Qc Sampling</b></a>
                                     </li>
                                     <li class="nav-item">
+                                        <a id="tabpage6" class="nav-link text-gray" data-toggle="tab" href="#page6" role="tab" aria-selected="false"><b>Barcode Scan Log</b></a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a id="tabpage4" class="nav-link text-gray" data-toggle="tab" href="#page4" role="tab" aria-selected="false"><b>Job Card</b></a>
                                     </li>
                                     <li class="nav-item">
@@ -1090,6 +1093,12 @@
                                     <div class="tab-pane fade" id="page5" role="tabpanel">
                                         <div class="pd-20">
                                             <div id="showPackingList" class="row"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="page6" role="tabpanel">
+                                        <div class="pd-20">
+                                            <div id="showBarcodeScanLog" class="row"></div>
                                         </div>
                                     </div>
 
@@ -2360,11 +2369,19 @@ $(document).ready(function(){
         let worktype = "<?php echo getviewfulldata(getMaincode($mainformno))->m_worktype?>";
       loaddatajobcard(prodid , dataareaid , status , formno , worktype);
     });
+
     $('#tabpage5').click(function(){
       localStorage.setItem('tab_mix' , 'tabpage5');
         let prodid = $('#m_product_number_v').val();
         let dataareaid = $('#m_dataareaid_v').val();
       loaddatapackinglist(prodid , dataareaid);
+    });
+
+    $('#tabpage6').click(function(){
+      localStorage.setItem('tab_mix' , 'tabpage6');
+        let prodid = $('#m_product_number_v').val();
+        let dataareaid = $('#m_dataareaid_v').val();
+      loaddatabarcodeScanLog(prodid , dataareaid);
     });
 
 
@@ -2886,6 +2903,14 @@ $(document).ready(function(){
             let dataareaid = $('#m_dataareaid_v').val();
 
             loaddatapackinglist(prodid , dataareaid);
+        }else if(tabSelect == "tabpage6"){
+            $('#tabpage6').addClass('active');
+            $('#page6').addClass('active').addClass('show');
+
+            let prodid = $('#m_product_number_v').val();
+            let dataareaid = $('#m_dataareaid_v').val();
+
+            loaddatabarcodeScanLog(prodid , dataareaid);
         }else{
             $('#tabpage1').addClass('active');
             $('#page1').addClass('active').addClass('show');
@@ -6273,6 +6298,24 @@ $(document).ready(function(){
                 $('#showPackingList').html(output);
             }else{
                 $('#showPackingList').html('');
+            }
+        }
+    }
+
+    function loaddatabarcodeScanLog(productionid , areaid)
+    {
+        if(productionid != ""){
+            if(localStorage.getItem('tab_mix') == "tabpage6"){
+                let output =`
+                <div class="col-md-12">
+                    <div class="">
+                        <iframe class="" width="100%" height="950" frameBorder="0" src="/intsys/validate_mix/main/trans_batch_log/`+productionid+`"></iframe>
+                    </div>
+                </div>
+                `;
+                $('#showBarcodeScanLog').html(output);
+            }else{
+                $('#showBarcodeScanLog').html('');
             }
         }
     }
