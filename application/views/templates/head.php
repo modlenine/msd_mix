@@ -226,7 +226,7 @@
 			const ecode = "<?php echo getUser()->ecode; ?>";
 			const deptcode = "<?php echo getUser()->DeptCode; ?>";
 			const posi = "<?php echo getUser()->posi; ?>";
-			const adminEcode = ['M1809' , 'M1413' , 'M0506' , 'D2022' , 'M2067'];
+			// const adminEcode = ['M1809' , 'M1413' , 'M0506' , 'D2022' , 'M2067'];
 
 			//Lab = M0126 , M1416 , M1351 , M0010
 			if(ecode == "M1809" ||
@@ -247,7 +247,11 @@
 			ecode == "M1473" ||
 			ecode == "M1832" ||
 			ecode == "M1551" ||
-			ecode == "M0126"){
+			ecode == "M0126" ||
+			ecode == "M1645" ||
+			ecode == "M2290" ||
+			ecode == "M2367" ||
+			ecode == "M2402"){
 				$('#settingMenuLi').css('display' , '');
 			}else{
 				$('#settingMenuLi').css('display' , 'none');
