@@ -25,8 +25,42 @@ class Onload
             echo "</script>";
             die();
         }else{
-            if ($this->ci->session->userdata("ecode") == "") {
-                if ($controller != "login") {
+            
+            // ถ้าไม่ใช่ login controller ให้ validate login
+            if ($controller != "login") {
+                
+                // Check 1: มี CI session หรือไม่
+                if ($this->ci->session->userdata("ecode") == "") {
+                    $_SESSION['RedirectKe'] = $_SERVER['REQUEST_URI'];
+                    header("refresh:0; url=" . base_url('login'));
+                    exit();
+                }
+                
+                // Check 2: Sync CI session กับ $_SESSION
+                if (!isset($_SESSION['ecode']) || empty($_SESSION['ecode'])) {
+                    // Clear CI session และ redirect
+                    $this->ci->session->sess_destroy();
+                    $_SESSION['RedirectKe'] = $_SERVER['REQUEST_URI'];
+                    header("refresh:0; url=" . base_url('login'));
+                    exit();
+                }
+                
+                // Check 3: Validate กับฐานข้อมูล
+                try {
+                    $this->ci->load->model("login/login_model", "login");
+                    $user = $this->ci->login->getuser();
+                    if (empty($user)) {
+                        // ข้อมูลผู้ใช้ไม่มีในฐานข้อมูล - Clear session และ redirect
+                        $this->ci->session->sess_destroy();
+                        session_destroy();
+                        $_SESSION['RedirectKe'] = $_SERVER['REQUEST_URI'];
+                        header("refresh:0; url=" . base_url('login'));
+                        exit();
+                    }
+                } catch (Exception $e) {
+                    // Database error - Clear session และ redirect
+                    $this->ci->session->sess_destroy();
+                    session_destroy();
                     $_SESSION['RedirectKe'] = $_SERVER['REQUEST_URI'];
                     header("refresh:0; url=" . base_url('login'));
                     exit();
